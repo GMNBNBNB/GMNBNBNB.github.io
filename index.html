@@ -6,88 +6,158 @@
     <title>Meng Gao's Personal Website</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-        }
-        header {
-            background: #333;
+            background: url('https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6') no-repeat center center fixed;
+            background-size: cover;
             color: #fff;
-            padding: 10px 0;
-            text-align: center;
         }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px 0;
+            text-align: center;
+            color: #fff;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+
         header h1 {
             margin: 0;
+            font-size: 36px;
         }
+
         nav ul {
-            padding: 0;
             list-style: none;
-            background: #444;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
         }
+
         nav ul li {
-            display: inline;
-            padding: 10px;
+            margin: 0 15px;
         }
+
         nav ul li a {
             color: white;
             text-decoration: none;
+            font-size: 18px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background 0.3s;
         }
-        section {
-            padding: 20px;
+
+        nav ul li a:hover {
+            background-color: #555;
         }
-        footer {
-            background: #333;
-            color: #fff;
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
             text-align: center;
-            padding: 10px 0;
+        }
+
+        .hero h2 {
+            font-size: 50px;
+            margin: 0;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero p {
+            font-size: 24px;
+            margin-top: 10px;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .button {
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 18px;
+            color: white;
+            background-color: #007BFF;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        section {
+            padding: 60px 0;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        section h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        section p {
+            text-align: center;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px 0;
+            text-align: center;
+            color: white;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Meng Gao's Personal Website</h1>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-    <section id="about">
-        <div class="container">
-            <h2>About Me</h2>
-            <p>
-                As an experienced software engineer specializing in game development, I bring a robust background in multiple programming languages. 
-                Currently, I am pursuing a Master's degree in Computer Science at Columbia University to further enhance my skills. 
-                I am actively seeking summer internship opportunities for 2025 where I can contribute to innovative projects. 
-                If my background and expertise align with your needs, please feel free to reach out.
-            </p>
-        </div>
-    </section>
-    <section id="projects">
-        <div class="container">
-            <h2>Projects</h2>
+        <h1>Meng Gao's Portfolio</h1>
+        <nav>
             <ul>
-                <li><a href="https://github.com/GMNBNBNB">Cloud Service: 20+ RESTful APIs, AWS integration</a></li>
-                <li><a href="https://github.com/goestfish/Meal-Search">Food Search Web: AI-driven recommendations</a></li>
-                <li><a href="https://github.com/GMNBNBNB">Library Management System: Spring Boot, MySQL</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
-        </div>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h2>Welcome to My World</h2>
+        <p>Exploring Innovation through Code and Creativity</p>
+        <a class="button" href="#projects">Explore My Work</a>
+    </div>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <p>
+            I'm Meng Gao, a passionate software developer specializing in NLP, cloud computing, and system software. Currently, I'm pursuing my Master's degree in Computer Science at Columbia University. I have experience building scalable, cloud-based solutions and enjoy working on projects that make a tangible difference.
+        </p>
     </section>
+
+    <section id="projects">
+        <h2>Projects</h2>
+        <p>
+            Below are some of my key projects that showcase my expertise in full-stack development and system architecture:
+        </p>
+        <p><a href="https://github.com/GMNBNBNB">Cloud Service Project</a></p>
+        <p><a href="https://github.com/goestfish/Meal-Search">Food Search Web Application</a></p>
+        <p><a href="https://github.com/GMNBNBNB">Library Management System</a></p>
+    </section>
+
     <section id="contact">
-        <div class="container">
-            <h2>Contact</h2>
-            <p>Email: <a href="mailto:mg4774@columbia.edu">mg4774@columbia.edu</a></p>
-            <p>LinkedIn: <a href="https://www.linkedin.com/in/meng-gao-58772b299/">Meng Gao</a></p>
-        </div>
+        <h2>Contact Me</h2>
+        <p>Email: <a href="mailto:mg4774@columbia.edu" style="color: white;">mg4774@columbia.edu</a></p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/meng-gao-58772b299/" style="color: white;">Meng Gao</a></p>
     </section>
+
     <footer>
         <p>&copy; 2024 Meng Gao</p>
     </footer>
