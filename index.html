@@ -229,7 +229,7 @@
               </div>
               <div>
                 <h5 class="font-semibold">LinkedIn</h5>
-                <p class="text-gray-600 dark:text-gray-400">https://www.linkedin.com/in/meng-gao-58772b299/</p>
+                <p class="text-gray-600 dark:text-gray-400">Connect with me</p>
               </div>
             </div>
           </div>
@@ -266,13 +266,13 @@
         <h4 class="text-2xl font-bold mb-4 bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">Meng Gao</h4>
         <p class="text-gray-400 mb-6">Full-Stack Developer passionate about creating amazing digital experiences</p>
         <div class="flex justify-center space-x-6">
-          <a href="#" class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center hover:scale-110 transition">
+          <a href="https://github.com/GMNBNBNB" target="_blank" class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full flex items-center justify-center hover:scale-110 transition">
             <i class="fab fa-github text-white"></i>
           </a>
           <a href="#" class="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center hover:scale-110 transition">
             <i class="fab fa-linkedin text-white"></i>
           </a>
-          <a href="#" class="w-12 h-12 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center hover:scale-110 transition">
+          <a href="mailto:hello@menggao.dev" class="w-12 h-12 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center hover:scale-110 transition">
             <i class="fas fa-envelope text-white"></i>
           </a>
         </div>
@@ -284,6 +284,40 @@
   </footer>
 
   <script>
+    // Static project data
+    const projectsData = [
+      { 
+        title: 'Cloud Service Platform', 
+        description: 'Scalable cloud-native solution with microservices architecture, featuring auto-scaling, monitoring, and CI/CD pipeline integration.',
+        link: 'https://github.com/GMNBNBNB'
+      },
+      { 
+        title: 'Meal Discovery App', 
+        description: 'Interactive meal search application with ingredient-based filtering, nutritional information, and recipe recommendations.',
+        link: 'https://github.com/goestfish/Meal-Search'
+      },
+      { 
+        title: 'Smart Book Manager', 
+        description: 'Comprehensive book management system with advanced search, categorization, reading progress tracking, and social features.',
+        link: 'https://github.com/GMNBNBNB'
+      },
+      {
+        title: 'E-Commerce Dashboard',
+        description: 'Modern admin dashboard for e-commerce platforms with real-time analytics, inventory management, and sales tracking.',
+        link: 'https://github.com/GMNBNBNB'
+      },
+      {
+        title: 'Task Management Suite',
+        description: 'Collaborative project management tool with team collaboration, time tracking, and automated workflow features.',
+        link: 'https://github.com/GMNBNBNB'
+      },
+      {
+        title: 'Weather Analytics Platform',
+        description: 'Advanced weather data visualization platform with predictive analytics, historical data analysis, and API integration.',
+        link: 'https://github.com/GMNBNBNB'
+      }
+    ];
+
     // Theme Management
     const body = document.body;
     const themeToggle = document.getElementById('themeToggle');
@@ -332,7 +366,6 @@
     });
 
     // Projects
-    let projectsData = [];
     const grid = document.getElementById('projectGrid');
     const searchInput = document.getElementById('searchInput');
 
@@ -362,15 +395,8 @@
       `).join('');
     }
 
-    fetch('/api/projects')
-      .then(res => res.json())
-      .then(data => {
-        projectsData = data;
-        renderProjects(data);
-      })
-      .catch(() => {
-        grid.innerHTML = '<div class="col-span-full text-center text-gray-500">Unable to load projects at the moment.</div>';
-      });
+    // Initialize projects
+    renderProjects(projectsData);
 
     searchInput.oninput = e => {
       const term = e.target.value.toLowerCase();
@@ -381,11 +407,11 @@
       renderProjects(filtered);
     };
 
-    // Contact Form
+    // Contact Form (Static version)
     const form = document.getElementById('contactForm');
     const toast = document.getElementById('toast');
     
-    form.onsubmit = async e => {
+    form.onsubmit = e => {
       e.preventDefault();
       const submitBtn = form.querySelector('button[type="submit"]');
       const originalText = submitBtn.innerHTML;
@@ -393,27 +419,13 @@
       submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Sending...';
       submitBtn.disabled = true;
       
-      try {
-        const formData = new FormData(form);
-        const response = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: formData.get('name'),
-            email: formData.get('email'),
-            message: formData.get('message')
-          })
-        });
-        
-        const result = await response.json();
-        showToast(result.message, 'success');
+      // Simulate form submission
+      setTimeout(() => {
+        showToast('Thanks for your message! Please email me directly at hello@menggao.dev', 'success');
         form.reset();
-      } catch (error) {
-        showToast('Failed to send message. Please try again.', 'error');
-      } finally {
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
-      }
+      }, 2000);
     };
 
     function showToast(message, type = 'success') {
@@ -424,7 +436,7 @@
       
       setTimeout(() => {
         toast.className = toast.className.replace('opacity-100 translate-y-0', 'opacity-0 translate-y-2');
-      }, 4000);
+      }, 5000);
     }
 
     // Scroll animations
