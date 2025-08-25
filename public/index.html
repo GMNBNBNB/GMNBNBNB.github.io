@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meng Gao | Full-Stack Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; transition: background 0.3s, color 0.3s; }
+    :root { --bg-light: #f5f7fa; --fg-light: #1f2937; --primary: #2563eb; }
+    :root.dark { --bg-dark: #1f2937; --fg-dark: #f5f7fa; --primary-dark: #60a5fa; }
+    body.light { background: var(--bg-light); color: var(--fg-light); }
+    body.light .btn-primary { background: var(--primary); }
+    body.dark { background: var(--bg-dark); color: var(--fg-dark); }
+    body.dark .btn-primary { background: var(--primary-dark); }
+  </style>
+</head>
+
+<body class="light min-h-screen flex flex-col">
+  <!-- Navbar -->
+  <header class="flex justify-between items-center p-6 bg-white dark:bg-gray-800 shadow-md">
+    <h1 class="text-2xl font-bold text-primary">Meng Gao</h1>
+    <nav class="space-x-6">
+      <a href="#projects" class="hover:text-primary transition">Projects</a>
+      <a href="#contact" class="hover:text-primary transition">Contact</a>
+      <button id="themeToggle" class="btn-primary text-white py-2 px-4 rounded-lg ml-4">Toggle Theme</button>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="flex-1 flex flex-col justify-center items-center text-center px-4 animate-fade-in">
+    <h2 class="text-5xl font-extrabold mb-4">Hello, I’m Meng Gao</h2>
+    <p class="text-lg mb-6 max-w-xl">A Full-Stack Developer specializing in modern web applications and cloud-native solutions.</p>
+    <a href="#projects" class="btn-primary text-white px-6 py-3 rounded-lg shadow-lg hover:scale-105 transform transition">See My Work</a>
+  </section>
+
+  <!-- Search & Filters -->
+  <section id="projects" class="py-12 px-4 bg-gray-100 dark:bg-gray-900">
+    <h3 class="text-3xl font-semibold text-center mb-6">Projects</h3>
+    <div class="max-w-md mx-auto mb-6">
+      <input id="searchInput" type="text" placeholder="Search projects..." 
+             class="w-full p-3 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-primary transition" />
+    </div>
+    <div id="projectGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"></div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-12 px-4">
+    <h3 class="text-3xl font-semibold text-center mb-6">Get In Touch</h3>
+    <form id="contactForm" class="max-w-xl mx-auto card p-8 space-y-4 relative">
+      <div>
+        <input type="text" id="name" name="name" placeholder="Your Name" required 
+               class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-primary transition" />
+      </div>
+      <div>
+        <input type="email" id="email" name="email" placeholder="Your Email" required 
+               class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-primary transition" />
+      </div>
+      <div>
+        <textarea id="message" name="message" rows="4" placeholder="Your Message" required 
+                  class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-primary transition"></textarea>
+      </div>
+      <button type="submit" class="btn-primary text-white w-full py-3 rounded-lg hover:opacity-90 transition">Send Message</button>
+      <div id="toast" class="absolute top-0 right-0 m-4 p-4 bg-green-500 text-white rounded-lg shadow-lg opacity-0 pointer-events-none transition-opacity"></div>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4 text-center text-sm bg-white dark:bg-gray-800">
+    &copy; 2025 Meng Gao — Built with ❤️
+  </footer>
+
+  <script>
+    // Theme Persistence
+    const body = document.body;
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme) body.className = storedTheme;
+    const toggle = document.getElementById('themeToggle');
+    toggle.onclick = () => {
+      body.classList.toggle('dark');
+      body.classList.toggle('light');
+      localStorage.setItem('theme', body.className);
+    };
+
+    // Fetch & Render Projects + Filter
+    let projectsData = [];
+    const grid = document.getElementById('projectGrid');
+    const searchInput = document.getElementById('searchInput');
+
+    function renderProjects(items) {
+      grid.innerHTML = items.map(p => `
+        <div class="card p-6 hover:shadow-xl transition transform hover:-translate-y-1">
+          <h4 class="text-xl font-semibold mb-2">${p.title}</h4>
+          <p class="mb-4">${p.description}</p>
+          <a href="${p.link}" target="_blank" class="text-primary font-medium hover:underline">View on GitHub</a>
+        </div>
+      `).join('');
+    }
+
+    fetch('/api/projects')
+      .then(res => res.json())
+      .then(data => {
+        projectsData = data;
+        renderProjects(data);
+      });
+
+    searchInput.oninput = e => {
+      const term = e.target.value.toLowerCase();
+      renderProjects(projectsData.filter(p => p.title.toLowerCase().includes(term)));
+    };
+
+    // Contact Form & Toast
+    const form = document.getElementById('contactForm');
+    const toast = document.getElementById('toast');
+    form.onsubmit = e => {
+      e.preventDefault();
+      const { name, email, message } = e.target;
+      fetch('/api/contact', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: name.value, email: email.value, message: message.value })
+      })
+      .then(res => res.json())
+      .then(res => showToast(res.message))
+      .catch(() => showToast('Submission failed.'));
+    };
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('opacity-100');
+      setTimeout(() => toast.classList.remove('opacity-100'), 3000);
+    }
+  </script>
+</body>
+</html>
+
