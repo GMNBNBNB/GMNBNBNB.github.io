@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Anonymous Calming Forum</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Calming gradient background */
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI','Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+      background: linear-gradient(135deg, #D9EFFF 0%, #E5FFE5 100%);
+      min-height: 100vh;
+      color: #335;
+    }
+    .container {
+      max-width: 500px;
+      margin: 40px auto 24px auto;
+      background: rgba(255,255,255,0.80);
+      border-radius: 18px;
+      box-shadow: 0 6px 24px rgba(80,140,200,0.09);
+      padding: 32px 20px 24px 20px;
+    }
+    h1 {
+      text-align: center;
+      font-weight: 500;
+      margin-bottom: 18px;
+      color: #346187;
+      letter-spacing: 1px;
+    }
+    .form-section {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    textarea {
+      width: 100%;
+      min-height: 58px;
+      border: none;
+      border-radius: 10px;
+      background: #F1F8FC;
+      font-size: 1.08em;
+      box-sizing: border-box;
+      margin-bottom:10px;
+      padding:10px;
+      resize: vertical;
+    }
+    button {
+      padding: 8px 20px;
+      background: #5AC7A7;
+      border-radius: 8px;
+      border: none;
+      color: white;
+      font-size: 1em;
+      font-weight: 500;
+      transition: background 0.25s;
+      cursor: pointer;
+    }
+    button:active {
+      background: #3d987c;
+    }
+    .feed {
+      margin-top: 24px;
+      min-height: 80px;
+    }
+    .message {
+      background: #fafbfc;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      padding: 13px 16px;
+      box-shadow: 0 2px 10px rgba(90,126,140,0.08);
+      animation: fadein 0.9s;
+      position: relative;
+      border-left: 4px solid #aad1f5;
+    }
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(10px);}
+      to   { opacity: 1; transform: translateY(0);}
+    }
+    .timestamp {
+      display: block;
+      font-size: 0.95em;
+      color: #88a;
+      margin-top: 6px;
+      text-align: right;
+    }
+    .emoji-hint {
+      color: #6BB5A9;
+      font-size: 0.88em;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+    .confirmation {
+      text-align: center;
+      color: #75cc93;
+      margin-bottom: 8px;
+      font-size: 1.06em;
+      opacity: 0;
+      animation: fadeinConfirm 1.6s forwards;
+    }
+    @keyframes fadeinConfirm {
+      0% {opacity: 0;}
+      20% {opacity: 1;}
+      85% {opacity: 1;}
+      100% {opacity: 0;}
+    }
+    @media (max-width: 600px) {
+      .container { max-width: 96vw; padding:12vw 4vw 6vw 4vw;}
+      h1 { font-size: 1.29em;}
+      textarea { font-size: 1em; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container" aria-label="Forum container">
+    <h1>匿名心情留言墙</h1>
+    <div class="form-section">
+      <form id="msgForm" autocomplete="off">
+        <div class="emoji-hint">可输入 😊 🌱 😄 等表情，把心情放进留言</div>
+        <textarea id="message" placeholder="写下你的心情或想法，无需登录，畅所欲言。" maxlength="280" aria-label="Message input"></textarea>
+        <br>
+        <button type="submit">分享心情</button>
+      </form>
+      <div id="confirmBox" class="confirmation"></div>
+    </div>
+
+    <div class="feed" id="feed" aria-live="polite">
+      <!-- Messages will appear here -->
+    </div>
+  </div>
+  
+<script>
+  // Abuse word filter（简单版，可自定义，不是绝对安全）
+  const abusiveWords = [
+    "fuck", "shit", "bitch", "asshole", "死", "傻逼", "操你", "sb", "垃圾",
+    "hate", "idiot", "蠢", "滚", "恶心", "abuse"
+  ];
+
+  // Emoji conversion（简单支持常用 emoji 代码转 emoji 符号）
+  function autoEmoji(text){
+    text = text.replace(/:smile:/g, '😄')
+               .replace(/:happy:/g, '😊')
+               .replace(/:seedling:/g, '🌱')
+               .replace(/:heart:/g, '❤️')
+               .replace(/:sad:/g, '😢');
+    return text;
+  }
+
+  // frontend-only message storage (JS memory, page reload will clear)
+  let messages = JSON.parse(localStorage.getItem('forum_messages') || "[]");
+
+  // Format timestamp
+  function formatTime(ts){
+    const d = new Date(ts);
+    return d.toLocaleString('zh-CN', {hour: '2-digit', minute:'2-digit',month:'2-digit',day:'2-digit'});
+  }
+  
+  // Basic moderation filter
+  function containsAbusive(text){
+    // Only basic matching (case-insensitive)
+    return abusiveWords.some(w => text.toLowerCase().includes(w));
+  }
+
+  // Show confirmation
+  function showConfirmation(msg) {
+    const box = document.getElementById("confirmBox");
+    box.textContent = msg;
+    box.style.opacity = 1;
+    setTimeout(() => { box.style.opacity = 0; }, 1500);
+  }
+
+  // Render message feed
+  function renderFeed(){
+    const feed = document.getElementById('feed');
+    feed.innerHTML = '';
+    messages.slice().reverse().forEach(msg => {
+      const div = document.createElement('div');
+      div.className = 'message';
+      div.innerHTML =
+        `<div>${autoEmoji(msg.text).replace(/\n/g,'<br>')}</div>
+         <span class="timestamp" title="${formatTime(msg.time)}">${formatTime(msg.time)}</span>`;
+      feed.appendChild(div);
+    });
+  }
+
+  // Handle form submit
+  document.getElementById('msgForm').onsubmit = function(e){
+    e.preventDefault();
+    let text = document.getElementById('message').value.trim();
+    if(!text){
+      showConfirmation("请填写你的心情哦~");
+      return;
+    }
+    if(containsAbusive(text)){
+      showConfirmation("内容中包含不友善词语，请修改缓和表达～");
+      return;
+    }
+    messages.push({text, time: Date.now()});
+    // Save to localStorage for demo persist
+    localStorage.setItem('forum_messages', JSON.stringify(messages));
+    document.getElementById('message').value='';
+    showConfirmation("心情已分享 🌈");
+    renderFeed();
+  };
+
+  // On page load, show feed
+  renderFeed();
+
+</script>
+</body>
+</html>
