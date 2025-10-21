@@ -92,6 +92,178 @@
       66% { transform: translate(-20px, 20px) rotate(240deg); }
     }
 
+    /* Help button */
+    .help-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 50px;
+      height: 50px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      border: none;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(90, 199, 167, 0.3);
+      transition: all 0.3s;
+      z-index: 1001;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .help-button:hover {
+      background: #4db897;
+      transform: scale(1.1);
+      box-shadow: 0 6px 16px rgba(90, 199, 167, 0.4);
+    }
+
+    /* Modal overlay */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1002;
+      backdrop-filter: blur(5px);
+      animation: fadeIn 0.3s;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Modal content */
+    .modal-content {
+      background: var(--light-bg);
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      position: relative;
+      animation: slideDown 0.3s;
+      margin: 20px;
+    }
+
+    @keyframes slideDown {
+      from { 
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 16px;
+    }
+
+    .modal-title {
+      font-size: 1.8em;
+      color: var(--secondary-color);
+      margin: 0;
+    }
+
+    .close-button {
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: #888;
+      cursor: pointer;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+
+    .close-button:hover {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    .modal-section {
+      margin-bottom: 24px;
+    }
+
+    .modal-section h3 {
+      color: var(--primary-color);
+      font-size: 1.3em;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-section p {
+      line-height: 1.7;
+      color: var(--text-color);
+      margin-bottom: 12px;
+    }
+
+    .modal-section ul {
+      line-height: 1.8;
+      color: var(--text-color);
+      padding-left: 24px;
+    }
+
+    .modal-section li {
+      margin-bottom: 8px;
+    }
+
+    .icon {
+      font-size: 1.2em;
+    }
+
+    .highlight {
+      background: linear-gradient(120deg, transparent 0%, var(--primary-color) 0%, var(--primary-color) 100%, transparent 100%);
+      background-size: 100% 30%;
+      background-position: 0 85%;
+      background-repeat: no-repeat;
+      padding: 2px 4px;
+      font-weight: 500;
+    }
+
+    .warning-box {
+      background: #fff3cd;
+      border-left: 4px solid var(--warning-color);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin: 12px 0;
+    }
+
+    .info-box {
+      background: #d1ecf1;
+      border-left: 4px solid var(--primary-color);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin: 12px 0;
+    }
+
     .container {
       max-width: 600px;
       margin: 40px auto 24px auto;
@@ -462,6 +634,24 @@
       .filter-buttons {
         justify-content: center;
       }
+
+      .help-button {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+        top: 10px;
+        left: 10px;
+      }
+
+      .modal-content {
+        padding: 24px 20px;
+        margin: 10px;
+        max-height: 90vh;
+      }
+
+      .modal-title {
+        font-size: 1.4em;
+      }
     }
 
     /* Accessibility */
@@ -505,6 +695,102 @@
   <div class="bg-decoration"></div>
   <div class="bg-decoration"></div>
   <div class="bg-decoration"></div>
+
+  <!-- Help Button -->
+  <button class="help-button" onclick="openHelpModal()" aria-label="Open user manual">
+    ?
+  </button>
+
+  <!-- Help Modal -->
+  <div class="modal-overlay" id="helpModal" onclick="closeHelpModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2 class="modal-title">📖 User Manual</h2>
+        <button class="close-button" onclick="closeHelpModal()" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="modal-section">
+        <h3><span class="icon">🌟</span> Welcome to Mood Station</h3>
+        <p>
+          This is an <span class="highlight">anonymous and safe space</span> where you can freely express your feelings, thoughts, and emotions. 
+          Share your mood with the community and receive support from others who understand.
+        </p>
+        <div class="info-box">
+          <strong>💡 What is this?</strong><br>
+          An anonymous forum designed to help you express emotions, connect with others experiencing similar feelings, and find calm in a supportive environment.
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <h3><span class="icon">📝</span> How to Use</h3>
+        <ul>
+          <li><strong>Write Your Message:</strong> Type your feelings or thoughts in the text box (max 280 characters)</li>
+          <li><strong>Add Emojis:</strong> Click emoji buttons to express your mood visually, or type emoji codes like :) or &lt;3</li>
+          <li><strong>Share Anonymously:</strong> Click "Share Mood" to post - no personal information required</li>
+          <li><strong>Interact:</strong> Like messages that resonate with you by clicking the ❤️ button</li>
+          <li><strong>Filter & Sort:</strong> Browse messages by time period (All/Today/This Week) or sort by newest/oldest/most popular</li>
+          <li><strong>Keyboard Shortcut:</strong> Press <code>Ctrl + Enter</code> to submit your message quickly</li>
+        </ul>
+      </div>
+
+      <div class="modal-section">
+        <h3><span class="icon">✨</span> Features</h3>
+        <ul>
+          <li><strong>Complete Anonymity:</strong> No registration, no tracking, no personal data collection</li>
+          <li><strong>Local Storage:</strong> All messages are stored in your browser only</li>
+          <li><strong>Content Moderation:</strong> Automatic filtering of harmful or abusive language</li>
+          <li><strong>Mood Detection:</strong> Messages are automatically categorized by emotion</li>
+          <li><strong>Dark Mode Support:</strong> Automatically adapts to your system preferences</li>
+        </ul>
+      </div>
+
+      <div class="modal-section">
+        <h3><span class="icon">🚫</span> Prohibited Behaviors</h3>
+        <div class="warning-box">
+          <strong>⚠️ The following actions are NOT allowed:</strong>
+        </div>
+        <ul>
+          <li><strong>Hate Speech:</strong> No offensive, discriminatory, or hateful language</li>
+          <li><strong>Abusive Content:</strong> No profanity, insults, or harassment</li>
+          <li><strong>Threats:</strong> No violent or threatening language toward anyone</li>
+          <li><strong>Spam:</strong> No excessive repeated characters or all-caps messages</li>
+          <li><strong>Personal Information:</strong> Do not share yours or others' private information</li>
+          <li><strong>Harmful Content:</strong> No promotion of self-harm, violence, or illegal activities</li>
+        </ul>
+        <p style="margin-top: 12px;">
+          <em>Messages violating these rules will be automatically rejected by our content moderation system.</em>
+        </p>
+      </div>
+
+      <div class="modal-section">
+        <h3><span class="icon">🛡️</span> Community Guidelines</h3>
+        <ul>
+          <li>Be kind and supportive to others</li>
+          <li>Respect different perspectives and experiences</li>
+          <li>Use constructive language instead of criticism</li>
+          <li>Remember that everyone is going through their own journey</li>
+          <li>If you see something concerning, simply don't engage with it</li>
+        </ul>
+      </div>
+
+      <div class="modal-section">
+        <h3><span class="icon">🔒</span> Privacy & Data</h3>
+        <p>
+          Your privacy is our priority. This forum:
+        </p>
+        <ul>
+          <li>Does not collect or store any personal information</li>
+          <li>Stores all messages locally in your browser (localStorage)</li>
+          <li>Does not use cookies or tracking technologies</li>
+          <li>Does not send data to any external servers</li>
+          <li>Data is only accessible from your current device</li>
+        </ul>
+        <div class="info-box">
+          <strong>💾 Note:</strong> Clearing your browser data will delete all messages. There is no way to recover them.
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="container" role="main" aria-label="Anonymous mood wall">
     <h1>Mood Station</h1>
@@ -582,6 +868,26 @@
     LIKES_KEY: 'forum_likes',
     REPORT_KEY: 'forum_reports'
   };
+
+  // Modal functions
+  function openHelpModal() {
+    document.getElementById('helpModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeHelpModal(event) {
+    if (!event || event.target === event.currentTarget) {
+      document.getElementById('helpModal').classList.remove('show');
+      document.body.style.overflow = 'auto';
+    }
+  }
+
+  // Close modal with Escape key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      closeHelpModal();
+    }
+  });
 
   // Abusive words list (expanded)
   const abusiveWords = [
@@ -978,7 +1284,8 @@
       case 'popular':
         return sorted.sort((a, b) => b.likes - a.likes);
       default: // newest
-        return sorted.sort((a, b) => b.time - a.time); }
+        return sorted.sort((a, b) => b.time - a.time);
+    }
   }
 
   // Toggle like
@@ -1000,133 +1307,54 @@
     
     saveLikes(likes);
     saveMessages();
-    
-    // Update UI
-    const btn = document.querySelector(`[data-message-id="${messageId}"] .like-btn`);
-    if (btn) {
-      btn.classList.toggle('liked');
-      const count = btn.querySelector('.like-count');
-      if (count) {
-        count.textContent = message.likes || 0;
-      }
-    }
-  }
-
-  // Report message
-  function reportMessage(messageId) {
-    if (!confirm('Are you sure you want to report this message?')) {
-      return;
-    }
-    
-    const reports = JSON.parse(localStorage.getItem(CONFIG.REPORT_KEY) || '{}');
-    
-    if (reports[messageId]) {
-      showNotification('You have already reported this message', 'warning');
-      return;
-    }
-    
-    reports[messageId] = {
-      time: Date.now(),
-      count: (reports[messageId]?.count || 0) + 1
-    };
-    
-    localStorage.setItem(CONFIG.REPORT_KEY, JSON.stringify(reports));
-    
-    // Hide message if reported too many times
-    if (reports[messageId].count >= 3) {
-      const index = state.messages.findIndex(m => m.id === messageId);
-      if (index !== -1) {
-        state.messages.splice(index, 1);
-        saveMessages();
-        renderFeed();
-      }
-    }
-    
-    showNotification('Report successful, thank you for maintaining community standards', 'success');
+    renderFeed();
   }
 
   // Render feed
   function renderFeed() {
     const feed = document.getElementById('feed');
-    const loadMoreDiv = document.getElementById('loadMore');
+    const filtered = filterMessages(state.messages);
+    const sorted = sortMessagesList(filtered);
     
-    // Filter and sort messages
-    let filtered = filterMessages(state.messages);
-    let sorted = sortMessagesList(filtered);
+    const displayCount = (state.currentPage + 1) * CONFIG.MESSAGES_PER_PAGE;
+    const displayMessages = sorted.slice(0, displayCount);
     
-    // Pagination
-    const start = state.currentPage * CONFIG.MESSAGES_PER_PAGE;
-    const end = start + CONFIG.MESSAGES_PER_PAGE;
-    const paginated = sorted.slice(0, end);
-    
-    if (paginated.length === 0) {
+    if (displayMessages.length === 0) {
       feed.innerHTML = `
         <div class="empty-state">
           <div class="empty-state-icon">💭</div>
           <p>No messages yet, be the first to share!</p>
         </div>
       `;
-      loadMoreDiv.style.display = 'none';
+      document.getElementById('loadMore').style.display = 'none';
       return;
     }
     
-    // Get likes
     const likes = getLikes();
     
-    // Render messages
-    feed.innerHTML = paginated.map(msg => {
-      const isLiked = likes[msg.id];
-      const moodEmoji = getMoodEmoji(msg.mood);
-      
-      return `
-        <article class="message" data-message-id="${msg.id}">
-          <div class="message-content">
-            ${escapeHtml(msg.text).replace(/\n/g, '<br>')}
+    feed.innerHTML = displayMessages.map(msg => `
+      <div class="message">
+        <div class="message-content">${escapeHtml(msg.text)}</div>
+        <div class="message-footer">
+          <span class="timestamp">${formatTime(msg.time)}</span>
+          <div class="message-actions">
+            <button class="action-btn ${likes[msg.id] ? 'liked' : ''}" onclick="toggleLike(${msg.id})" aria-label="Like message">
+              ❤️ <span>${msg.likes || 0}</span>
+            </button>
           </div>
-          <div class="message-footer">
-            <time class="timestamp" datetime="${new Date(msg.time).toISOString()}">
-              ${moodEmoji} ${formatTime(msg.time)}
-            </time>
-            <div class="message-actions">
-              <button 
-                class="action-btn like-btn ${isLiked ? 'liked' : ''}" 
-                onclick="toggleLike(${msg.id})"
-                aria-label="Like"
-              >
-                <span>${isLiked ? '❤️' : '🤍'}</span>
-                <span class="like-count">${msg.likes || 0}</span>
-              </button>
-              <button 
-                class="action-btn" 
-                onclick="reportMessage(${msg.id})"
-                aria-label="Report"
-              >
-                🚩 Report
-              </button>
-            </div>
-          </div>
-        </article>
-      `;
-    }).join('');
+        </div>
+      </div>
+    `).join('');
     
     // Show/hide load more button
-    if (sorted.length > end) {
-      loadMoreDiv.style.display = 'block';
-    } else {
-      loadMoreDiv.style.display = 'none';
-    }
+    const loadMore = document.getElementById('loadMore');
+    loadMore.style.display = sorted.length > displayMessages.length ? 'block' : 'none';
   }
 
-  // Get mood emoji
-  function getMoodEmoji(mood) {
-    const moodEmojis = {
-      happy: '😊',
-      sad: '😔',
-      angry: '😠',
-      love: '❤️',
-      neutral: '💭'
-    };
-    return moodEmojis[mood] || '💭';
+  // Load more messages
+  function loadMoreMessages() {
+    state.currentPage++;
+    renderFeed();
   }
 
   // Escape HTML
@@ -1136,30 +1364,8 @@
     return div.innerHTML;
   }
 
-  // Load more messages
-  function loadMoreMessages() {
-    state.currentPage++;
-    renderFeed();
-  }
-
-  // Initialize app
-  document.addEventListener('DOMContentLoaded', init);
-
-  // Listen for storage changes (multi-tab sync)
-  window.addEventListener('storage', (e) => {
-    if (e.key === CONFIG.STORAGE_KEY) {
-      loadMessages();
-      renderFeed();
-    }
-  });
-
-  // Refresh on visibility change
-  document.addEventListener('visibilitychange', () => {
-    if (!document.hidden) {
-      loadMessages();
-      renderFeed();
-    }
-  });
+  // Initialize on page load
+  window.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
