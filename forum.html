@@ -2,209 +2,1184 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Anonymous Calming Forum</title>
+  <title>Anonymous Calming Forum - 心情驿站</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* Calming gradient background */
+    /* 全局样式 */
+    * {
+      box-sizing: border-box;
+    }
+
+    /* 平滑滚动 */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* 主题色彩变量 */
+    :root {
+      --primary-color: #5AC7A7;
+      --secondary-color: #346187;
+      --bg-gradient-start: #D9EFFF;
+      --bg-gradient-end: #E5FFE5;
+      --text-color: #335;
+      --light-bg: rgba(255,255,255,0.85);
+      --shadow-color: rgba(80,140,200,0.12);
+      --border-color: #aad1f5;
+      --success-color: #75cc93;
+      --warning-color: #ff9966;
+      --error-color: #ff6b6b;
+    }
+
+    /* 深色模式 */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-gradient-start: #1a2f4b;
+        --bg-gradient-end: #2d4a5d;
+        --text-color: #e0e0e0;
+        --light-bg: rgba(30,30,30,0.85);
+        --shadow-color: rgba(0,0,0,0.3);
+        --border-color: #4a7c9e;
+      }
+    }
+
     body {
-      margin: 0; padding: 0;
-      font-family: 'Segoe UI','Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', sans-serif;
-      background: linear-gradient(135deg, #D9EFFF 0%, #E5FFE5 100%);
+      margin: 0; 
+      padding: 0;
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
       min-height: 100vh;
-      color: #335;
+      color: var(--text-color);
+      position: relative;
+      overflow-x: hidden;
     }
+
+    /* 动态背景装饰 */
+    .bg-decoration {
+      position: fixed;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .bg-decoration:nth-child(1) {
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .bg-decoration:nth-child(2) {
+      top: 70%;
+      right: 10%;
+      animation-delay: 5s;
+      width: 150px;
+      height: 150px;
+    }
+
+    .bg-decoration:nth-child(3) {
+      bottom: 10%;
+      left: 50%;
+      animation-delay: 10s;
+      width: 80px;
+      height: 80px;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(30px, -30px) rotate(120deg); }
+      66% { transform: translate(-20px, 20px) rotate(240deg); }
+    }
+
     .container {
-      max-width: 500px;
+      max-width: 600px;
       margin: 40px auto 24px auto;
-      background: rgba(255,255,255,0.80);
-      border-radius: 18px;
-      box-shadow: 0 6px 24px rgba(80,140,200,0.09);
-      padding: 32px 20px 24px 20px;
+      background: var(--light-bg);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px var(--shadow-color);
+      padding: 36px 24px 28px 24px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 1;
     }
+
     h1 {
       text-align: center;
       font-weight: 500;
-      margin-bottom: 18px;
-      color: #346187;
+      margin-bottom: 24px;
+      color: var(--secondary-color);
       letter-spacing: 1px;
+      font-size: 1.8em;
+      position: relative;
     }
+
+    h1::after {
+      content: '🌈';
+      position: absolute;
+      right: -40px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.8em;
+      animation: rainbow 3s ease-in-out infinite;
+    }
+
+    @keyframes rainbow {
+      0%, 100% { transform: translateY(-50%) rotate(0deg); }
+      50% { transform: translateY(-50%) rotate(10deg); }
+    }
+
+    /* 表单区域 */
     .form-section {
-      margin-bottom: 20px;
+      margin-bottom: 24px;
       text-align: center;
     }
+
+    /* 字数统计 */
+    .char-counter {
+      text-align: right;
+      font-size: 0.85em;
+      color: #88a;
+      margin-bottom: 8px;
+      transition: color 0.3s;
+    }
+
+    .char-counter.warning {
+      color: var(--warning-color);
+    }
+
     textarea {
       width: 100%;
-      min-height: 58px;
-      border: none;
-      border-radius: 10px;
+      min-height: 80px;
+      border: 2px solid transparent;
+      border-radius: 12px;
       background: #F1F8FC;
-      font-size: 1.08em;
-      box-sizing: border-box;
-      margin-bottom:10px;
-      padding:10px;
+      font-size: 1.05em;
+      padding: 12px;
       resize: vertical;
+      transition: all 0.3s;
+      font-family: inherit;
     }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(90, 199, 167, 0.2);
+    }
+
+    /* 按钮样式 */
     button {
-      padding: 8px 20px;
-      background: #5AC7A7;
-      border-radius: 8px;
+      padding: 10px 24px;
+      background: var(--primary-color);
+      border-radius: 10px;
       border: none;
       color: white;
       font-size: 1em;
       font-weight: 500;
-      transition: background 0.25s;
+      transition: all 0.3s;
       cursor: pointer;
-    }
-    button:active {
-      background: #3d987c;
-    }
-    .feed {
-      margin-top: 24px;
-      min-height: 80px;
-    }
-    .message {
-      background: #fafbfc;
-      border-radius: 10px;
-      margin-bottom: 12px;
-      padding: 13px 16px;
-      box-shadow: 0 2px 10px rgba(90,126,140,0.08);
-      animation: fadein 0.9s;
       position: relative;
-      border-left: 4px solid #aad1f5;
+      overflow: hidden;
     }
-    @keyframes fadein {
-      from { opacity: 0; transform: translateY(10px);}
-      to   { opacity: 1; transform: translateY(0);}
+
+    button:hover {
+      background: #4db897;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(90, 199, 167, 0.3);
     }
-    .timestamp {
-      display: block;
-      font-size: 0.95em;
-      color: #88a;
-      margin-top: 6px;
-      text-align: right;
+
+    button:active {
+      transform: translateY(0);
     }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* 按钮波纹效果 */
+    button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    button:active::after {
+      width: 300px;
+      height: 300px;
+    }
+
+    /* 工具栏 */
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Emoji 选择器 */
+    .emoji-picker {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .emoji-btn {
+      background: none;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 1.2em;
+      transition: all 0.2s;
+    }
+
+    .emoji-btn:hover {
+      background: #f0f0f0;
+      transform: scale(1.1);
+    }
+
+    /* 提示信息 */
     .emoji-hint {
       color: #6BB5A9;
       font-size: 0.88em;
       text-align: center;
-      margin-bottom: 6px;
-    }
-    .confirmation {
-      text-align: center;
-      color: #75cc93;
       margin-bottom: 8px;
-      font-size: 1.06em;
-      opacity: 0;
-      animation: fadeinConfirm 1.6s forwards;
     }
-    @keyframes fadeinConfirm {
-      0% {opacity: 0;}
-      20% {opacity: 1;}
-      85% {opacity: 1;}
-      100% {opacity: 0;}
+
+    /* 确认消息 */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      color: white;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transform: translateX(400px);
+      transition: transform 0.3s;
+      z-index: 1000;
     }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    .notification.success {
+      background: var(--success-color);
+    }
+
+    .notification.error {
+      background: var(--error-color);
+    }
+
+    .notification.warning {
+      background: var(--warning-color);
+    }
+
+    /* 消息流 */
+    .feed {
+      margin-top: 32px;
+      min-height: 100px;
+    }
+
+    /* 筛选和排序 */
+    .feed-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      gap: 12px;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .filter-btn {
+      padding: 6px 12px;
+      background: #f0f0f0;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9em;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-btn.active {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    .filter-btn:hover {
+      background: #e0e0e0;
+    }
+
+    .filter-btn.active:hover {
+      background: #4db897;
+    }
+
+    /* 消息卡片 */
+    .message {
+      background: #fafbfc;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      padding: 16px 20px;
+      box-shadow: 0 3px 12px var(--shadow-color);
+      animation: slideIn 0.5s ease-out;
+      position: relative;
+      border-left: 4px solid var(--border-color);
+      transition: all 0.3s;
+    }
+
+    .message:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--shadow-color);
+    }
+
+    @keyframes slideIn {
+      from { 
+        opacity: 0; 
+        transform: translateX(-20px);
+      }
+      to { 
+        opacity: 1; 
+        transform: translateX(0);
+      }
+    }
+
+    /* 消息内容 */
+    .message-content {
+      font-size: 1.05em;
+      line-height: 1.6;
+      word-wrap: break-word;
+      margin-bottom: 12px;
+    }
+
+    /* 消息底部信息 */
+    .message-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .timestamp {
+      font-size: 0.85em;
+      color: #88a;
+    }
+
+    /* 互动按钮 */
+    .message-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9em;
+      color: #88a;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .action-btn:hover {
+      background: #f0f0f0;
+      color: var(--primary-color);
+    }
+
+    .action-btn.liked {
+      color: #ff6b6b;
+    }
+
+    /* 空状态 */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #88a;
+    }
+
+    .empty-state-icon {
+      font-size: 3em;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    /* 加载更多按钮 */
+    .load-more {
+      text-align: center;
+      margin-top: 24px;
+    }
+
+    .load-more-btn {
+      background: none;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      padding: 8px 24px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .load-more-btn:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+
+    /* 响应式设计 */
     @media (max-width: 600px) {
-      .container { max-width: 96vw; padding:12vw 4vw 6vw 4vw;}
-      h1 { font-size: 1.29em;}
-      textarea { font-size: 1em; }
+      .container { 
+        margin: 20px 10px;
+        padding: 24px 16px;
+      }
+      
+      h1 { 
+        font-size: 1.5em;
+      }
+      
+      h1::after {
+        display: none;
+      }
+      
+      textarea { 
+        font-size: 1em; 
+      }
+      
+      .notification {
+        right: 10px;
+        left: 10px;
+        transform: translateY(-100px);
+      }
+      
+      .notification.show {
+        transform: translateY(0);
+      }
+      
+      .feed-controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .filter-buttons {
+        justify-content: center;
+      }
+    }
+
+    /* 无障碍优化 */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* 焦点样式 */
+    *:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
+    /* 加载动画 */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
-  <div class="container" aria-label="Forum container">
-    <h1>匿名心情留言墙</h1>
+  <!-- 背景装饰 -->
+  <div class="bg-decoration"></div>
+  <div class="bg-decoration"></div>
+  <div class="bg-decoration"></div> <div class="container" role="main" aria-label="匿名心情留言墙">
+    <h1>心情驿站</h1>
+    
     <div class="form-section">
       <form id="msgForm" autocomplete="off">
-        <div class="emoji-hint">可输入 😊 🌱 😄 等表情，把心情放进留言</div>
-        <textarea id="message" placeholder="写下你的心情或想法，无需登录，畅所欲言。" maxlength="280" aria-label="Message input"></textarea>
-        <br>
-        <button type="submit">分享心情</button>
+        <div class="emoji-hint">分享你此刻的心情，让温暖传递 ✨</div>
+        
+        <div class="toolbar">
+          <div class="emoji-picker" role="toolbar" aria-label="表情选择">
+            <button type="button" class="emoji-btn" onclick="insertEmoji('😊')" aria-label="开心">😊</button>
+            <button type="button" class="emoji-btn" onclick="insertEmoji('😔')" aria-label="难过">😔</button>
+            <button type="button" class="emoji-btn" onclick="insertEmoji('❤️')" aria-label="爱心">❤️</button>
+            <button type="button" class="emoji-btn" onclick="insertEmoji('🌱')" aria-label="成长">🌱</button>
+            <button type="button" class="emoji-btn" onclick="insertEmoji('🌈')" aria-label="彩虹">🌈</button>
+            <button type="button" class="emoji-btn" onclick="insertEmoji('💪')" aria-label="加油">💪</button>
+            <button type="button" class="emoji-btn" onclick="insertEmoji('🤗')" aria-label="拥抱">🤗</button>
+            <button type="button" class="emoji-btn" onclick="insertEmoji('✨')" aria-label="闪耀">✨</button>
+          </div>
+        </div>
+        
+        <div class="char-counter" id="charCounter" aria-live="polite">
+          <span id="charCount">0</span> / 280
+        </div>
+        
+        <textarea 
+          id="message" 
+          placeholder="写下你的心情或想法，这里是你的树洞..." 
+          maxlength="280" 
+          aria-label="留言内容"
+          aria-describedby="charCounter"
+          required
+        ></textarea>
+        
+        <button type="submit" id="submitBtn">
+          <span id="submitText">分享心情</span>
+        </button>
       </form>
-      <div id="confirmBox" class="confirmation"></div>
     </div>
 
-    <div class="feed" id="feed" aria-live="polite">
-      <!-- Messages will appear here -->
+    <div class="feed-controls">
+      <div class="filter-buttons" role="group" aria-label="筛选选项">
+        <button class="filter-btn active" onclick="setFilter('all')" aria-pressed="true">全部</button>
+        <button class="filter-btn" onclick="setFilter('today')" aria-pressed="false">今日</button>
+        <button class="filter-btn" onclick="setFilter('week')" aria-pressed="false">本周</button>
+      </div>
+      <select id="sortSelect" aria-label="排序方式" onchange="sortMessages()">
+        <option value="newest">最新优先</option>
+        <option value="oldest">最早优先</option>
+        <option value="popular">最受欢迎</option>
+      </select>
+    </div>
+
+    <div class="feed" id="feed" role="feed" aria-live="polite" aria-label="留言列表">
+      <div class="empty-state">
+        <div class="empty-state-icon">💭</div>
+        <p>还没有留言，来做第一个分享者吧！</p>
+      </div>
+    </div>
+    
+    <div class="load-more" id="loadMore" style="display: none;">
+      <button class="load-more-btn" onclick="loadMoreMessages()">加载更多</button>
     </div>
   </div>
+
+  <!-- 通知容器 -->
+  <div id="notification" class="notification" role="alert" aria-live="assertive"></div>
   
 <script>
-  // Abuse word filter（简单版，可自定义，不是绝对安全）
+  // 配置
+  const CONFIG = {
+    MAX_MESSAGE_LENGTH: 280,
+    MESSAGES_PER_PAGE: 10,
+    STORAGE_KEY: 'forum_messages_v2',
+    LIKES_KEY: 'forum_likes',
+    REPORT_KEY: 'forum_reports'
+  };
+
+  // 违禁词列表（扩展版）
   const abusiveWords = [
-    "fuck", "shit", "bitch", "asshole", "死", "傻逼", "操你", "sb", "垃圾",
-    "hate", "idiot", "蠢", "滚", "恶心", "abuse"
+    // 英文
+    "fuck", "shit", "bitch", "asshole", "damn", "hell", "crap", "piss",
+    "dick", "cock", "pussy", "bastard", "slut", "whore", "fag", "nigger",
+    "retard", "cunt", "motherfucker", "hate", "kill", "die", "rape",
+    // 中文
+    "傻逼", "操", "草", "妈的", "他妈", "狗日", "王八", "混蛋", "畜生",
+    "垃圾", "废物", "蠢货", "白痴", "弱智", "脑残", "去死", "杀", "滚",
+    "恶心", "贱", "婊子", "鸡巴", "屌", "逼", "肏", "艹", "干你", "日你"
   ];
 
-  // Emoji conversion（简单支持常用 emoji 代码转 emoji 符号）
-  function autoEmoji(text){
-    text = text.replace(/:smile:/g, '😄')
-               .replace(/:happy:/g, '😊')
-               .replace(/:seedling:/g, '🌱')
-               .replace(/:heart:/g, '❤️')
-               .replace(/:sad:/g, '😢');
-    return text;
+  // 敏感词提示
+  const sensitiveHints = {
+    "死": "生命很珍贵，让我们用更积极的词汇吧",
+    "hate": "试试用'不喜欢'或'不太认同'来表达",
+    "垃圾": "每个人都值得被尊重，换个温和的说法如何？",
+    "蠢": "我们都在学习成长，用'需要改进'会更好",
+    "滚": "表达不满可以用'请离开'或'不太合适'"
+  };
+
+  // 状态管理
+  let state = {
+    messages: [],
+    filter: 'all',
+    sort: 'newest',
+    currentPage: 0,
+    isLoading: false
+  };
+
+  // 初始化
+  function init() {
+    loadMessages();
+    setupEventListeners();
+    renderFeed();
+    updateCharCounter();
   }
 
-  // frontend-only message storage (JS memory, page reload will clear)
-  let messages = JSON.parse(localStorage.getItem('forum_messages') || "[]");
-
-  // Format timestamp
-  function formatTime(ts){
-    const d = new Date(ts);
-    return d.toLocaleString('zh-CN', {hour: '2-digit', minute:'2-digit',month:'2-digit',day:'2-digit'});
-  }
-  
-  // Basic moderation filter
-  function containsAbusive(text){
-    // Only basic matching (case-insensitive)
-    return abusiveWords.some(w => text.toLowerCase().includes(w));
+  // 设置事件监听器
+  function setupEventListeners() {
+    const textarea = document.getElementById('message');
+    textarea.addEventListener('input', updateCharCounter);
+    textarea.addEventListener('keydown', handleKeyPress);
+    
+    document.getElementById('msgForm').addEventListener('submit', handleSubmit);
   }
 
-  // Show confirmation
-  function showConfirmation(msg) {
-    const box = document.getElementById("confirmBox");
-    box.textContent = msg;
-    box.style.opacity = 1;
-    setTimeout(() => { box.style.opacity = 0; }, 1500);
+  // 处理键盘事件
+  function handleKeyPress(e) {
+    if (e.key === 'Enter' && e.ctrlKey) {
+      e.preventDefault();
+      document.getElementById('msgForm').dispatchEvent(new Event('submit'));
+    }
   }
 
-  // Render message feed
-  function renderFeed(){
-    const feed = document.getElementById('feed');
-    feed.innerHTML = '';
-    messages.slice().reverse().forEach(msg => {
-      const div = document.createElement('div');
-      div.className = 'message';
-      div.innerHTML =
-        `<div>${autoEmoji(msg.text).replace(/\n/g,'<br>')}</div>
-         <span class="timestamp" title="${formatTime(msg.time)}">${formatTime(msg.time)}</span>`;
-      feed.appendChild(div);
+  // 加载消息
+  function loadMessages() {
+    try {
+      const stored = localStorage.getItem(CONFIG.STORAGE_KEY);
+      state.messages = stored ? JSON.parse(stored) : [];
+    } catch (e) {
+      console.error('Failed to load messages:', e);
+      state.messages = [];
+    }
+  }
+
+  // 保存消息
+  function saveMessages() {
+    try {
+      localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(state.messages));
+    } catch (e) {
+      console.error('Failed to save messages:', e);
+      showNotification('存储空间不足，部分消息可能无法保存', 'warning');
+    }
+  }
+
+  // 获取用户点赞记录
+  function getLikes() {
+    try {
+      return JSON.parse(localStorage.getItem(CONFIG.LIKES_KEY) || '{}');
+    } catch {
+      return {};
+    }
+  }
+
+  // 保存点赞记录
+  function saveLikes(likes) {
+    localStorage.setItem(CONFIG.LIKES_KEY, JSON.stringify(likes));
+  }
+
+  // 插入表情
+  function insertEmoji(emoji) {
+    const textarea = document.getElementById('message');
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    
+    textarea.value = text.substring(0, start) + emoji + text.substring(end);
+    textarea.selectionStart = textarea.selectionEnd = start + emoji.length;
+    textarea.focus();
+    
+    updateCharCounter();
+  }
+
+  // 更新字符计数
+  function updateCharCounter() {
+    const textarea = document.getElementById('message');
+    const counter = document.getElementById('charCounter');
+    const count = document.getElementById('charCount');
+    const length = textarea.value.length;
+    
+    count.textContent = length;
+    
+    if (length > 250) {
+      counter.classList.add('warning');
+    } else {
+      counter.classList.remove('warning');
+    }
+  }
+
+  // 内容审核
+  function moderateContent(text) {
+    const lowerText = text.toLowerCase();
+    
+    // 检查违禁词
+    for (const word of abusiveWords) {
+      if (lowerText.includes(word.toLowerCase())) {
+        // 查找敏感词提示
+        for (const [key, hint] of Object.entries(sensitiveHints)) {
+          if (word.includes(key) || key.includes(word)) {
+            return { 
+              passed: false, 
+              message: `检测到不友善用语"${word}"，${hint}` 
+            };
+          }
+        }
+        return { 
+          passed: false, 
+          message: `内容包含不友善词语"${word}"，请修改后再发送` 
+        };
+      }
+    }
+    
+    // 检查重复字符（如"啊啊啊啊啊啊"）
+    if (/(.)\1{5,}/.test(text)) {
+      return { 
+        passed: false, 
+        message: '请避免过多重复字符，让表达更清晰' 
+      };
+    }
+    
+    // 检查全大写（可能是喊叫）
+    if (text.length > 10 && text === text.toUpperCase() && /[A-Z]/.test(text)) {
+      return { 
+        passed: false, 
+        message: '请避免全部大写，这样显得在大声喊叫哦' 
+      };
+    }
+    
+    return { passed: true };
+  }
+
+  // 处理表单提交
+  async function handleSubmit(e) {
+    e.preventDefault();
+    
+    if (state.isLoading) return;
+    
+    const textarea = document.getElementById('message');
+    const text = textarea.value.trim();
+    
+    if (!text) {
+      showNotification('请写下你的心情再分享哦～', 'warning');
+      return;
+    }
+    
+    // 内容审核
+    const moderation = moderateContent(text);
+    if (!moderation.passed) {
+      showNotification(moderation.message, 'error');
+      return;
+    }
+    
+    // 防止重复提交
+    state.isLoading = true;
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    submitBtn.disabled = true;
+    submitText.innerHTML = '<span class="loading"></span>';
+    
+    // 模拟提交延迟
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // 创建新消息
+    const newMessage = {
+      id: Date.now() + Math.random(),
+      text: processText(text),
+      time: Date.now(),
+      likes: 0,
+      mood: detectMood(text)
+    };
+    
+    // 添加到消息列表
+    state.messages.unshift(newMessage);
+    saveMessages();
+    
+    // 清空输入框
+    textarea.value = '';
+    updateCharCounter();
+    
+    // 恢复按钮
+    submitBtn.disabled = false;
+    submitText.textContent = '分享心情';
+    state.isLoading = false;
+    
+    // 显示成功提示
+    showNotification('心情已分享，感谢你的真诚表达 🌈', 'success');
+    
+    // 重新渲染
+    renderFeed();
+    
+    // 滚动到顶部查看新消息
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // 处理文本（自动转换表情等）
+  function processText(text) {
+    // 自动转换表情代码
+    const emojiMap = {
+      ':)': '😊',
+      ':-)': '😊',
+      ':(': '😔',
+      ':-(': '😔',
+      ':D': '😄',
+      ':-D': '😄',
+      ':P': '😛',
+      ':-P': '😛',
+      ':o': '😮',
+      ':-o': '😮',
+      ':|': '😐',
+      ':-|': '😐',
+      ';)': '😉',
+      ';-)': '😉',
+      '<3': '❤️',
+      '</3': '💔',
+      ':*': '😘',
+      ':heart:': '❤️',
+      ':smile:': '😊',
+      ':sad:': '😢',
+      ':happy:': '😄',
+      ':angry:': '😠',
+      ':love:': '❤️',
+      ':star:': '⭐',
+      ':fire:': '🔥',
+      ':thumbsup:': '👍',
+      ':thumbsdown:': '👎',
+      ':clap:': '👏',
+      ':pray:': '🙏'
+    };
+    
+    let processed = text;
+    for (const [code, emoji] of Object.entries(emojiMap)) {
+      processed = processed.replace(new RegExp(escapeRegExp(code), 'g'), emoji);
+    }
+    
+    return processed;
+  }
+
+  // 转义正则表达式特殊字符
+  function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  // 检测心情
+  function detectMood(text) {
+    const moods = {
+      happy: ['开心', '快乐', '高兴', '😊', '😄', '🎉', 'happy', 'joy', 'glad'],
+      sad: ['难过', '伤心', '难受', '😢', '😔', '💔', 'sad', 'unhappy', 'down'],
+      angry: ['生气', '愤怒', '气死', '😠', '😡', 'angry', 'mad', 'furious'],
+      love: ['爱', '喜欢', '❤️', '💕', '😍', 'love', 'like'],
+      neutral: []
+    };
+    
+    for (const [mood, keywords] of Object.entries(moods)) {
+      if (keywords.some(keyword => text.includes(keyword))) {
+        return mood;
+      }
+    }
+    
+    return 'neutral';
+  }
+
+  // 显示通知
+  function showNotification(message, type = 'success') {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.className = `notification ${type}`;
+    
+    // 显示通知
+    setTimeout(() => {
+      notification.classList.add('show');
+    }, 10);
+    
+    // 自动隐藏
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, 3000);
+  }
+
+  // 格式化时间
+  function formatTime (timestamp) {
+    const now = Date.now();
+    const diff = now - timestamp;
+    
+    // 刚刚（1分钟内）
+    if (diff < 60000) {
+      return '刚刚';
+    }
+    
+    // 几分钟前
+    if (diff < 3600000) {
+      const minutes = Math.floor(diff / 60000);
+      return `${minutes}分钟前`;
+    }
+    
+    // 几小时前
+    if (diff < 86400000) {
+      const hours = Math.floor(diff / 3600000);
+      return `${hours}小时前`;
+    }
+    
+    // 几天前
+    if (diff < 604800000) {
+      const days = Math.floor(diff / 86400000);
+      return `${days}天前`;
+    }
+    
+    // 具体日期
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('zh-CN', {
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
     });
   }
 
-  // Handle form submit
-  document.getElementById('msgForm').onsubmit = function(e){
-    e.preventDefault();
-    let text = document.getElementById('message').value.trim();
-    if(!text){
-      showConfirmation("请填写你的心情哦~");
-      return;
-    }
-    if(containsAbusive(text)){
-      showConfirmation("内容中包含不友善词语，请修改缓和表达～");
-      return;
-    }
-    messages.push({text, time: Date.now()});
-    // Save to localStorage for demo persist
-    localStorage.setItem('forum_messages', JSON.stringify(messages));
-    document.getElementById('message').value='';
-    showConfirmation("心情已分享 🌈");
+  // 设置筛选器
+  function setFilter(filter) {
+    state.filter = filter;
+    state.currentPage = 0;
+    
+    // 更新按钮状态
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-pressed', 'false');
+    });
+    event.target.classList.add('active');
+    event.target.setAttribute('aria-pressed', 'true');
+    
     renderFeed();
-  };
+  }
 
-  // On page load, show feed
-  renderFeed();
+  // 排序消息
+  function sortMessages() {
+    const sortSelect = document.getElementById('sortSelect');
+    state.sort = sortSelect.value;
+    state.currentPage = 0;
+    renderFeed();
+  }
 
+  // 过滤消息
+  function filterMessages(messages) {
+    const now = Date.now();
+    const DAY = 86400000;
+    
+    switch (state.filter) {
+      case 'today':
+        return messages.filter(msg => now - msg.time < DAY);
+      case 'week':
+        return messages.filter(msg => now - msg.time < DAY * 7);
+      default:
+        return messages;
+    }
+  }
+
+  // 排序消息
+  function sortMessagesList(messages) {
+    const sorted = [...messages];
+    
+    switch (state.sort) {
+      case 'oldest':
+        return sorted.sort((a, b) => a.time - b.time);
+      case 'popular':
+        return sorted.sort((a, b) => b.likes - a.likes);
+      default: // newest
+        return sorted.sort((a, b) => b.time - a.time);
+    }
+  }
+
+  // 点赞功能
+  function toggleLike(messageId) {
+    const likes = getLikes();
+    const message = state.messages.find(m => m.id === messageId);
+    
+    if (!message) return;
+    
+    if (likes[messageId]) {
+      // 取消点赞
+      delete likes[messageId];
+      message.likes = Math.max(0, message.likes - 1);
+    } else {
+      // 点赞
+      likes[messageId] = true;
+      message.likes = (message.likes || 0) + 1;
+    }
+    
+    saveLikes(likes);
+    saveMessages();
+    
+    // 更新UI
+    const btn = document.querySelector(`[data-message-id="${messageId}"] .like-btn`);
+    if (btn) {
+      btn.classList.toggle('liked');
+      const count = btn.querySelector('.like-count');
+      if (count) {
+        count.textContent = message.likes || 0;
+      }
+    }
+  }
+
+  // 举报功能
+  function reportMessage(messageId) {
+    if (!confirm('确定要举报这条留言吗？')) {
+      return;
+    }
+    
+    const reports = JSON.parse(localStorage.getItem(CONFIG.REPORT_KEY) || '{}');
+    
+    if (reports[messageId]) {
+      showNotification('你已经举报过这条留言了', 'warning');
+      return;
+    }
+    
+    reports[messageId] = {
+      time: Date.now(),
+      count: (reports[messageId]?.count || 0) + 1
+    };
+    
+    localStorage.setItem(CONFIG.REPORT_KEY, JSON.stringify(reports));
+    
+    // 如果举报次数过多，隐藏消息
+    if (reports[messageId].count >= 3) {
+      const index = state.messages.findIndex(m => m.id === messageId);
+      if (index !== -1) {
+        state.messages.splice(index, 1);
+        saveMessages();
+        renderFeed();
+      }
+    }
+    
+    showNotification('举报成功，感谢你维护社区环境', 'success');
+  }
+
+  // 渲染消息流
+  function renderFeed() {
+    const feed = document.getElementById('feed');
+    const loadMoreDiv = document.getElementById('loadMore');
+    
+    // 过滤和排序消息
+    let filtered = filterMessages(state.messages);
+    let sorted = sortMessagesList(filtered);
+    
+    // 分页
+    const start = state.currentPage * CONFIG.MESSAGES_PER_PAGE;
+    const end = start + CONFIG.MESSAGES_PER_PAGE;
+    const paginated = sorted.slice(0, end);
+    
+    if (paginated.length === 0) {
+      feed.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-state-icon">💭</div>
+          <p>还没有留言，来做第一个分享者吧！</p>
+        </div>
+      `;
+      loadMoreDiv.style.display = 'none';
+      return;
+    }
+    
+    // 获取点赞记录
+    const likes = getLikes();
+    
+    // 渲染消息
+    feed.innerHTML = paginated.map(msg => {
+      const isLiked = likes[msg.id];
+      const moodEmoji = getMoodEmoji(msg.mood);
+      
+      return `
+        <article class="message" data-message-id="${msg.id}">
+          <div class="message-content">
+            ${escapeHtml(msg.text).replace(/\n/g, '<br>')}
+          </div>
+          <div class="message-footer">
+            <time class="timestamp" datetime="${new Date(msg.time).toISOString()}">
+              ${moodEmoji} ${formatTime(msg.time)}
+            </time>
+            <div class="message-actions">
+              <button 
+                class="action-btn like-btn ${isLiked ? 'liked' : ''}" 
+                onclick="toggleLike(${msg.id})"
+                aria-label="点赞"
+              >
+                <span>${isLiked ? '❤️' : '🤍'}</span>
+                <span class="like-count">${msg.likes || 0}</span>
+              </button>
+              <button 
+                class="action-btn" 
+                onclick="reportMessage(${msg.id})"
+                aria-label="举报"
+              >
+                🚩 举报
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+    
+    // 显示/隐藏加载更多按钮
+    if (sorted.length > end) {
+      loadMoreDiv.style.display = 'block';
+    } else {
+      loadMoreDiv.style.display = 'none';
+    }
+  }
+
+  // 获取心情表情
+  function getMoodEmoji(mood) {
+    const moodEmojis = {
+      happy: '😊',
+      sad: '😔',
+      angry: '😠',
+      love: '❤️',
+      neutral: '💭'
+    };
+    return moodEmojis[mood] || '💭';
+  }
+
+  // 转义HTML
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // 加载更多消息
+  function loadMoreMessages() {
+    state.currentPage++;
+    renderFeed();
+  }
+
+  // 初始化应用
+  document.addEventListener('DOMContentLoaded', init);
+
+  // 监听存储变化（多标签页同步）
+  window.addEventListener('storage', (e) => {
+    if (e.key === CONFIG.STORAGE_KEY) {
+      loadMessages();
+      renderFeed();
+    }
+  });
+
+  // 页面可见性变化时刷新
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      loadMessages();
+      renderFeed();
+    }
+  });
 </script>
 </body>
 </html>
