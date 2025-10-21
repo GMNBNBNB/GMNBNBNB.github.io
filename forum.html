@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Anonymous Calming Forum - 心情驿站</title>
+  <title>Anonymous Calming Forum - Mood Station</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* 全局样式 */
+    /* Global styles */
     * {
       box-sizing: border-box;
     }
 
-    /* 平滑滚动 */
+    /* Smooth scrolling */
     html {
       scroll-behavior: smooth;
     }
 
-    /* 主题色彩变量 */
+    /* Theme color variables */
     :root {
       --primary-color: #5AC7A7;
       --secondary-color: #346187;
@@ -30,7 +30,7 @@
       --error-color: #ff6b6b;
     }
 
-    /* 深色模式 */
+    /* Dark mode */
     @media (prefers-color-scheme: dark) {
       :root {
         --bg-gradient-start: #1a2f4b;
@@ -45,7 +45,7 @@
     body {
       margin: 0; 
       padding: 0;
-      font-family: 'Segoe UI', 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
       background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
       min-height: 100vh;
       color: var(--text-color);
@@ -53,7 +53,7 @@
       overflow-x: hidden;
     }
 
-    /* 动态背景装饰 */
+    /* Background decoration */
     .bg-decoration {
       position: fixed;
       width: 100px;
@@ -111,31 +111,15 @@
       color: var(--secondary-color);
       letter-spacing: 1px;
       font-size: 1.8em;
-      position: relative;
     }
 
-    h1::after {
-      content: '🌈';
-      position: absolute;
-      right: -40px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 0.8em;
-      animation: rainbow 3s ease-in-out infinite;
-    }
-
-    @keyframes rainbow {
-      0%, 100% { transform: translateY(-50%) rotate(0deg); }
-      50% { transform: translateY(-50%) rotate(10deg); }
-    }
-
-    /* 表单区域 */
+    /* Form section */
     .form-section {
       margin-bottom: 24px;
       text-align: center;
     }
 
-    /* 字数统计 */
+    /* Character counter */
     .char-counter {
       text-align: right;
       font-size: 0.85em;
@@ -168,7 +152,7 @@
       box-shadow: 0 4px 12px rgba(90, 199, 167, 0.2);
     }
 
-    /* 按钮样式 */
+    /* Button styles */
     button {
       padding: 10px 24px;
       background: var(--primary-color);
@@ -198,7 +182,7 @@
       cursor: not-allowed;
     }
 
-    /* 按钮波纹效果 */
+    /* Button ripple effect */
     button::after {
       content: '';
       position: absolute;
@@ -217,7 +201,7 @@
       height: 300px;
     }
 
-    /* 工具栏 */
+    /* Toolbar */
     .toolbar {
       display: flex;
       justify-content: space-between;
@@ -227,7 +211,7 @@
       gap: 8px;
     }
 
-    /* Emoji 选择器 */
+    /* Emoji picker */
     .emoji-picker {
       display: flex;
       gap: 8px;
@@ -249,7 +233,7 @@
       transform: scale(1.1);
     }
 
-    /* 提示信息 */
+    /* Hint text */
     .emoji-hint {
       color: #6BB5A9;
       font-size: 0.88em;
@@ -257,7 +241,7 @@
       margin-bottom: 8px;
     }
 
-    /* 确认消息 */
+    /* Notification */
     .notification {
       position: fixed;
       top: 20px;
@@ -288,13 +272,13 @@
       background: var(--warning-color);
     }
 
-    /* 消息流 */
+    /* Message feed */
     .feed {
       margin-top: 32px;
       min-height: 100px;
     }
 
-    /* 筛选和排序 */
+    /* Filter and sort controls */
     .feed-controls {
       display: flex;
       justify-content: space-between;
@@ -331,7 +315,7 @@
       background: #4db897;
     }
 
-    /* 消息卡片 */
+    /* Message card */
     .message {
       background: #fafbfc;
       border-radius: 12px;
@@ -360,7 +344,7 @@
       }
     }
 
-    /* 消息内容 */
+    /* Message content */
     .message-content {
       font-size: 1.05em;
       line-height: 1.6;
@@ -368,7 +352,7 @@
       margin-bottom: 12px;
     }
 
-    /* 消息底部信息 */
+    /* Message footer */
     .message-footer {
       display: flex;
       justify-content: space-between;
@@ -382,7 +366,7 @@
       color: #88a;
     }
 
-    /* 互动按钮 */
+    /* Action buttons */
     .message-actions {
       display: flex;
       gap: 12px;
@@ -411,7 +395,7 @@
       color: #ff6b6b;
     }
 
-    /* 空状态 */
+    /* Empty state */
     .empty-state {
       text-align: center;
       padding: 60px 20px;
@@ -424,7 +408,7 @@
       opacity: 0.5;
     }
 
-    /* 加载更多按钮 */
+    /* Load more button */
     .load-more {
       text-align: center;
       margin-top: 24px;
@@ -445,7 +429,7 @@
       color: white;
     }
 
-    /* 响应式设计 */
+    /* Responsive design */
     @media (max-width: 600px) {
       .container { 
         margin: 20px 10px;
@@ -454,10 +438,6 @@
       
       h1 { 
         font-size: 1.5em;
-      }
-      
-      h1::after {
-        display: none;
       }
       
       textarea { 
@@ -484,7 +464,7 @@
       }
     }
 
-    /* 无障碍优化 */
+    /* Accessibility */
     .visually-hidden {
       position: absolute;
       width: 1px;
@@ -497,13 +477,13 @@
       border: 0;
     }
 
-    /* 焦点样式 */
+    /* Focus styles */
     *:focus-visible {
       outline: 2px solid var(--primary-color);
       outline-offset: 2px;
     }
 
-    /* 加载动画 */
+    /* Loading animation */
     .loading {
       display: inline-block;
       width: 20px;
@@ -521,26 +501,28 @@
   </style>
 </head>
 <body>
-  <!-- 背景装饰 -->
+  <!-- Background decorations -->
   <div class="bg-decoration"></div>
   <div class="bg-decoration"></div>
-  <div class="bg-decoration"></div> <div class="container" role="main" aria-label="匿名心情留言墙">
-    <h1>心情驿站</h1>
+  <div class="bg-decoration"></div>
+
+  <div class="container" role="main" aria-label="Anonymous mood wall">
+    <h1>Mood Station</h1>
     
     <div class="form-section">
       <form id="msgForm" autocomplete="off">
-        <div class="emoji-hint">分享你此刻的心情，让温暖传递 ✨</div>
+        <div class="emoji-hint">Share your feelings, let warmth spread ✨</div>
         
         <div class="toolbar">
-          <div class="emoji-picker" role="toolbar" aria-label="表情选择">
-            <button type="button" class="emoji-btn" onclick="insertEmoji('😊')" aria-label="开心">😊</button>
-            <button type="button" class="emoji-btn" onclick="insertEmoji('😔')" aria-label="难过">😔</button>
-            <button type="button" class="emoji-btn" onclick="insertEmoji('❤️')" aria-label="爱心">❤️</button>
-            <button type="button" class="emoji-btn" onclick="insertEmoji('🌱')" aria-label="成长">🌱</button>
-            <button type="button" class="emoji-btn" onclick="insertEmoji('🌈')" aria-label="彩虹">🌈</button>
-            <button type="button" class="emoji-btn" onclick="insertEmoji('💪')" aria-label="加油">💪</button>
-            <button type="button" class="emoji-btn" onclick="insertEmoji('🤗')" aria-label="拥抱">🤗</button>
-            <button type="button" class="emoji-btn" onclick="insertEmoji('✨')" aria-label="闪耀">✨</button>
+          <div class="emoji-picker" role="toolbar" aria-label="Emoji selection">
+            <button type="button" class="emoji-btn" onclick="insertEmoji('😊')" aria-label="Happy">😊</button>
+            <button type="button" class="emoji-btn" onclick="insertEmoji('😔')" aria-label="Sad">😔</button>
+            <button type="button" class="emoji-btn" onclick="insertEmoji('❤️')" aria-label="Love">❤️</button>
+            <button type="button" class="emoji-btn" onclick="insertEmoji('🌱')" aria-label="Growth">🌱</button>
+            <button type="button" class="emoji-btn" onclick="insertEmoji('🌈')" aria-label=" Rainbow">🌈</button>
+            <button type="button" class="emoji-btn" onclick="insertEmoji('💪')" aria-label="Strong">💪</button>
+            <button type="button" class="emoji-btn" onclick="insertEmoji('🤗')" aria-label="Hug">🤗</button>
+            <button type="button" class="emoji-btn" onclick="insertEmoji('✨')" aria-label="Sparkle">✨</button>
           </div>
         </div>
         
@@ -550,49 +532,49 @@
         
         <textarea 
           id="message" 
-          placeholder="写下你的心情或想法，这里是你的树洞..." 
+          placeholder="Write down your feelings or thoughts, this is your safe space..." 
           maxlength="280" 
-          aria-label="留言内容"
+          aria-label="Message content"
           aria-describedby="charCounter"
           required
         ></textarea>
         
         <button type="submit" id="submitBtn">
-          <span id="submitText">分享心情</span>
+          <span id="submitText">Share Mood</span>
         </button>
       </form>
     </div>
 
     <div class="feed-controls">
-      <div class="filter-buttons" role="group" aria-label="筛选选项">
-        <button class="filter-btn active" onclick="setFilter('all')" aria-pressed="true">全部</button>
-        <button class="filter-btn" onclick="setFilter('today')" aria-pressed="false">今日</button>
-        <button class="filter-btn" onclick="setFilter('week')" aria-pressed="false">本周</button>
+      <div class="filter-buttons" role="group" aria-label="Filter options">
+        <button class="filter-btn active" onclick="setFilter('all')" aria-pressed="true">All</button>
+        <button class="filter-btn" onclick="setFilter('today')" aria-pressed="false">Today</button>
+        <button class="filter-btn" onclick="setFilter('week')" aria-pressed="false">This Week</button>
       </div>
-      <select id="sortSelect" aria-label="排序方式" onchange="sortMessages()">
-        <option value="newest">最新优先</option>
-        <option value="oldest">最早优先</option>
-        <option value="popular">最受欢迎</option>
+      <select id="sortSelect" aria-label="Sort method" onchange="sortMessages()">
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+        <option value="popular">Most Popular</option>
       </select>
     </div>
 
-    <div class="feed" id="feed" role="feed" aria-live="polite" aria-label="留言列表">
+    <div class="feed" id="feed" role="feed" aria-live="polite" aria-label="Message list">
       <div class="empty-state">
         <div class="empty-state-icon">💭</div>
-        <p>还没有留言，来做第一个分享者吧！</p>
+        <p>No messages yet, be the first to share!</p>
       </div>
     </div>
     
     <div class="load-more" id="loadMore" style="display: none;">
-      <button class="load-more-btn" onclick="loadMoreMessages()">加载更多</button>
+      <button class="load-more-btn" onclick="loadMoreMessages()">Load More</button>
     </div>
   </div>
 
-  <!-- 通知容器 -->
+  <!-- Notification container -->
   <div id="notification" class="notification" role="alert" aria-live="assertive"></div>
   
 <script>
-  // 配置
+  // Configuration
   const CONFIG = {
     MAX_MESSAGE_LENGTH: 280,
     MESSAGES_PER_PAGE: 10,
@@ -601,28 +583,26 @@
     REPORT_KEY: 'forum_reports'
   };
 
-  // 违禁词列表（扩展版）
+  // Abusive words list (expanded)
   const abusiveWords = [
-    // 英文
+    // English
     "fuck", "shit", "bitch", "asshole", "damn", "hell", "crap", "piss",
     "dick", "cock", "pussy", "bastard", "slut", "whore", "fag", "nigger",
     "retard", "cunt", "motherfucker", "hate", "kill", "die", "rape",
-    // 中文
-    "傻逼", "操", "草", "妈的", "他妈", "狗日", "王八", "混蛋", "畜生",
-    "垃圾", "废物", "蠢货", "白痴", "弱智", "脑残", "去死", "杀", "滚",
-    "恶心", "贱", "婊子", "鸡巴", "屌", "逼", "肏", "艹", "干你", "日你"
+    // Common variations
+    "fck", "sht", "btch", "a$$", "d4mn", "h3ll", "cr4p"
   ];
 
-  // 敏感词提示
+  // Sensitive word hints
   const sensitiveHints = {
-    "死": "生命很珍贵，让我们用更积极的词汇吧",
-    "hate": "试试用'不喜欢'或'不太认同'来表达",
-    "垃圾": "每个人都值得被尊重，换个温和的说法如何？",
-    "蠢": "我们都在学习成长，用'需要改进'会更好",
-    "滚": "表达不满可以用'请离开'或'不太合适'"
+    "die": "Life is precious, let's use more positive words",
+    "hate": "Try using 'dislike' or 'disagree' instead",
+    "kill": "Let's express ourselves more peacefully",
+    "stupid": "Everyone is learning, try 'needs improvement'",
+    "idiot": "Be kind, we all make mistakes"
   };
 
-  // 状态管理
+  // State management
   let state = {
     messages: [],
     filter: 'all',
@@ -631,7 +611,7 @@
     isLoading: false
   };
 
-  // 初始化
+  // Initialize
   function init() {
     loadMessages();
     setupEventListeners();
@@ -639,7 +619,7 @@
     updateCharCounter();
   }
 
-  // 设置事件监听器
+  // Setup event listeners
   function setupEventListeners() {
     const textarea = document.getElementById('message');
     textarea.addEventListener('input', updateCharCounter);
@@ -648,7 +628,7 @@
     document.getElementById('msgForm').addEventListener('submit', handleSubmit);
   }
 
-  // 处理键盘事件
+  // Handle keyboard events
   function handleKeyPress(e) {
     if (e.key === 'Enter' && e.ctrlKey) {
       e.preventDefault();
@@ -656,7 +636,7 @@
     }
   }
 
-  // 加载消息
+  // Load messages
   function loadMessages() {
     try {
       const stored = localStorage.getItem(CONFIG.STORAGE_KEY);
@@ -667,17 +647,17 @@
     }
   }
 
-  // 保存消息
+  // Save messages
   function saveMessages() {
     try {
       localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(state.messages));
     } catch (e) {
       console.error('Failed to save messages:', e);
-      showNotification('存储空间不足，部分消息可能无法保存', 'warning');
+      showNotification('Storage full, some messages may not be saved', 'warning');
     }
   }
 
-  // 获取用户点赞记录
+  // Get user likes
   function getLikes() {
     try {
       return JSON.parse(localStorage.getItem(CONFIG.LIKES_KEY) || '{}');
@@ -686,12 +666,12 @@
     }
   }
 
-  // 保存点赞记录
+  // Save likes
   function saveLikes(likes) {
     localStorage.setItem(CONFIG.LIKES_KEY, JSON.stringify(likes));
   }
 
-  // 插入表情
+  // Insert emoji
   function insertEmoji(emoji) {
     const textarea = document.getElementById('message');
     const start = textarea.selectionStart;
@@ -705,7 +685,7 @@
     updateCharCounter();
   }
 
-  // 更新字符计数
+  // Update character counter
   function updateCharCounter() {
     const textarea = document.getElementById('message');
     const counter = document.getElementById('charCounter');
@@ -721,49 +701,49 @@
     }
   }
 
-  // 内容审核
+  // Content moderation
   function moderateContent(text) {
     const lowerText = text.toLowerCase();
     
-    // 检查违禁词
+    // Check for abusive words
     for (const word of abusiveWords) {
       if (lowerText.includes(word.toLowerCase())) {
-        // 查找敏感词提示
+        // Find sensitive word hints
         for (const [key, hint] of Object.entries(sensitiveHints)) {
           if (word.includes(key) || key.includes(word)) {
             return { 
               passed: false, 
-              message: `检测到不友善用语"${word}"，${hint}` 
+              message: `Detected unfriendly language "${word}", ${hint}` 
             };
           }
         }
         return { 
           passed: false, 
-          message: `内容包含不友善词语"${word}"，请修改后再发送` 
+          message: `Content contains unfriendly words "${word}", please revise` 
         };
       }
     }
     
-    // 检查重复字符（如"啊啊啊啊啊啊"）
+    // Check for repeated characters
     if (/(.)\1{5,}/.test(text)) {
       return { 
         passed: false, 
-        message: '请避免过多重复字符，让表达更清晰' 
+        message: 'Please avoid excessive repeated characters' 
       };
     }
     
-    // 检查全大写（可能是喊叫）
+    // Check for all caps (shouting)
     if (text.length > 10 && text === text.toUpperCase() && /[A-Z]/.test(text)) {
       return { 
         passed: false, 
-        message: '请避免全部大写，这样显得在大声喊叫哦' 
+        message: 'Please avoid all caps, it seems like shouting' 
       };
     }
     
     return { passed: true };
   }
 
-  // 处理表单提交
+  // Handle form submission
   async function handleSubmit(e) {
     e.preventDefault();
     
@@ -773,28 +753,28 @@
     const text = textarea.value.trim();
     
     if (!text) {
-      showNotification('请写下你的心情再分享哦～', 'warning');
+      showNotification('Please write something before sharing', 'warning');
       return;
     }
     
-    // 内容审核
+    // Content moderation
     const moderation = moderateContent(text);
     if (!moderation.passed) {
       showNotification(moderation.message, 'error');
       return;
     }
     
-    // 防止重复提交
+    // Prevent duplicate submission
     state.isLoading = true;
     const submitBtn = document.getElementById('submitBtn');
     const submitText = document.getElementById('submitText');
     submitBtn.disabled = true;
     submitText.innerHTML = '<span class="loading"></span>';
     
-    // 模拟提交延迟
+    // Simulate submission delay
     await new Promise(resolve => setTimeout(resolve, 500));
     
-    // 创建新消息
+    // Create new message
     const newMessage = {
       id: Date.now() + Math.random(),
       text: processText(text),
@@ -803,32 +783,32 @@
       mood: detectMood(text)
     };
     
-    // 添加到消息列表
+    // Add to message list
     state.messages.unshift(newMessage);
     saveMessages();
     
-    // 清空输入框
+    // Clear input
     textarea.value = '';
     updateCharCounter();
     
-    // 恢复按钮
+    // Restore button
     submitBtn.disabled = false;
-    submitText.textContent = '分享心情';
+    submitText.textContent = 'Share Mood';
     state.isLoading = false;
     
-    // 显示成功提示
-    showNotification('心情已分享，感谢你的真诚表达 🌈', 'success');
+    // Show success notification
+    showNotification('Your mood has been shared, thank you 🌈', 'success');
     
-    // 重新渲染
+    // Re-render
     renderFeed();
     
-    // 滚动到顶部查看新消息
+    // Scroll to top to see new message
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // 处理文本（自动转换表情等）
+  // Process text (auto-convert emojis)
   function processText(text) {
-    // 自动转换表情代码
+    // Auto-convert emoji codes
     const emojiMap = {
       ':)': '😊',
       ':-)': '😊',
@@ -869,23 +849,24 @@
     return processed;
   }
 
-  // 转义正则表达式特殊字符
+  // Escape regex special characters
   function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
-  // 检测心情
+  // Detect mood
   function detectMood(text) {
     const moods = {
-      happy: ['开心', '快乐', '高兴', '😊', '😄', '🎉', 'happy', 'joy', 'glad'],
-      sad: ['难过', '伤心', '难受', '😢', '😔', '💔', 'sad', 'unhappy', 'down'],
-      angry: ['生气', '愤怒', '气死', '😠', '😡', 'angry', 'mad', 'furious'],
-      love: ['爱', '喜欢', '❤️', '💕', '😍', 'love', 'like'],
+      happy: ['happy', 'joy', 'glad', 'excited', 'great', 'awesome', 'wonderful', '😊', '😄', '🎉'],
+      sad: ['sad', 'unhappy', 'down', 'depressed', 'lonely', 'cry', '😢', '😔', '💔'],
+      angry: ['angry', 'mad', 'furious', 'annoyed', 'frustrated', '😠', '😡'],
+      love: ['love', 'like', 'adore', 'heart', '❤️', '💕', '😍'],
       neutral: []
     };
     
+    const lowerText = text.toLowerCase();
     for (const [mood, keywords] of Object.entries(moods)) {
-      if (keywords.some(keyword => text.includes(keyword))) {
+      if (keywords.some(keyword => lowerText.includes(keyword) || text.includes(keyword))) {
         return mood;
       }
     }
@@ -893,67 +874,67 @@
     return 'neutral';
   }
 
-  // 显示通知
+  // Show notification
   function showNotification(message, type = 'success') {
     const notification = document.getElementById('notification');
     notification.textContent = message;
     notification.className = `notification ${type}`;
     
-    // 显示通知
+    // Show notification
     setTimeout(() => {
       notification.classList.add('show');
     }, 10);
     
-    // 自动隐藏
+    // Auto hide
     setTimeout(() => {
       notification.classList.remove('show');
     }, 3000);
   }
 
-  // 格式化时间
-  function formatTime (timestamp) {
+  // Format time
+  function formatTime(timestamp) {
     const now = Date.now();
     const diff = now - timestamp;
     
-    // 刚刚（1分钟内）
+    // Just now (within 1 minute)
     if (diff < 60000) {
-      return '刚刚';
+      return 'just now';
     }
     
-    // 几分钟前
+    // Minutes ago
     if (diff < 3600000) {
       const minutes = Math.floor(diff / 60000);
-      return `${minutes}分钟前`;
+      return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
     }
     
-    // 几小时前
+    // Hours ago
     if (diff < 86400000) {
       const hours = Math.floor(diff / 3600000);
-      return `${hours}小时前`;
+      return `${hours} hour${hours > 1 ? 's' : ''} ago`;
     }
     
-    // 几天前
+    // Days ago
     if (diff < 604800000) {
       const days = Math.floor(diff / 86400000);
-      return `${days}天前`;
+      return `${days} day${days > 1 ? 's' : ''} ago`;
     }
     
-    // 具体日期
+    // Specific date
     const date = new Date(timestamp);
-    return date.toLocaleDateString('zh-CN', {
-      month: 'numeric',
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
     });
   }
 
-  // 设置筛选器
+  // Set filter
   function setFilter(filter) {
     state.filter = filter;
     state.currentPage = 0;
     
-    // 更新按钮状态
+    // Update button states
     document.querySelectorAll('.filter-btn').forEach(btn => {
       btn.classList.remove('active');
       btn.setAttribute('aria-pressed', 'false');
@@ -964,7 +945,7 @@
     renderFeed();
   }
 
-  // 排序消息
+  // Sort messages
   function sortMessages() {
     const sortSelect = document.getElementById('sortSelect');
     state.sort = sortSelect.value;
@@ -972,7 +953,7 @@
     renderFeed();
   }
 
-  // 过滤消息
+  // Filter messages
   function filterMessages(messages) {
     const now = Date.now();
     const DAY = 86400000;
@@ -987,7 +968,7 @@
     }
   }
 
-  // 排序消息
+  // Sort messages list
   function sortMessagesList(messages) {
     const sorted = [...messages];
     
@@ -997,11 +978,10 @@
       case 'popular':
         return sorted.sort((a, b) => b.likes - a.likes);
       default: // newest
-        return sorted.sort((a, b) => b.time - a.time);
-    }
+        return sorted.sort((a, b) => b.time - a.time); }
   }
 
-  // 点赞功能
+  // Toggle like
   function toggleLike(messageId) {
     const likes = getLikes();
     const message = state.messages.find(m => m.id === messageId);
@@ -1009,11 +989,11 @@
     if (!message) return;
     
     if (likes[messageId]) {
-      // 取消点赞
+      // Unlike
       delete likes[messageId];
       message.likes = Math.max(0, message.likes - 1);
     } else {
-      // 点赞
+      // Like
       likes[messageId] = true;
       message.likes = (message.likes || 0) + 1;
     }
@@ -1021,7 +1001,7 @@
     saveLikes(likes);
     saveMessages();
     
-    // 更新UI
+    // Update UI
     const btn = document.querySelector(`[data-message-id="${messageId}"] .like-btn`);
     if (btn) {
       btn.classList.toggle('liked');
@@ -1032,16 +1012,16 @@
     }
   }
 
-  // 举报功能
+  // Report message
   function reportMessage(messageId) {
-    if (!confirm('确定要举报这条留言吗？')) {
+    if (!confirm('Are you sure you want to report this message?')) {
       return;
     }
     
     const reports = JSON.parse(localStorage.getItem(CONFIG.REPORT_KEY) || '{}');
     
     if (reports[messageId]) {
-      showNotification('你已经举报过这条留言了', 'warning');
+      showNotification('You have already reported this message', 'warning');
       return;
     }
     
@@ -1052,7 +1032,7 @@
     
     localStorage.setItem(CONFIG.REPORT_KEY, JSON.stringify(reports));
     
-    // 如果举报次数过多，隐藏消息
+    // Hide message if reported too many times
     if (reports[messageId].count >= 3) {
       const index = state.messages.findIndex(m => m.id === messageId);
       if (index !== -1) {
@@ -1062,19 +1042,19 @@
       }
     }
     
-    showNotification('举报成功，感谢你维护社区环境', 'success');
+    showNotification('Report successful, thank you for maintaining community standards', 'success');
   }
 
-  // 渲染消息流
+  // Render feed
   function renderFeed() {
     const feed = document.getElementById('feed');
     const loadMoreDiv = document.getElementById('loadMore');
     
-    // 过滤和排序消息
+    // Filter and sort messages
     let filtered = filterMessages(state.messages);
     let sorted = sortMessagesList(filtered);
     
-    // 分页
+    // Pagination
     const start = state.currentPage * CONFIG.MESSAGES_PER_PAGE;
     const end = start + CONFIG.MESSAGES_PER_PAGE;
     const paginated = sorted.slice(0, end);
@@ -1083,17 +1063,17 @@
       feed.innerHTML = `
         <div class="empty-state">
           <div class="empty-state-icon">💭</div>
-          <p>还没有留言，来做第一个分享者吧！</p>
+          <p>No messages yet, be the first to share!</p>
         </div>
       `;
       loadMoreDiv.style.display = 'none';
       return;
     }
     
-    // 获取点赞记录
+    // Get likes
     const likes = getLikes();
     
-    // 渲染消息
+    // Render messages
     feed.innerHTML = paginated.map(msg => {
       const isLiked = likes[msg.id];
       const moodEmoji = getMoodEmoji(msg.mood);
@@ -1111,7 +1091,7 @@
               <button 
                 class="action-btn like-btn ${isLiked ? 'liked' : ''}" 
                 onclick="toggleLike(${msg.id})"
-                aria-label="点赞"
+                aria-label="Like"
               >
                 <span>${isLiked ? '❤️' : '🤍'}</span>
                 <span class="like-count">${msg.likes || 0}</span>
@@ -1119,9 +1099,9 @@
               <button 
                 class="action-btn" 
                 onclick="reportMessage(${msg.id})"
-                aria-label="举报"
+                aria-label="Report"
               >
-                🚩 举报
+                🚩 Report
               </button>
             </div>
           </div>
@@ -1129,7 +1109,7 @@
       `;
     }).join('');
     
-    // 显示/隐藏加载更多按钮
+    // Show/hide load more button
     if (sorted.length > end) {
       loadMoreDiv.style.display = 'block';
     } else {
@@ -1137,7 +1117,7 @@
     }
   }
 
-  // 获取心情表情
+  // Get mood emoji
   function getMoodEmoji(mood) {
     const moodEmojis = {
       happy: '😊',
@@ -1149,23 +1129,23 @@
     return moodEmojis[mood] || '💭';
   }
 
-  // 转义HTML
+  // Escape HTML
   function escapeHtml(text) {
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
   }
 
-  // 加载更多消息
+  // Load more messages
   function loadMoreMessages() {
     state.currentPage++;
     renderFeed();
   }
 
-  // 初始化应用
+  // Initialize app
   document.addEventListener('DOMContentLoaded', init);
 
-  // 监听存储变化（多标签页同步）
+  // Listen for storage changes (multi-tab sync)
   window.addEventListener('storage', (e) => {
     if (e.key === CONFIG.STORAGE_KEY) {
       loadMessages();
@@ -1173,7 +1153,7 @@
     }
   });
 
-  // 页面可见性变化时刷新
+  // Refresh on visibility change
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden) {
       loadMessages();
