@@ -118,7 +118,6 @@
     .nav-btn:hover { background: var(--accent-bg); color: var(--text-primary); }
     .mobile-menu-btn { display: none; }
 
-    /* Mobile Nav */
     .mobile-nav {
       position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
       background: var(--bg); z-index: 99;
@@ -143,11 +142,38 @@
       position: relative; overflow: hidden;
       padding: 120px 24px 80px;
     }
-    .hero-bg {
-      position: absolute; inset: 0; z-index: 0;
-      background: radial-gradient(ellipse 80% 60% at 50% -20%, var(--accent-bg) 0%, transparent 60%),
-                  radial-gradient(ellipse 50% 40% at 80% 60%, var(--pink-bg) 0%, transparent 50%);
+    /* Animated gradient mesh background */
+    .hero-mesh {
+      position: absolute; inset: 0; z-index: 0; overflow: hidden;
     }
+    .hero-mesh .orb {
+      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4;
+      animation: orbMove 20s ease-in-out infinite;
+    }
+    .hero-mesh .orb-1 {
+      width: 500px; height: 500px; top: -10%; left: -5%;
+      background: var(--accent);
+      animation-duration: 22s;
+    }
+    .hero-mesh .orb-2 {
+      width: 400px; height: 400px; top: 20%; right: -10%;
+      background: var(--pink);
+      animation-duration: 18s; animation-delay: -5s;
+    }
+    .hero-mesh .orb-3 {
+      width: 350px; height: 350px; bottom: -5%; left: 30%;
+      background: var(--cyan);
+      animation-duration: 25s; animation-delay: -10s;
+    }
+    [data-theme="dark"] .hero-mesh .orb { opacity: 0.15; }
+
+    @keyframes orbMove {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(60px, -40px) scale(1.1); }
+      50% { transform: translate(-30px, 50px) scale(0.95); }
+      75% { transform: translate(40px, 20px) scale(1.05); }
+    }
+
     .hero-inner {
       max-width: 1200px; margin: 0 auto; width: 100%;
       display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
@@ -173,10 +199,22 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .hero-desc {
+
+    /* Typing effect */
+    .hero-typing-wrapper {
       font-size: 18px; line-height: 1.7; color: var(--text-secondary);
-      margin-bottom: 32px; max-width: 520px;
+      margin-bottom: 32px; max-width: 520px; min-height: 3.4em;
     }
+    .hero-typing {
+      border-right: 2px solid var(--accent);
+      animation: blink 0.8s step-end infinite;
+    }
+    .hero-typing.done { border-right-color: transparent; animation: none; }
+    @keyframes blink {
+      0%, 100% { border-right-color: var(--accent); }
+      50% { border-right-color: transparent; }
+    }
+
     .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
     .btn {
       display: inline-flex; align-items: center; gap: 8px;
@@ -232,7 +270,7 @@
 
     @media (max-width: 768px) {
       .hero-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
-      .hero-desc { margin-left: auto; margin-right: auto; }
+      .hero-typing-wrapper { margin-left: auto; margin-right: auto; }
       .hero-actions { justify-content: center; }
       .hero-float-tag { display: none; }
     }
@@ -283,6 +321,9 @@
     .bento-label { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
     .bento-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-top: 12px; }
 
+    /* Animated counter */
+    .counter { display: inline-block; }
+
     @media (max-width: 768px) {
       .bento-grid { grid-template-columns: repeat(2, 1fr); }
       .bento-main { grid-column: span 2; grid-row: span 1; }
@@ -308,8 +349,7 @@
     .timeline-card {
       background: var(--bg-card); border: 1px solid var(--border);
       border-radius: var(--radius); padding: 28px;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.3s ease;
+      box-shadow: var(--shadow-sm); transition: all 0.3s ease;
     }
     .timeline-card:hover { box-shadow: var(--shadow-md); }
     .timeline-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
@@ -396,6 +436,23 @@
 
     @media (max-width: 900px) { .skills-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 500px) { .skills-grid { grid-template-columns: 1fr; } }
+
+    /* ==================== WHAT DRIVES ME ==================== */
+    .drives-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .drive-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 32px; text-align: center;
+      box-shadow: var(--shadow-sm); transition: all 0.3s ease;
+      opacity: 0; transform: translateY(20px);
+    }
+    .drive-card.visible { opacity: 1; transform: translateY(0); }
+    .drive-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+    .drive-card.visible:hover { transform: translateY(-4px); }
+    .drive-emoji { font-size: 40px; margin-bottom: 16px; display: block; }
+    .drive-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .drive-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+    @media (max-width: 768px) { .drives-grid { grid-template-columns: 1fr; } }
 
     /* ==================== PROJECTS ==================== */
     .project-featured {
@@ -576,8 +633,8 @@
         <a href="#education">Education</a>
         <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
+        <a href="#drives">Beyond Code</a>
         <a href="#contact">Contact</a>
-        <a href="forum.html">Forum</a>
       </div>
       <div class="nav-actions">
         <button class="nav-btn" id="themeToggle" aria-label="Toggle theme">
@@ -596,13 +653,17 @@
     <a href="#education">Education</a>
     <a href="#skills">Skills</a>
     <a href="#projects">Projects</a>
+    <a href="#drives">Beyond Code</a>
     <a href="#contact">Contact</a>
-    <a href="forum.html">Forum</a>
   </nav>
 
   <!-- ==================== HERO ==================== -->
   <section class="hero">
-    <div class="hero-bg"></div>
+    <div class="hero-mesh">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
     <div class="hero-inner">
       <div class="hero-content">
         <div class="hero-badge">
@@ -612,9 +673,9 @@
         <h1 class="hero-title">
           Hi, I'm <span class="gradient">Meng Gao</span>
         </h1>
-        <p class="hero-desc">
-          Software Engineer with full-stack, cloud, and iOS expertise. Columbia CS grad student & former AWS SDE Intern building scalable systems and delightful user experiences.
-        </p>
+        <div class="hero-typing-wrapper">
+          <span class="hero-typing" id="heroTyping"></span>
+        </div>
         <div class="hero-actions">
           <a href="#projects" class="btn btn-primary">
             <i class="fas fa-rocket"></i> View Projects
@@ -682,14 +743,14 @@
           <div class="bento-icon" style="background: var(--green-bg); color: var(--green);">
             <i class="fas fa-percentage"></i>
           </div>
-          <div class="bento-value">90%</div>
+          <div class="bento-value"><span class="counter" data-target="90">0</span>%</div>
           <div class="bento-label">API Calls Reduced via Redis Cache</div>
         </div>
         <div class="bento-card">
           <div class="bento-icon" style="background: var(--pink-bg); color: var(--pink);">
             <i class="fas fa-mobile-alt"></i>
           </div>
-          <div class="bento-value">16K+</div>
+          <div class="bento-value"><span class="counter" data-target="16">0</span>K+</div>
           <div class="bento-label">Lines of Swift &middot; AutoSeek iOS</div>
         </div>
         <div class="bento-card">
@@ -936,15 +997,15 @@
           </ul>
           <div class="pf-stats-row">
             <div class="pf-stat-block">
-              <div class="pf-stat-num">36</div>
+              <div class="pf-stat-num"><span class="counter" data-target="36">0</span></div>
               <div class="pf-stat-text">Swift Files</div>
             </div>
             <div class="pf-stat-block">
-              <div class="pf-stat-num">16K+</div>
+              <div class="pf-stat-num"><span class="counter" data-target="16">0</span>K+</div>
               <div class="pf-stat-text">Lines of Code</div>
             </div>
             <div class="pf-stat-block">
-              <div class="pf-stat-num">15</div>
+              <div class="pf-stat-num"><span class="counter" data-target="15">0</span></div>
               <div class="pf-stat-text">Services</div>
             </div>
           </div>
@@ -966,7 +1027,6 @@
 
       <!-- Other Projects Grid -->
       <div class="projects-grid">
-        <!-- Speech Emotion Recognition -->
         <div class="project-card">
           <div class="pc-icon-row">
             <div class="pc-icon" style="background: var(--pink-bg); color: var(--pink);"><i class="fas fa-brain"></i></div>
@@ -982,7 +1042,6 @@
           </div>
         </div>
 
-        <!-- Food Search Web -->
         <div class="project-card">
           <div class="pc-icon-row">
             <div class="pc-icon" style="background: var(--green-bg); color: var(--green);"><i class="fas fa-utensils"></i></div>
@@ -998,7 +1057,6 @@
           </div>
         </div>
 
-        <!-- Cloud Restaurant API -->
         <div class="project-card">
           <div class="pc-icon-row">
             <div class="pc-icon" style="background: var(--orange-bg); color: var(--orange);"><i class="fas fa-cloud"></i></div>
@@ -1014,7 +1072,6 @@
           </div>
         </div>
 
-        <!-- Build Lab MVP -->
         <div class="project-card">
           <div class="pc-icon-row">
             <div class="pc-icon" style="background: var(--accent-bg); color: var(--accent);"><i class="fas fa-rocket"></i></div>
@@ -1030,7 +1087,6 @@
           </div>
         </div>
 
-        <!-- AWS Internship Projects -->
         <div class="project-card">
           <div class="pc-icon-row">
             <div class="pc-icon" style="background: var(--cyan-bg); color: var(--cyan);"><i class="fab fa-aws"></i></div>
@@ -1045,27 +1101,40 @@
             <span class="tag tag-cyan">Glue</span>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <!-- Mood Station Forum -->
-        <div class="project-card">
-          <div class="pc-icon-row">
-            <div class="pc-icon" style="background: var(--accent-bg); color: var(--accent);"><i class="fas fa-comments"></i></div>
-            <a href="forum.html" class="pc-link"><i class="fas fa-external-link-alt"></i></a>
-          </div>
-          <div class="pc-title">Mood Station Forum</div>
-          <p class="pc-desc">Anonymous mood-sharing community with content moderation, sentiment detection, emoji support, and calming UI. Privacy-first design with local-only data storage.</p>
-          <div class="pc-tags">
-            <span class="tag tag-accent">JavaScript</span>
-            <span class="tag tag-accent">CSS</span>
-            <span class="tag tag-accent">localStorage</span>
-          </div>
+  <!-- ==================== BEYOND CODE ==================== -->
+  <section class="section" id="drives">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-label"><i class="fas fa-heart"></i> Beyond Code</div>
+        <h2 class="section-title">What Drives Me</h2>
+        <p class="section-desc">Engineering isn't just my job - it's how I think about the world.</p>
+      </div>
+      <div class="drives-grid">
+        <div class="drive-card">
+          <span class="drive-emoji">&#127919;</span>
+          <div class="drive-title">Ship It Mindset</div>
+          <div class="drive-desc">I love taking a product from zero to one. AutoSeek went from idea to 16K lines of production Swift in months - built solo, end-to-end, while juggling grad school.</div>
+        </div>
+        <div class="drive-card">
+          <span class="drive-emoji">&#9889;</span>
+          <div class="drive-title">Performance Obsessed</div>
+          <div class="drive-desc">Whether it's cutting 90% of API calls with Redis caching at AWS or eliminating DOM bottlenecks with viewport rendering, I find deep satisfaction in making things fast.</div>
+        </div>
+        <div class="drive-card">
+          <span class="drive-emoji">&#127758;</span>
+          <div class="drive-title">Full-Stack Curiosity</div>
+          <div class="drive-desc">From SwiftUI animations to Lambda caching layers, from WebSocket data pipelines to Stripe payment flows - I'm driven by the desire to understand every layer of the stack.</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ==================== CONTACT ==================== -->
-  <section class="section" id="contact">
+  <section class="section section-alt" id="contact">
     <div class="section-inner">
       <div class="section-header">
         <div class="section-label"><i class="fas fa-envelope"></i> Contact</div>
@@ -1166,6 +1235,47 @@
       setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
     });
 
+    // ==================== TYPING EFFECT ====================
+    const typingEl = document.getElementById('heroTyping');
+    const phrases = [
+      'Software Engineer with full-stack, cloud, and iOS expertise.',
+      'Columbia CS grad & former AWS SDE Intern.',
+      'Building scalable systems and delightful user experiences.',
+      'Shipped a 16K-line SwiftUI app from zero to one.',
+    ];
+    let phraseIdx = 0, charIdx = 0, isDeleting = false;
+
+    function typeEffect() {
+      const current = phrases[phraseIdx];
+
+      if (!isDeleting) {
+        typingEl.textContent = current.substring(0, charIdx + 1);
+        charIdx++;
+        if (charIdx === current.length) {
+          typingEl.classList.add('done');
+          setTimeout(() => {
+            typingEl.classList.remove('done');
+            isDeleting = true;
+            typeEffect();
+          }, 2200);
+          return;
+        }
+        setTimeout(typeEffect, 40 + Math.random() * 30);
+      } else {
+        typingEl.textContent = current.substring(0, charIdx - 1);
+        charIdx--;
+        if (charIdx === 0) {
+          isDeleting = false;
+          phraseIdx = (phraseIdx + 1) % phrases.length;
+          setTimeout(typeEffect, 400);
+          return;
+        }
+        setTimeout(typeEffect, 20);
+      }
+    }
+
+    setTimeout(typeEffect, 800);
+
     // ==================== NAV SCROLL ====================
     const nav = document.getElementById('nav');
     const sections = document.querySelectorAll('.section, .hero');
@@ -1174,7 +1284,6 @@
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 20);
 
-      // Active link
       let current = '';
       sections.forEach(s => {
         if (window.scrollY >= s.offsetTop - 200) {
@@ -1185,7 +1294,6 @@
         a.classList.toggle('active', a.getAttribute('href') === '#' + current);
       });
 
-      // Scroll to top
       document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 600);
     });
 
@@ -1214,17 +1322,40 @@
     const animObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.classList.add('visible');
-          }, i * 60);
+          setTimeout(() => entry.target.classList.add('visible'), i * 60);
           animObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-    document.querySelectorAll('.bento-card, .timeline-item, .edu-card, .skill-category, .project-featured, .project-card, .contact-card').forEach(el => {
+    document.querySelectorAll('.bento-card, .timeline-item, .edu-card, .skill-category, .project-featured, .project-card, .contact-card, .drive-card').forEach(el => {
       animObserver.observe(el);
     });
+
+    // ==================== ANIMATED COUNTERS ====================
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.getAttribute('data-target'));
+          const duration = 1500;
+          const start = performance.now();
+
+          function tick(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            // ease-out quad
+            const eased = 1 - (1 - progress) * (1 - progress);
+            el.textContent = Math.round(target * eased);
+            if (progress < 1) requestAnimationFrame(tick);
+          }
+          requestAnimationFrame(tick);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
 
     // ==================== CONTACT FORM ====================
     const form = document.getElementById('contactForm');
@@ -1237,7 +1368,6 @@
       const email = document.getElementById('email').value;
       const message = document.getElementById('message').value;
 
-      // Open mailto with pre-filled content
       const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
       const body = encodeURIComponent(`From: ${name} (${email})\n\n${message}`);
       window.open(`mailto:mg4774@columbia.edu?subject=${subject}&body=${body}`);
