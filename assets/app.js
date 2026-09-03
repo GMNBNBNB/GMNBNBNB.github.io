@@ -29,7 +29,10 @@
   if (themeToggle) {
     themeToggle.addEventListener('click', function () {
       var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      setTheme(next);
+      // fx-ui.js installs a circular View Transitions reveal centred on
+      // this button. It is decoration, so the swap has to work without it.
+      if (window.__themeWipe) window.__themeWipe(next, themeToggle, setTheme);
+      else setTheme(next);
     });
   }
 
@@ -233,4 +236,7 @@
       form.reset();
     });
   }
+
+  /* ---------- shared with fx-ui.js ---------- */
+  window.__SITE = { setTheme: setTheme, toast: showToast };
 })();

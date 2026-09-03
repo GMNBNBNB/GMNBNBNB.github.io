@@ -471,6 +471,10 @@ button, input, textarea { font-family: inherit; }
 .hero-card {
   position: relative; width: 100%; max-width: 340px;
   padding: 34px 28px 28px; text-align: center;
+  /* The float tags are parked at negative offsets so they straddle the
+     edge; `.glass` would otherwise clip them mid-word. Nothing here
+     relies on that clip - every pseudo uses inset + inherited radius. */
+  overflow: visible;
 }
 .hero-card::before {
   content: ''; position: absolute; inset: -1px; border-radius: inherit;
@@ -1163,3 +1167,230 @@ body { counter-reset: sec; }
   .tilt { transform: none !important; }
   .glass::after { display: none; }
 }
+
+
+/* ============================================================
+   COMMAND PALETTE  (Cmd/Ctrl + K)
+   Styled as a console, to match the hero's status-banner language.
+   ============================================================ */
+
+/* The nav affordance. Without a visible hint the shortcut may as well
+   not exist - nobody hits Cmd+K on a portfolio speculatively. */
+.kbd-hint {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 38px; padding: 0 10px 0 12px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 10px; color: var(--text-tertiary);
+  font-size: .8rem; cursor: pointer;
+  transition: color .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease);
+}
+.kbd-hint:hover { color: var(--text-primary); border-color: var(--border-hi); background: var(--bg-elevated); }
+.kbd-hint kbd {
+  font-family: var(--mono); font-size: .68rem; line-height: 1;
+  padding: 4px 6px; border-radius: 5px;
+  background: var(--bg-elevated); border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.cmdk { position: fixed; inset: 0; z-index: 300; display: grid; place-items: start center; }
+.cmdk[hidden] { display: none; }
+.cmdk-scrim {
+  position: absolute; inset: 0;
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  animation: cmdkFade .22s var(--ease);
+}
+@keyframes cmdkFade { from { opacity: 0 } }
+
+.cmdk-panel {
+  position: relative;
+  width: min(640px, calc(100vw - 32px));
+  margin-top: min(14vh, 120px);
+  background: color-mix(in srgb, var(--bg-soft) 94%, transparent);
+  border: 1px solid var(--border-hi);
+  border-radius: 16px;
+  box-shadow: 0 28px 90px rgba(0,0,0,.55), 0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent);
+  overflow: hidden;
+  animation: cmdkIn .26s var(--ease);
+}
+@keyframes cmdkIn { from { opacity: 0; transform: translateY(-10px) scale(.985) } }
+
+.cmdk-bar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 15px 16px; border-bottom: 1px solid var(--border);
+}
+.cmdk-prompt { font-family: var(--mono); color: var(--accent); font-size: 1.05rem; line-height: 1; }
+.cmdk-bar input {
+  flex: 1; background: none; border: none; outline: none;
+  color: var(--text-primary); font-size: 1rem; font-family: inherit;
+}
+.cmdk-bar input::placeholder { color: var(--text-tertiary); }
+.cmdk-esc {
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .06em;
+  padding: 4px 7px; border-radius: 5px;
+  background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-tertiary);
+}
+
+.cmdk-list { max-height: min(52vh, 400px); overflow-y: auto; padding: 8px; scrollbar-width: thin; }
+.cmdk-group {
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--text-tertiary); padding: 12px 10px 6px;
+}
+.cmdk-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px; border-radius: 10px; cursor: pointer;
+  border-left: 2px solid transparent;
+  color: var(--text-secondary);
+}
+.cmdk-item .ci-ico {
+  width: 26px; height: 26px; flex: none; display: grid; place-items: center;
+  border-radius: 7px; background: var(--bg-elevated); font-size: .78rem;
+  color: var(--ci-c, var(--accent));
+}
+.cmdk-item .ci-label { flex: 1; font-size: .92rem; }
+/* Matched characters lit up, so the fuzzy search shows its work. */
+.cmdk-item .ci-label b { color: var(--accent-light); font-weight: 700; }
+.cmdk-item .ci-hint {
+  font-family: var(--mono); font-size: .64rem; color: var(--text-tertiary);
+  padding: 3px 6px; border-radius: 5px; background: var(--bg-elevated);
+}
+.cmdk-item[aria-selected="true"] {
+  background: color-mix(in srgb, var(--accent) 13%, transparent);
+  border-left-color: var(--accent);
+  color: var(--text-primary);
+}
+.cmdk-item[aria-selected="true"] .ci-ico { background: color-mix(in srgb, var(--accent) 20%, transparent); }
+
+.cmdk-empty { padding: 30px 12px; text-align: center; color: var(--text-tertiary); font-size: .9rem; }
+.cmdk-empty code { font-family: var(--mono); color: var(--red); }
+
+.cmdk-foot {
+  display: flex; align-items: center; gap: 16px;
+  padding: 10px 16px; border-top: 1px solid var(--border);
+  font-size: .7rem; color: var(--text-tertiary); background: var(--bg-card);
+}
+.cmdk-foot kbd {
+  font-family: var(--mono); font-size: .62rem; padding: 2px 5px; margin-right: 3px;
+  border-radius: 4px; background: var(--bg-elevated); border: 1px solid var(--border);
+}
+.cmdk-foot .cmdk-brand { margin-left: auto; font-family: var(--mono); color: var(--accent); opacity: .75; }
+
+body.cmdk-open { overflow: hidden; }
+
+@media (max-width: 620px) { .cmdk-foot span:not(.cmdk-brand) { display: none; } }
+
+
+/* ============================================================
+   CURSOR-TRACKING BORDER GLOW
+   A 1px ring lit only where the pointer is. `.glass` already spends
+   ::before on the corner brackets and ::after on the inner spotlight,
+   so this rides an injected element instead of a third pseudo.
+   ============================================================ */
+.card-glow {
+  position: absolute; inset: 0; border-radius: inherit;
+  pointer-events: none; z-index: 4; padding: 1px;
+  opacity: 0; transition: opacity .45s var(--ease);
+  background: radial-gradient(200px circle at var(--mx, 50%) var(--my, 50%),
+              color-mix(in srgb, var(--accent) 85%, transparent),
+              color-mix(in srgb, var(--cyan) 30%, transparent) 42%,
+              transparent 68%);
+  /* Punch out the middle so only the border ring survives. */
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+}
+.glass:hover > .card-glow { opacity: 1; }
+@media (hover: none) { .card-glow { display: none; } }
+
+
+/* ============================================================
+   LIVE GITHUB READOUT
+   Real numbers pulled from the public API at load. Hidden entirely if
+   the request fails - a portfolio that says "0 repos" because of a
+   rate limit is worse than one that says nothing at all.
+   ============================================================ */
+.gh-live {
+  margin: 0 0 42px; padding: 18px 22px;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+.gh-live[hidden] { display: none; }
+
+.gh-live-head {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--mono); font-size: .68rem; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--text-tertiary);
+  margin-bottom: 16px;
+}
+.gh-live-head a {
+  margin-left: auto; color: var(--text-secondary); text-decoration: none;
+  letter-spacing: .04em; text-transform: none; font-size: .74rem;
+  transition: color .3s var(--ease);
+}
+.gh-live-head a:hover { color: var(--accent); }
+.gh-live-head a i { font-size: .62rem; margin-left: 3px; }
+
+/* The one thing on the page that blinks, because it is reporting that
+   something is genuinely live. 7px, so it cannot drive motion sickness. */
+.gh-dot {
+  width: 7px; height: 7px; border-radius: 50%; flex: none;
+  background: var(--green);
+  animation: ghPulse 2.4s var(--ease) infinite;
+}
+@keyframes ghPulse {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--green) 55%, transparent); }
+  70%  { box-shadow: 0 0 0 7px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+.gh-stats { display: flex; flex-wrap: wrap; gap: 30px; margin-bottom: 18px; }
+.gh-stat-v {
+  font-family: var(--mono); font-size: 1.5rem; font-weight: 700;
+  color: var(--text-primary); line-height: 1.1;
+}
+.gh-stat-v i { font-size: .95rem; margin-right: 5px; color: var(--amber); }
+.gh-stat-l {
+  font-size: .7rem; color: var(--text-tertiary); margin-top: 3px;
+  letter-spacing: .04em;
+}
+
+/* GitHub's own language bar, rebuilt. Segments are repo counts, not
+   bytes - this endpoint reports one language per repo, and the label
+   says so rather than implying a byte-level breakdown. */
+.gh-langbar {
+  display: flex; height: 8px; border-radius: 99px; overflow: hidden;
+  background: var(--bg-elevated); margin-bottom: 12px;
+}
+.gh-langbar i {
+  display: block; height: 100%;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .9s var(--ease);
+}
+.gh-live.in .gh-langbar i { transform: scaleX(1); }
+
+.gh-langs { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.gh-lang {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: .76rem; color: var(--text-secondary);
+}
+.gh-lang s { width: 9px; height: 9px; border-radius: 50%; background: var(--lc); }
+.gh-lang span { color: var(--text-tertiary); font-family: var(--mono); font-size: .68rem; }
+
+@media (max-width: 640px) {
+  .gh-live { padding: 16px; }
+  .gh-stats { gap: 20px; }
+  .gh-stat-v { font-size: 1.2rem; }
+}
+
+
+/* ============================================================
+   THEME WIPE
+   The circular reveal is driven by the View Transitions API in fx-ui.js.
+   Both snapshots must sit still while the clip-path does the work.
+   ============================================================ */
+::view-transition-old(root),
+::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
