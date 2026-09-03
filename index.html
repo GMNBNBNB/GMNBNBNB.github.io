@@ -1,633 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Meng Gao | Software Engineer</title>
-  <meta name="description" content="Meng Gao - Software Engineer, Columbia University MS CS, AWS SDE Intern. Full-stack & iOS developer." />
+  <meta name="description" content="Meng Gao - Software Engineer at Microsoft. Columbia MS CS, former AWS SDE Intern. Rust, Python, C#, Azure, distributed systems, SDK integration testing, and full-stack development." />
+  <meta name="theme-color" content="#06060a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --bg: #fafafa;
-      --bg-card: #ffffff;
-      --bg-elevated: #f5f5f7;
-      --text-primary: #1d1d1f;
-      --text-secondary: #6e6e73;
-      --text-tertiary: #aeaeb2;
-      --border: rgba(0,0,0,0.06);
-      --accent: #6366f1;
-      --accent-light: #818cf8;
-      --accent-bg: rgba(99,102,241,0.08);
-      --accent-bg-hover: rgba(99,102,241,0.14);
-      --green: #34d399;
-      --green-bg: rgba(52,211,153,0.1);
-      --orange: #fb923c;
-      --orange-bg: rgba(251,146,60,0.1);
-      --pink: #f472b6;
-      --pink-bg: rgba(244,114,182,0.1);
-      --cyan: #22d3ee;
-      --cyan-bg: rgba(34,211,238,0.1);
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
-      --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
-      --shadow-xl: 0 16px 50px rgba(0,0,0,0.1);
-      --radius: 16px;
-      --radius-sm: 10px;
-      --radius-xs: 6px;
-      --nav-bg: rgba(250,250,250,0.72);
-    }
-
-    [data-theme="dark"] {
-      --bg: #09090b;
-      --bg-card: #18181b;
-      --bg-elevated: #27272a;
-      --text-primary: #fafafa;
-      --text-secondary: #a1a1aa;
-      --text-tertiary: #71717a;
-      --border: rgba(255,255,255,0.06);
-      --accent: #818cf8;
-      --accent-light: #a5b4fc;
-      --accent-bg: rgba(129,140,248,0.12);
-      --accent-bg-hover: rgba(129,140,248,0.2);
-      --green-bg: rgba(52,211,153,0.12);
-      --orange-bg: rgba(251,146,60,0.12);
-      --pink-bg: rgba(244,114,182,0.12);
-      --cyan-bg: rgba(34,211,238,0.12);
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.2);
-      --shadow-md: 0 4px 12px rgba(0,0,0,0.3);
-      --shadow-lg: 0 8px 30px rgba(0,0,0,0.4);
-      --shadow-xl: 0 16px 50px rgba(0,0,0,0.5);
-      --nav-bg: rgba(9,9,11,0.72);
-    }
-
-    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text-primary);
-      line-height: 1.6;
-      transition: background 0.3s ease, color 0.3s ease;
-      overflow-x: hidden;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    /* ==================== NAV ==================== */
-    .nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: var(--nav-bg);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid var(--border);
-      transition: all 0.3s ease;
-    }
-    .nav.scrolled { box-shadow: var(--shadow-sm); }
-    .nav-inner {
-      max-width: 1200px; margin: 0 auto;
-      padding: 0 24px; height: 64px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .nav-logo {
-      font-size: 20px; font-weight: 800;
-      background: linear-gradient(135deg, var(--accent), var(--pink));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .nav-links { display: flex; align-items: center; gap: 4px; }
-    .nav-links a {
-      padding: 8px 16px; border-radius: 8px;
-      font-size: 14px; font-weight: 500;
-      color: var(--text-secondary);
-      transition: all 0.2s ease;
-    }
-    .nav-links a:hover, .nav-links a.active {
-      color: var(--text-primary);
-      background: var(--accent-bg);
-    }
-    .nav-actions { display: flex; align-items: center; gap: 8px; }
-    .nav-btn {
-      width: 40px; height: 40px; border: none; border-radius: 10px;
-      background: transparent; color: var(--text-secondary);
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      font-size: 16px; transition: all 0.2s ease;
-    }
-    .nav-btn:hover { background: var(--accent-bg); color: var(--text-primary); }
-    .mobile-menu-btn { display: none; }
-
-    .mobile-nav {
-      position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
-      background: var(--bg); z-index: 99;
-      padding: 24px; display: none;
-      flex-direction: column; gap: 4px;
-    }
-    .mobile-nav.open { display: flex; }
-    .mobile-nav a {
-      padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 500;
-      color: var(--text-secondary); transition: all 0.2s ease;
-    }
-    .mobile-nav a:hover { background: var(--accent-bg); color: var(--text-primary); }
-
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .mobile-menu-btn { display: flex; }
-    }
-
-    /* ==================== HERO ==================== */
-    .hero {
-      min-height: 100vh; display: flex; align-items: center;
-      position: relative; overflow: hidden;
-      padding: 120px 24px 80px;
-    }
-    /* Animated gradient mesh background */
-    .hero-mesh {
-      position: absolute; inset: 0; z-index: 0; overflow: hidden;
-    }
-    .hero-mesh .orb {
-      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4;
-      animation: orbMove 20s ease-in-out infinite;
-    }
-    .hero-mesh .orb-1 {
-      width: 500px; height: 500px; top: -10%; left: -5%;
-      background: var(--accent);
-      animation-duration: 22s;
-    }
-    .hero-mesh .orb-2 {
-      width: 400px; height: 400px; top: 20%; right: -10%;
-      background: var(--pink);
-      animation-duration: 18s; animation-delay: -5s;
-    }
-    .hero-mesh .orb-3 {
-      width: 350px; height: 350px; bottom: -5%; left: 30%;
-      background: var(--cyan);
-      animation-duration: 25s; animation-delay: -10s;
-    }
-    [data-theme="dark"] .hero-mesh .orb { opacity: 0.15; }
-
-    @keyframes orbMove {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      25% { transform: translate(60px, -40px) scale(1.1); }
-      50% { transform: translate(-30px, 50px) scale(0.95); }
-      75% { transform: translate(40px, 20px) scale(1.05); }
-    }
-
-    .hero-inner {
-      max-width: 1200px; margin: 0 auto; width: 100%;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
-      align-items: center; position: relative; z-index: 1;
-    }
-    .hero-content { animation: fadeUp 0.8s ease; }
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 16px 6px 8px; border-radius: 50px;
-      background: var(--accent-bg); color: var(--accent);
-      font-size: 13px; font-weight: 600; margin-bottom: 24px;
-    }
-    .hero-badge .dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--green); animation: pulse 2s infinite;
-    }
-    .hero-title {
-      font-size: clamp(40px, 5.5vw, 64px); font-weight: 900;
-      line-height: 1.1; margin-bottom: 20px; letter-spacing: -0.02em;
-    }
-    .hero-title .gradient {
-      background: linear-gradient(135deg, var(--accent), var(--pink));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    /* Typing effect */
-    .hero-typing-wrapper {
-      font-size: 18px; line-height: 1.7; color: var(--text-secondary);
-      margin-bottom: 32px; max-width: 520px; min-height: 3.4em;
-    }
-    .hero-typing {
-      border-right: 2px solid var(--accent);
-      animation: blink 0.8s step-end infinite;
-    }
-    .hero-typing.done { border-right-color: transparent; animation: none; }
-    @keyframes blink {
-      0%, 100% { border-right-color: var(--accent); }
-      50% { border-right-color: transparent; }
-    }
-
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 14px 28px; border-radius: 12px; font-size: 15px;
-      font-weight: 600; transition: all 0.2s ease; border: none; cursor: pointer;
-    }
-    .btn-primary {
-      background: var(--accent); color: #fff;
-      box-shadow: 0 4px 14px rgba(99,102,241,0.35);
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(99,102,241,0.45); }
-    .btn-secondary {
-      background: var(--bg-card); color: var(--text-primary);
-      border: 1px solid var(--border); box-shadow: var(--shadow-sm);
-    }
-    .btn-secondary:hover { background: var(--accent-bg); border-color: var(--accent); }
-
-    .hero-visual {
-      display: flex; justify-content: center; align-items: center;
-      animation: fadeUp 0.8s ease 0.2s both;
-    }
-    .hero-card {
-      width: 100%; max-width: 420px;
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 24px; padding: 32px; box-shadow: var(--shadow-lg);
-      position: relative;
-    }
-    .hero-avatar {
-      width: 80px; height: 80px; border-radius: 20px; overflow: hidden;
-      margin-bottom: 20px; box-shadow: var(--shadow-md);
-    }
-    .hero-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .hero-card-name { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-    .hero-card-role { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; }
-    .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .hero-stat {
-      text-align: center; padding: 14px 8px;
-      background: var(--bg-elevated); border-radius: 12px;
-    }
-    .hero-stat-value { font-size: 22px; font-weight: 800; color: var(--accent); }
-    .hero-stat-label { font-size: 11px; color: var(--text-tertiary); font-weight: 500; margin-top: 2px; }
-
-    .hero-float-tag {
-      position: absolute; padding: 8px 14px; border-radius: 10px;
-      background: var(--bg-card); border: 1px solid var(--border);
-      box-shadow: var(--shadow-md); font-size: 13px; font-weight: 600;
-      display: flex; align-items: center; gap: 6px;
-      animation: float 6s ease-in-out infinite;
-    }
-    .hero-float-tag.aws { top: -12px; right: -20px; animation-delay: 0s; }
-    .hero-float-tag.swift { bottom: 30px; left: -30px; animation-delay: 2s; }
-    .hero-float-tag.react { top: 50%; right: -36px; animation-delay: 4s; }
-
-    @media (max-width: 768px) {
-      .hero-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
-      .hero-typing-wrapper { margin-left: auto; margin-right: auto; }
-      .hero-actions { justify-content: center; }
-      .hero-float-tag { display: none; }
-    }
-
-    /* ==================== SECTIONS ==================== */
-    .section { padding: 100px 24px; }
-    .section-alt { background: var(--bg-elevated); }
-    .section-inner { max-width: 1200px; margin: 0 auto; }
-    .section-header { text-align: center; margin-bottom: 60px; }
-    .section-label {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 6px 14px; border-radius: 50px;
-      background: var(--accent-bg); color: var(--accent);
-      font-size: 13px; font-weight: 600; margin-bottom: 16px;
-    }
-    .section-title {
-      font-size: clamp(32px, 4vw, 44px); font-weight: 800;
-      letter-spacing: -0.02em; margin-bottom: 16px;
-    }
-    .section-desc { font-size: 17px; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
-
-    /* ==================== ABOUT / BENTO ==================== */
-    .bento-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: auto auto;
-      gap: 16px;
-    }
-    .bento-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 28px;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.3s ease;
-      opacity: 0; transform: translateY(20px);
-    }
-    .bento-card.visible { opacity: 1; transform: translateY(0); }
-    .bento-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
-    .bento-card.visible:hover { transform: translateY(-4px); }
-    .bento-main { grid-column: span 2; grid-row: span 2; }
-    .bento-wide { grid-column: span 2; }
-
-    .bento-icon {
-      width: 44px; height: 44px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; margin-bottom: 16px;
-    }
-    .bento-value { font-size: 36px; font-weight: 800; margin-bottom: 4px; }
-    .bento-label { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
-    .bento-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-top: 12px; }
-
-    /* Animated counter */
-    .counter { display: inline-block; }
-
-    @media (max-width: 768px) {
-      .bento-grid { grid-template-columns: repeat(2, 1fr); }
-      .bento-main { grid-column: span 2; grid-row: span 1; }
-    }
-
-    /* ==================== EXPERIENCE ==================== */
-    .timeline { position: relative; }
-    .timeline::before {
-      content: ''; position: absolute; left: 23px; top: 0; bottom: 0;
-      width: 2px; background: var(--border);
-    }
-    .timeline-item {
-      position: relative; padding-left: 64px; margin-bottom: 40px;
-      opacity: 0; transform: translateY(20px);
-    }
-    .timeline-item.visible { opacity: 1; transform: translateY(0); }
-    .timeline-dot {
-      position: absolute; left: 12px; top: 8px;
-      width: 24px; height: 24px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 10px; color: #fff; z-index: 1;
-    }
-    .timeline-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 28px;
-      box-shadow: var(--shadow-sm); transition: all 0.3s ease;
-    }
-    .timeline-card:hover { box-shadow: var(--shadow-md); }
-    .timeline-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
-    .timeline-company { font-size: 20px; font-weight: 700; }
-    .timeline-period {
-      font-size: 13px; font-weight: 500; color: var(--text-tertiary);
-      padding: 4px 12px; background: var(--bg-elevated); border-radius: 20px;
-      white-space: nowrap;
-    }
-    .timeline-role { font-size: 15px; font-weight: 600; color: var(--accent); margin-bottom: 4px; }
-    .timeline-location { font-size: 13px; color: var(--text-tertiary); margin-bottom: 16px; }
-    .timeline-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-    .timeline-bullets li {
-      font-size: 14px; color: var(--text-secondary); line-height: 1.6;
-      padding-left: 20px; position: relative;
-    }
-    .timeline-bullets li::before {
-      content: ''; position: absolute; left: 0; top: 9px;
-      width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
-    }
-    .timeline-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
-    .tag {
-      padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 500;
-    }
-    .tag-accent { background: var(--accent-bg); color: var(--accent); }
-    .tag-green { background: var(--green-bg); color: var(--green); }
-    .tag-orange { background: var(--orange-bg); color: var(--orange); }
-    .tag-pink { background: var(--pink-bg); color: var(--pink); }
-    .tag-cyan { background: var(--cyan-bg); color: var(--cyan); }
-
-    @media (max-width: 768px) {
-      .timeline::before { left: 15px; }
-      .timeline-item { padding-left: 48px; }
-      .timeline-dot { left: 4px; }
-    }
-
-    /* ==================== EDUCATION ==================== */
-    .edu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-    .edu-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 32px;
-      box-shadow: var(--shadow-sm); transition: all 0.3s ease;
-      opacity: 0; transform: translateY(20px);
-    }
-    .edu-card.visible { opacity: 1; transform: translateY(0); }
-    .edu-card:hover { box-shadow: var(--shadow-md); }
-    .edu-school-row { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
-    .edu-icon {
-      width: 52px; height: 52px; border-radius: 14px;
-      display: flex; align-items: center; justify-content: center; font-size: 22px; color: #fff; flex-shrink: 0;
-    }
-    .edu-school { font-size: 20px; font-weight: 700; }
-    .edu-degree { font-size: 15px; font-weight: 600; color: var(--accent); margin-bottom: 6px; }
-    .edu-meta { font-size: 13px; color: var(--text-tertiary); margin-bottom: 6px; }
-    .edu-dept { font-size: 13px; color: var(--text-tertiary); margin-bottom: 14px; }
-    .edu-courses { display: flex; flex-wrap: wrap; gap: 6px; }
-    .edu-course { padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 500; }
-
-    @media (max-width: 768px) { .edu-grid { grid-template-columns: 1fr; } }
-
-    /* ==================== SKILLS ==================== */
-    .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-    .skill-category {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 28px;
-      box-shadow: var(--shadow-sm); transition: all 0.3s ease;
-      opacity: 0; transform: translateY(20px);
-    }
-    .skill-category.visible { opacity: 1; transform: translateY(0); }
-    .skill-category:hover { box-shadow: var(--shadow-md); }
-    .skill-cat-icon {
-      width: 44px; height: 44px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; margin-bottom: 16px;
-    }
-    .skill-cat-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; }
-    .skill-list { display: flex; flex-wrap: wrap; gap: 6px; }
-    .skill-item {
-      padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 500;
-      background: var(--bg-elevated); color: var(--text-secondary);
-      transition: all 0.2s ease;
-    }
-    .skill-item:hover { background: var(--accent-bg); color: var(--accent); }
-
-    @media (max-width: 900px) { .skills-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 500px) { .skills-grid { grid-template-columns: 1fr; } }
-
-    /* ==================== WHAT DRIVES ME ==================== */
-    .drives-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .drive-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 32px; text-align: center;
-      box-shadow: var(--shadow-sm); transition: all 0.3s ease;
-      opacity: 0; transform: translateY(20px);
-    }
-    .drive-card.visible { opacity: 1; transform: translateY(0); }
-    .drive-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
-    .drive-card.visible:hover { transform: translateY(-4px); }
-    .drive-emoji { font-size: 40px; margin-bottom: 16px; display: block; }
-    .drive-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-    .drive-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
-
-    @media (max-width: 768px) { .drives-grid { grid-template-columns: 1fr; } }
-
-    /* ==================== PROJECTS ==================== */
-    .project-featured {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 24px; padding: 40px;
-      box-shadow: var(--shadow-sm); margin-bottom: 32px;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
-      transition: all 0.3s ease;
-      opacity: 0; transform: translateY(20px);
-    }
-    .project-featured.visible { opacity: 1; transform: translateY(0); }
-    .project-featured:hover { box-shadow: var(--shadow-md); }
-    .pf-badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 4px 12px; border-radius: 20px;
-      background: linear-gradient(135deg, var(--accent-bg), var(--pink-bg));
-      color: var(--accent); font-size: 12px; font-weight: 600;
-      margin-bottom: 16px;
-    }
-    .pf-title { font-size: 28px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.01em; }
-    .pf-subtitle { font-size: 14px; color: var(--text-tertiary); margin-bottom: 16px; }
-    .pf-desc { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px; }
-    .pf-highlights { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
-    .pf-highlights li {
-      font-size: 14px; color: var(--text-secondary); padding-left: 24px; position: relative; line-height: 1.5;
-    }
-    .pf-highlights li::before { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; left: 0; color: var(--green); font-size: 12px; }
-    .pf-stats-row { display: flex; gap: 24px; flex-wrap: wrap; }
-    .pf-stat-block { text-align: center; }
-    .pf-stat-num { font-size: 24px; font-weight: 800; color: var(--accent); }
-    .pf-stat-text { font-size: 12px; color: var(--text-tertiary); }
-
-    .pf-visual {
-      background: var(--bg-elevated); border-radius: var(--radius);
-      padding: 32px; display: flex; flex-direction: column; gap: 12px;
-    }
-    .pf-tech-row { display: flex; flex-wrap: wrap; gap: 8px; }
-    .pf-tech-item {
-      padding: 10px 16px; border-radius: 10px;
-      background: var(--bg-card); border: 1px solid var(--border);
-      font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px;
-    }
-    .pf-tech-item i { font-size: 16px; }
-
-    @media (max-width: 768px) {
-      .project-featured { grid-template-columns: 1fr; padding: 24px; }
-    }
-
-    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .project-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 28px;
-      box-shadow: var(--shadow-sm); transition: all 0.3s ease;
-      display: flex; flex-direction: column;
-      opacity: 0; transform: translateY(20px);
-    }
-    .project-card.visible { opacity: 1; transform: translateY(0); }
-    .project-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
-    .project-card.visible:hover { transform: translateY(-4px); }
-    .pc-icon-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-    .pc-icon {
-      width: 44px; height: 44px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center; font-size: 18px;
-    }
-    .pc-link { color: var(--text-tertiary); font-size: 16px; transition: color 0.2s; }
-    .pc-link:hover { color: var(--accent); }
-    .pc-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-    .pc-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; flex: 1; margin-bottom: 16px; }
-    .pc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-
-    @media (max-width: 768px) { .projects-grid { grid-template-columns: 1fr; } }
-
-    /* ==================== CONTACT ==================== */
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
-    .contact-card {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 32px;
-      box-shadow: var(--shadow-sm);
-      opacity: 0; transform: translateY(20px);
-    }
-    .contact-card.visible { opacity: 1; transform: translateY(0); }
-    .contact-item {
-      display: flex; align-items: center; gap: 16px;
-      padding: 16px; border-radius: 12px;
-      transition: background 0.2s; margin-bottom: 8px;
-    }
-    .contact-item:hover { background: var(--bg-elevated); }
-    .contact-item-icon {
-      width: 48px; height: 48px; border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px; flex-shrink: 0;
-    }
-    .contact-item-label { font-size: 13px; color: var(--text-tertiary); }
-    .contact-item-value { font-size: 15px; font-weight: 600; }
-    .contact-form { display: flex; flex-direction: column; gap: 16px; }
-    .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
-    .form-input {
-      width: 100%; padding: 14px 16px; border-radius: 10px;
-      border: 1px solid var(--border); background: var(--bg-elevated);
-      color: var(--text-primary); font-size: 15px; font-family: inherit;
-      transition: all 0.2s ease; outline: none;
-    }
-    .form-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-bg); }
-    textarea.form-input { resize: none; min-height: 120px; }
-
-    @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; } }
-
-    /* ==================== FOOTER ==================== */
-    .footer {
-      padding: 48px 24px 32px;
-      border-top: 1px solid var(--border);
-      background: var(--bg-card);
-    }
-    .footer-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
-    }
-    .footer-copy { font-size: 14px; color: var(--text-tertiary); }
-    .footer-links { display: flex; gap: 16px; }
-    .footer-link {
-      width: 40px; height: 40px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--bg-elevated); color: var(--text-secondary);
-      font-size: 16px; transition: all 0.2s ease;
-    }
-    .footer-link:hover { background: var(--accent-bg); color: var(--accent); }
-
-    /* ==================== ANIMATIONS ==================== */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    /* ==================== TOAST ==================== */
-    .toast {
-      position: fixed; bottom: 24px; right: 24px; z-index: 200;
-      padding: 14px 20px; border-radius: 12px;
-      background: var(--bg-card); border: 1px solid var(--border);
-      box-shadow: var(--shadow-lg); font-size: 14px; font-weight: 500;
-      display: flex; align-items: center; gap: 10px;
-      transform: translateY(100px); opacity: 0;
-      transition: all 0.3s ease;
-    }
-    .toast.show { transform: translateY(0); opacity: 1; }
-    .toast-success i { color: var(--green); }
-
-    /* ==================== SCROLL TO TOP ==================== */
-    .scroll-top {
-      position: fixed; bottom: 24px; left: 24px; z-index: 50;
-      width: 44px; height: 44px; border-radius: 12px;
-      background: var(--bg-card); border: 1px solid var(--border);
-      box-shadow: var(--shadow-md); display: flex; align-items: center; justify-content: center;
-      color: var(--text-secondary); cursor: pointer; font-size: 16px;
-      opacity: 0; transform: translateY(20px);
-      transition: all 0.3s ease;
-    }
-    .scroll-top.show { opacity: 1; transform: translateY(0); }
-    .scroll-top:hover { background: var(--accent-bg); color: var(--accent); }
-  </style>
+  <!-- Real vendor marks for the skills wall. If this fails to load the pills
+       still read fine - the glyphs simply collapse to zero width. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css" />
+  <link rel="stylesheet" href="assets/app.css" />
+  <script>
+    // Set the theme before first paint so there is no light flash.
+    // Key is versioned: the old site stored theme=light for everyone, which
+    // would pin returning visitors to light and hide the dark design.
+    (function () {
+      var t = 'dark';
+      try { if (localStorage.getItem('theme-v2') === 'light') t = 'light'; } catch (e) {}
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
 </head>
-
 <body>
+
+  <!-- ==================== AMBIENT LAYERS (static) ==================== -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
   <!-- ==================== NAV ==================== -->
   <header class="nav" id="nav">
+    <!-- Scroll progress. Driven off the existing scroll handler, so it costs
+         one style write per frame and no extra listener. -->
+    <div class="nav-progress" id="scrollProgress" aria-hidden="true"></div>
     <div class="nav-inner">
       <a href="#" class="nav-logo">MG</a>
-      <div class="nav-links" id="navLinks">
+      <nav class="nav-links" id="navLinks">
         <a href="#about">About</a>
         <a href="#experience">Experience</a>
         <a href="#education">Education</a>
@@ -635,12 +46,12 @@
         <a href="#projects">Projects</a>
         <a href="#drives">Beyond Code</a>
         <a href="#contact">Contact</a>
-      </div>
+      </nav>
       <div class="nav-actions">
-        <button class="nav-btn" id="themeToggle" aria-label="Toggle theme">
-          <i class="fas fa-moon"></i>
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">
+          <i class="fas fa-sun"></i>
         </button>
-        <button class="nav-btn mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+        <button class="icon-btn" id="mobileMenuBtn" aria-label="Menu">
           <i class="fas fa-bars"></i>
         </button>
       </div>
@@ -663,38 +74,45 @@
       <div class="orb orb-1"></div>
       <div class="orb orb-2"></div>
       <div class="orb orb-3"></div>
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
     </div>
+    <div class="hero-scan" aria-hidden="true"></div>
+
     <div class="hero-inner">
       <div class="hero-content">
-        <div class="hero-badge">
-          <span class="dot"></span>
-          Open to opportunities
-        </div>
+        <div class="hero-badge">Open to opportunities</div>
+
         <h1 class="hero-title">
           Hi, I'm <span class="gradient">Meng Gao</span>
         </h1>
+
         <div class="hero-typing-wrapper">
-          <span class="hero-typing" id="heroTyping"></span>
+          <span id="heroTyping"></span>
         </div>
+
         <div class="hero-actions">
           <a href="#projects" class="btn btn-primary">
             <i class="fas fa-rocket"></i> View Projects
           </a>
-          <a href="Meng_Gao_Resume (1).pdf" target="_blank" class="btn btn-secondary">
+          <a href="resume.html" target="_blank" class="btn btn-ghost">
             <i class="fas fa-file-alt"></i> Resume
           </a>
         </div>
       </div>
+
       <div class="hero-visual">
-        <div class="hero-card">
-          <div class="hero-float-tag aws"><i class="fab fa-aws" style="color: #ff9900"></i> AWS</div>
-          <div class="hero-float-tag swift"><i class="fab fa-swift" style="color: #f05138"></i> Swift</div>
-          <div class="hero-float-tag react"><i class="fab fa-react" style="color: #61dafb"></i> React</div>
+        <div class="hero-card glass tilt" data-tilt="9">
+          <div class="hero-float-tag tag-msft"><i class="fab fa-microsoft"></i> Azure</div>
+          <div class="hero-float-tag tag-aws"><i class="fab fa-aws"></i> AWS</div>
+          <div class="hero-float-tag tag-swift"><i class="fab fa-swift"></i> Swift</div>
+          <div class="hero-float-tag tag-react"><i class="fab fa-react"></i> React</div>
+
           <div class="hero-avatar">
             <img src="images/profile.jpg" alt="Meng Gao" />
           </div>
-          <div class="hero-card-name">Meng Gao</div>
-          <div class="hero-card-role">Software Engineer &middot; Columbia University</div>
+          <div class="hero-name">Meng Gao</div>
+          <div class="hero-role">Software Engineer &middot; Microsoft</div>
+
           <div class="hero-stats">
             <div class="hero-stat">
               <div class="hero-stat-value">3.76</div>
@@ -715,50 +133,67 @@
   </section>
 
   <!-- ==================== ABOUT ==================== -->
-  <section class="section section-alt" id="about">
+  <section class="section" id="about">
     <div class="section-inner">
-      <div class="section-header">
-        <div class="section-label"><i class="fas fa-user"></i> About</div>
-        <h2 class="section-title">At a Glance</h2>
-        <p class="section-desc">A quick snapshot of my background, strengths, and what I bring to the table.</p>
+      <div class="section-head">
+        <div class="section-tag"><i class="fas fa-user"></i> About</div>
+        <h2 class="section-title">At a <span class="gradient">Glance</span></h2>
+        <p class="section-sub">A quick snapshot of my background, strengths, and what I bring to the table.</p>
       </div>
+
       <div class="bento-grid">
-        <div class="bento-card bento-main">
+        <div class="bento-main glass tilt" data-tilt="4">
           <div class="bento-icon" style="background: var(--accent-bg); color: var(--accent);">
             <i class="fas fa-terminal"></i>
           </div>
-          <div class="bento-value" style="font-size: 28px; line-height: 1.3;">Full-Stack & iOS Engineer</div>
-          <div class="bento-desc">
-            Pursuing my Master's in Computer Science at Columbia University, I combine cloud-native backend expertise from AWS with a passion for crafting polished mobile and web experiences. From distributed caching layers on Lambda to a 16K-line SwiftUI car rental app, I thrive at the intersection of systems engineering and user-centric design.
-          </div>
+          <h3>Systems &amp; Full-Stack Engineer</h3>
+          <p>
+            Software Engineer at Microsoft, building SDK integration-test infrastructure and Linux build/release pipelines across Rust, Python, and C#. Before that I shipped cloud-native backends at AWS and a 16K-line SwiftUI app solo. Columbia MS CS. I like the layer where distributed systems meet the details users actually feel.
+          </p>
         </div>
-        <div class="bento-card">
-          <div class="bento-icon" style="background: var(--orange-bg); color: var(--orange);">
-            <i class="fab fa-aws"></i>
+
+        <div class="bento-card glass tilt" data-tilt="7">
+          <div class="bento-icon" style="background: var(--accent-bg); color: #00a4ef;">
+            <i class="fab fa-microsoft"></i>
           </div>
-          <div class="bento-value">AWS</div>
-          <div class="bento-label">SDE Intern &middot; Summer 2025</div>
+          <div class="bento-value">Microsoft</div>
+          <div class="bento-label">Software Engineer &middot; 2026 - Present</div>
+          <i class="fab fa-microsoft bento-ghost" aria-hidden="true"></i>
         </div>
-        <div class="bento-card">
+
+        <div class="bento-card glass tilt" data-tilt="7">
           <div class="bento-icon" style="background: var(--green-bg); color: var(--green);">
             <i class="fas fa-percentage"></i>
           </div>
           <div class="bento-value"><span class="counter" data-target="90">0</span>%</div>
           <div class="bento-label">API Calls Reduced via Redis Cache</div>
+          <!-- Only the two figures with a real denominator get a meter.
+               16K+ lines has nothing to be a fraction of. -->
+          <div class="meter" data-fill="90" style="--mc: var(--green);">
+            <span></span><em>90 / 100</em>
+          </div>
+          <i class="fas fa-percentage bento-ghost" aria-hidden="true"></i>
         </div>
-        <div class="bento-card">
+
+        <div class="bento-card glass tilt" data-tilt="7">
           <div class="bento-icon" style="background: var(--pink-bg); color: var(--pink);">
             <i class="fas fa-mobile-alt"></i>
           </div>
           <div class="bento-value"><span class="counter" data-target="16">0</span>K+</div>
           <div class="bento-label">Lines of Swift &middot; AutoSeek iOS</div>
+          <i class="fas fa-mobile-alt bento-ghost" aria-hidden="true"></i>
         </div>
-        <div class="bento-card">
+
+        <div class="bento-card glass tilt" data-tilt="7">
           <div class="bento-icon" style="background: var(--cyan-bg); color: var(--cyan);">
             <i class="fas fa-graduation-cap"></i>
           </div>
           <div class="bento-value">3.76</div>
           <div class="bento-label">Columbia MS CS GPA</div>
+          <div class="meter" data-fill="94" style="--mc: var(--cyan);">
+            <span></span><em>3.76 / 4.00</em>
+          </div>
+          <i class="fas fa-graduation-cap bento-ghost" aria-hidden="true"></i>
         </div>
       </div>
     </div>
@@ -767,33 +202,68 @@
   <!-- ==================== EXPERIENCE ==================== -->
   <section class="section" id="experience">
     <div class="section-inner">
-      <div class="section-header">
-        <div class="section-label"><i class="fas fa-briefcase"></i> Experience</div>
-        <h2 class="section-title">Where I've Worked</h2>
-        <p class="section-desc">Professional experience across cloud infrastructure, full-stack development, and web engineering.</p>
+      <div class="section-head">
+        <div class="section-tag"><i class="fas fa-briefcase"></i> Experience</div>
+        <h2 class="section-title">Where I've <span class="gradient">Worked</span></h2>
+        <p class="section-sub">Professional experience across SDK infrastructure, cloud platforms, full-stack development, and developer tooling.</p>
       </div>
+
       <div class="timeline">
+        <!-- Microsoft -->
+        <div class="timeline-item">
+          <span class="timeline-dot" style="background: #00a4ef; color: #00a4ef;"></span>
+          <div class="timeline-card glass">
+            <div class="tl-head">
+              <div>
+                <div class="tl-company">Microsoft</div>
+                <div class="tl-role">Software Engineer</div>
+              </div>
+              <div class="tl-meta">
+                Apr 2026 - Present<br />
+                <i class="fas fa-map-marker-alt"></i> United States
+              </div>
+            </div>
+            <ul class="tl-list">
+              <li>Authored and executed a <strong>three-phase integration-test plan</strong> for a Python SDK on Linux, delivering a reusable launcher and test framework, cloud CI enablement, and coverage for all core SDK operations</li>
+              <li>Built a language-agnostic <strong>.NET launcher</strong> and JSON process contract letting Python tests reuse existing agent lifecycle management, per-test isolation, platform configuration, and verification logic</li>
+              <li>Unified <strong>Python and Rust SDK validation</strong> through component-scoped pull-request pipelines and cloud ClientTests, cutting unrelated validation work while adding repeatable artifact packaging, setup, execution, and teardown</li>
+              <li>Delivered <strong>six Linux build and release milestones</strong> spanning Docker image publishing, official cloud validation, daily <strong>AKS</strong> deployment, local-build unification, image-tag reliability, and release documentation</li>
+              <li>Resolved flaky integration tests by isolating parallel test resources and switching mock services to OS-assigned ports, eliminating recurring port-binding conflicts in CI</li>
+            </ul>
+            <div class="tag-row">
+              <span class="tag tag-cyan">Rust</span>
+              <span class="tag tag-cyan">Python</span>
+              <span class="tag tag-cyan">.NET</span>
+              <span class="tag tag-cyan">AKS</span>
+              <span class="tag tag-cyan">Docker</span>
+              <span class="tag tag-cyan">Azure DevOps</span>
+            </div>
+          </div>
+        </div>
+
         <!-- AWS -->
         <div class="timeline-item">
-          <div class="timeline-dot" style="background: #ff9900;"><i class="fab fa-aws"></i></div>
-          <div class="timeline-card">
-            <div class="timeline-header">
+          <span class="timeline-dot" style="background: #ff9900; color: #ff9900;"></span>
+          <div class="timeline-card glass">
+            <div class="tl-head">
               <div>
-                <div class="timeline-company">Amazon Web Services</div>
-                <div class="timeline-role">Software Developer Engineer Intern</div>
-                <div class="timeline-location"><i class="fas fa-map-marker-alt"></i> Arlington, VA</div>
+                <div class="tl-company">Amazon Web Services</div>
+                <div class="tl-role">Software Developer Engineer Intern</div>
               </div>
-              <span class="timeline-period">Jun 2025 - Sep 2025</span>
+              <div class="tl-meta">
+                Jun 2025 - Sep 2025<br />
+                <i class="fas fa-map-marker-alt"></i> Arlington, VA
+              </div>
             </div>
-            <ul class="timeline-bullets">
+            <ul class="tl-list">
               <li>Architected URL persistence feature enhancing UX, leading to a <strong>40% increase</strong> in link sharing among users</li>
               <li>Developed sub-filtering function under global filter, resulting in <strong>20% increase</strong> in positive user feedback</li>
               <li>Refactored hard-coded configs with <strong>AWS AppConfig</strong> for dynamic management, reducing CI/CD pipeline load and enabling instant emergency notification deployment</li>
-              <li>Engineered agile release & rollback framework using <strong>Feature Flags</strong>, enabling safe in-production testing with differentiated views for devs and users</li>
-              <li>Built distributed caching layer using <strong>Redis</strong> (Cache-Aside Pattern) for Lambda & Glue, reducing external API calls by <strong>over 90%</strong></li>
+              <li>Engineered agile release &amp; rollback framework using <strong>Feature Flags</strong>, enabling safe in-production testing with differentiated views for devs and users</li>
+              <li>Built distributed caching layer using <strong>Redis</strong> (Cache-Aside Pattern) for Lambda &amp; Glue, reducing external API calls by <strong>over 90%</strong></li>
               <li>Authored 40+ integration tests eliminating <strong>3 hours</strong> of manual testing per release cycle</li>
             </ul>
-            <div class="timeline-tags">
+            <div class="tag-row">
               <span class="tag tag-orange">Lambda</span>
               <span class="tag tag-orange">Glue</span>
               <span class="tag tag-orange">AppConfig</span>
@@ -805,22 +275,24 @@
 
         <!-- Columbia Build Lab -->
         <div class="timeline-item">
-          <div class="timeline-dot" style="background: var(--accent);"><i class="fas fa-flask"></i></div>
-          <div class="timeline-card">
-            <div class="timeline-header">
+          <span class="timeline-dot" style="background: var(--accent); color: var(--accent);"></span>
+          <div class="timeline-card glass">
+            <div class="tl-head">
               <div>
-                <div class="timeline-company">Columbia Build Lab</div>
-                <div class="timeline-role">Full Stack Developer Intern</div>
-                <div class="timeline-location"><i class="fas fa-map-marker-alt"></i> New York, NY</div>
+                <div class="tl-company">Columbia Build Lab</div>
+                <div class="tl-role">Full Stack Developer Intern</div>
               </div>
-              <span class="timeline-period">Feb 2025 - May 2025</span>
+              <div class="tl-meta">
+                Feb 2025 - May 2025<br />
+                <i class="fas fa-map-marker-alt"></i> New York, NY
+              </div>
             </div>
-            <ul class="timeline-bullets">
+            <ul class="tl-list">
               <li>Engineered a full-stack MVP for an early-stage startup using <strong>React and Flask</strong>, enabling the client to secure initial user feedback and demonstrate core functionalities to investors</li>
               <li>Led architectural design of a high-concurrency, real-time data ingestion layer using <strong>WebSocket</strong> persistent connections for massive-scale device monitoring</li>
               <li>Established complete CI/CD pipeline using <strong>GitHub Actions</strong> with automated unit tests, E2E testing (Cypress), reducing production failures by <strong>90%</strong></li>
             </ul>
-            <div class="timeline-tags">
+            <div class="tag-row">
               <span class="tag tag-accent">React</span>
               <span class="tag tag-accent">Flask</span>
               <span class="tag tag-accent">WebSocket</span>
@@ -832,22 +304,24 @@
 
         <!-- Edu Technologic -->
         <div class="timeline-item">
-          <div class="timeline-dot" style="background: var(--green);"><i class="fas fa-code"></i></div>
-          <div class="timeline-card">
-            <div class="timeline-header">
+          <span class="timeline-dot" style="background: var(--green); color: var(--green);"></span>
+          <div class="timeline-card glass">
+            <div class="tl-head">
               <div>
-                <div class="timeline-company">Edu Technologic, LLC</div>
-                <div class="timeline-role">Web Developer Intern</div>
-                <div class="timeline-location"><i class="fas fa-map-marker-alt"></i> Columbus, OH</div>
+                <div class="tl-company">Edu Technologic, LLC</div>
+                <div class="tl-role">Web Developer Intern</div>
               </div>
-              <span class="timeline-period">May 2024 - Aug 2024</span>
+              <div class="tl-meta">
+                May 2024 - Aug 2024<br />
+                <i class="fas fa-map-marker-alt"></i> Columbus, OH
+              </div>
             </div>
-            <ul class="timeline-bullets">
+            <ul class="tl-list">
               <li>Drove responsive development ensuring functional integrity and visual consistency across all mobile devices, enhancing <strong>cross-platform UX</strong></li>
               <li>Resolved critical performance bottleneck from excessive DOM elements by implementing <strong>viewport-based rendering</strong> for instant loading and smooth scrolling</li>
               <li>Refactored duplicated UI elements into configurable, <strong>shared components</strong>, establishing foundation for scalability and rapid development</li>
             </ul>
-            <div class="timeline-tags">
+            <div class="tag-row">
               <span class="tag tag-green">JavaScript</span>
               <span class="tag tag-green">Responsive Design</span>
               <span class="tag tag-green">Performance</span>
@@ -859,42 +333,58 @@
   </section>
 
   <!-- ==================== EDUCATION ==================== -->
-  <section class="section section-alt" id="education">
+  <section class="section" id="education">
     <div class="section-inner">
-      <div class="section-header">
-        <div class="section-label"><i class="fas fa-graduation-cap"></i> Education</div>
-        <h2 class="section-title">Academic Background</h2>
+      <div class="section-head">
+        <div class="section-tag"><i class="fas fa-graduation-cap"></i> Education</div>
+        <h2 class="section-title">Academic <span class="gradient">Background</span></h2>
       </div>
+
       <div class="edu-grid">
-        <div class="edu-card">
-          <div class="edu-school-row">
-            <div class="edu-icon" style="background: linear-gradient(135deg, #1e40af, #6366f1);"><i class="fas fa-university"></i></div>
-            <div class="edu-school">Columbia University</div>
+        <div class="edu-card glass tilt" data-tilt="5">
+          <div class="edu-top">
+            <div class="edu-logo" style="background: linear-gradient(135deg, #1e40af, #6366f1);">
+              <i class="fas fa-university"></i>
+            </div>
+            <div>
+              <div class="edu-school">Columbia University</div>
+              <div class="edu-degree">Master of Science, Computer Science</div>
+            </div>
           </div>
-          <div class="edu-degree">Master of Science, Computer Science</div>
-          <div class="edu-meta">Sep 2024 - Dec 2025 &middot; GPA: 3.76 / 4.00</div>
-          <div class="edu-dept">Fu Foundation School of Engineering and Applied Science</div>
-          <div class="edu-courses">
-            <span class="edu-course tag-accent tag">NLP</span>
-            <span class="edu-course tag-accent tag">Cloud Computing</span>
-            <span class="edu-course tag-accent tag">Database</span>
-            <span class="edu-course tag-accent tag">Computer Vision</span>
-            <span class="edu-course tag-accent tag">UI Design</span>
+          <div class="edu-meta">
+            <span>Sep 2024 - Dec 2025</span>
+            <span>GPA: <strong>3.76 / 4.00</strong></span>
+          </div>
+          <div class="edu-courses-label">Fu Foundation School of Engineering and Applied Science</div>
+          <div class="tag-row">
+            <span class="tag tag-accent">NLP</span>
+            <span class="tag tag-accent">Cloud Computing</span>
+            <span class="tag tag-accent">Database</span>
+            <span class="tag tag-accent">Computer Vision</span>
+            <span class="tag tag-accent">UI Design</span>
           </div>
         </div>
-        <div class="edu-card">
-          <div class="edu-school-row">
-            <div class="edu-icon" style="background: linear-gradient(135deg, #dc2626, #f97316);"><i class="fas fa-graduation-cap"></i></div>
-            <div class="edu-school">The Ohio State University</div>
+
+        <div class="edu-card glass tilt" data-tilt="5">
+          <div class="edu-top">
+            <div class="edu-logo" style="background: linear-gradient(135deg, #dc2626, #f97316);">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div>
+              <div class="edu-school">The Ohio State University</div>
+              <div class="edu-degree">Bachelor of Science, Computer Science &amp; Engineering</div>
+            </div>
           </div>
-          <div class="edu-degree">Bachelor of Science, Computer Science & Engineering</div>
-          <div class="edu-meta">Aug 2021 - Aug 2024 &middot; GPA: 3.77 / 4.00</div>
-          <div class="edu-dept">Department of Computer Science & Engineering</div>
-          <div class="edu-courses">
-            <span class="edu-course tag-pink tag">Operating Systems</span>
-            <span class="edu-course tag-pink tag">AI</span>
-            <span class="edu-course tag-pink tag">Algorithms</span>
-            <span class="edu-course tag-pink tag">Networks</span>
+          <div class="edu-meta">
+            <span>Aug 2021 - Aug 2024</span>
+            <span>GPA: <strong>3.77 / 4.00</strong></span>
+          </div>
+          <div class="edu-courses-label">Department of Computer Science &amp; Engineering</div>
+          <div class="tag-row">
+            <span class="tag tag-pink">Operating Systems</span>
+            <span class="tag tag-pink">AI</span>
+            <span class="tag tag-pink">Algorithms</span>
+            <span class="tag tag-pink">Networks</span>
           </div>
         </div>
       </div>
@@ -904,66 +394,135 @@
   <!-- ==================== SKILLS ==================== -->
   <section class="section" id="skills">
     <div class="section-inner">
-      <div class="section-header">
-        <div class="section-label"><i class="fas fa-tools"></i> Skills</div>
-        <h2 class="section-title">Technologies I Work With</h2>
+      <div class="section-head">
+        <div class="section-tag"><i class="fas fa-tools"></i> Skills</div>
+        <h2 class="section-title">Technologies I <span class="gradient">Work With</span></h2>
       </div>
+
       <div class="skills-grid">
-        <div class="skill-category">
-          <div class="skill-cat-icon" style="background: var(--accent-bg); color: var(--accent);"><i class="fas fa-laptop-code"></i></div>
-          <div class="skill-cat-title">Languages</div>
-          <div class="skill-list">
-            <span class="skill-item">Java</span>
-            <span class="skill-item">Python</span>
-            <span class="skill-item">Swift</span>
-            <span class="skill-item">JavaScript</span>
-            <span class="skill-item">SQL</span>
-            <span class="skill-item">C/C++</span>
-            <span class="skill-item">C#</span>
-            <span class="skill-item">CSS</span>
+        <div class="skill-category glass tilt" data-tilt="6">
+          <div class="skill-head">
+            <div class="skill-icon" style="background: var(--accent-bg); color: var(--accent);"><i class="fas fa-laptop-code"></i></div>
+            <div class="skill-title">Languages</div>
+          </div>
+          <div class="skill-items">
+            <span class="skill-item"><i class="devicon-rust-original"></i>Rust</span>
+            <span class="skill-item"><i class="devicon-python-plain colored"></i>Python</span>
+            <span class="skill-item"><i class="devicon-csharp-plain colored"></i>C#</span>
+            <span class="skill-item"><i class="devicon-java-plain colored"></i>Java</span>
+            <span class="skill-item"><i class="devicon-swift-plain colored"></i>Swift</span>
+            <span class="skill-item"><i class="devicon-javascript-plain colored"></i>JavaScript</span>
+            <span class="skill-item"><i class="fas fa-database"></i>SQL</span>
+            <span class="skill-item"><i class="devicon-cplusplus-plain colored"></i>C/C++</span>
           </div>
         </div>
-        <div class="skill-category">
-          <div class="skill-cat-icon" style="background: var(--green-bg); color: var(--green);"><i class="fas fa-layer-group"></i></div>
-          <div class="skill-cat-title">Frameworks & Libraries</div>
-          <div class="skill-list">
-            <span class="skill-item">React</span>
-            <span class="skill-item">Angular</span>
-            <span class="skill-item">SwiftUI</span>
-            <span class="skill-item">Flask</span>
-            <span class="skill-item">PyTorch</span>
-            <span class="skill-item">MapKit</span>
-            <span class="skill-item">Stripe SDK</span>
+
+        <div class="skill-category glass tilt" data-tilt="6">
+          <div class="skill-head">
+            <div class="skill-icon" style="background: var(--cyan-bg); color: var(--cyan);"><i class="fas fa-cloud"></i></div>
+            <div class="skill-title">Cloud &amp; Infrastructure</div>
+          </div>
+          <div class="skill-items">
+            <span class="skill-item"><i class="devicon-azure-plain colored"></i>Azure</span>
+            <span class="skill-item"><i class="devicon-kubernetes-plain colored"></i>AKS</span>
+            <span class="skill-item"><i class="devicon-kubernetes-plain colored"></i>Kubernetes</span>
+            <span class="skill-item"><i class="devicon-docker-plain colored"></i>Docker</span>
+            <span class="skill-item"><i class="devicon-amazonwebservices-plain-wordmark"></i>AWS</span>
+            <span class="skill-item"><i class="fas fa-bolt"></i>Lambda</span>
+            <span class="skill-item"><i class="fas fa-diagram-project"></i>Glue</span>
+            <span class="skill-item"><i class="devicon-linux-plain"></i>Linux</span>
+            <span class="skill-item"><i class="fas fa-arrows-rotate"></i>CI/CD</span>
+            <span class="skill-item"><i class="devicon-azuredevops-plain colored"></i>Azure DevOps</span>
+            <span class="skill-item"><i class="devicon-github-original"></i>GitHub Actions</span>
           </div>
         </div>
-        <div class="skill-category">
-          <div class="skill-cat-icon" style="background: var(--orange-bg); color: var(--orange);"><i class="fab fa-aws"></i></div>
-          <div class="skill-cat-title">Cloud & Databases</div>
-          <div class="skill-list">
-            <span class="skill-item">EC2</span>
-            <span class="skill-item">S3</span>
-            <span class="skill-item">Lambda</span>
-            <span class="skill-item">RDS</span>
-            <span class="skill-item">Glue</span>
-            <span class="skill-item">AppConfig</span>
-            <span class="skill-item">GCP</span>
-            <span class="skill-item">MySQL</span>
-            <span class="skill-item">MongoDB</span>
-            <span class="skill-item">Supabase</span>
-            <span class="skill-item">Firebase</span>
+
+        <div class="skill-category glass tilt" data-tilt="6">
+          <div class="skill-head">
+            <div class="skill-icon" style="background: var(--green-bg); color: var(--green);"><i class="fas fa-vial"></i></div>
+            <div class="skill-title">SDK, Testing &amp; Systems</div>
+          </div>
+          <div class="skill-items">
+            <span class="skill-item"><i class="fas fa-vial-circle-check"></i>Integration Testing</span>
+            <span class="skill-item"><i class="fas fa-route"></i>End-to-End Testing</span>
+            <span class="skill-item"><i class="fas fa-robot"></i>Test Automation</span>
+            <span class="skill-item"><i class="fas fa-network-wired"></i>Distributed Systems</span>
+            <span class="skill-item"><i class="fas fa-tower-broadcast"></i>gRPC</span>
+            <span class="skill-item"><i class="fas fa-file-code"></i>Protobuf</span>
+            <span class="skill-item"><i class="fas fa-lock"></i>TLS</span>
+            <span class="skill-item"><i class="fas fa-check-double"></i>Cypress</span>
           </div>
         </div>
-        <div class="skill-category">
-          <div class="skill-cat-icon" style="background: var(--pink-bg); color: var(--pink);"><i class="fas fa-wrench"></i></div>
-          <div class="skill-cat-title">Tools & Platforms</div>
-          <div class="skill-list">
-            <span class="skill-item">Git</span>
-            <span class="skill-item">Docker</span>
-            <span class="skill-item">Linux</span>
-            <span class="skill-item">Elasticsearch</span>
-            <span class="skill-item">Redis</span>
-            <span class="skill-item">GitHub Actions</span>
-            <span class="skill-item">Xcode</span>
+
+        <div class="skill-category glass tilt" data-tilt="6">
+          <div class="skill-head">
+            <div class="skill-icon" style="background: var(--pink-bg); color: var(--pink);"><i class="fas fa-layer-group"></i></div>
+            <div class="skill-title">Frameworks &amp; Data</div>
+          </div>
+          <div class="skill-items">
+            <span class="skill-item"><i class="devicon-react-original colored"></i>React</span>
+            <span class="skill-item"><i class="devicon-swift-plain colored"></i>SwiftUI</span>
+            <span class="skill-item"><i class="devicon-flask-original"></i>Flask</span>
+            <span class="skill-item"><i class="devicon-pytorch-original colored"></i>PyTorch</span>
+            <span class="skill-item"><i class="devicon-scikitlearn-plain colored"></i>scikit-learn</span>
+            <span class="skill-item"><i class="devicon-redis-plain colored"></i>Redis</span>
+            <span class="skill-item"><i class="devicon-elasticsearch-plain colored"></i>Elasticsearch</span>
+            <span class="skill-item"><i class="devicon-mysql-plain colored"></i>MySQL</span>
+            <span class="skill-item"><i class="devicon-mongodb-plain colored"></i>MongoDB</span>
+            <span class="skill-item"><i class="devicon-firebase-plain colored"></i>Firebase</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logo band. Two identical runs slide left by exactly half the track,
+           so the seam lands where the second run's first logo replaces the
+           first run's - the loop is invisible. Motion is confined to this
+           strip, and the edges are masked so nothing pops in or out. -->
+      <div class="logo-band" aria-hidden="true">
+        <div class="logo-track">
+          <div class="logo-run">
+            <i class="devicon-rust-original"></i>
+            <i class="devicon-python-plain colored"></i>
+            <i class="devicon-csharp-plain colored"></i>
+            <i class="devicon-dot-net-plain colored"></i>
+            <i class="devicon-swift-plain colored"></i>
+            <i class="devicon-java-plain colored"></i>
+            <i class="devicon-javascript-plain colored"></i>
+            <i class="devicon-react-original colored"></i>
+            <i class="devicon-azure-plain colored"></i>
+            <i class="devicon-amazonwebservices-plain-wordmark"></i>
+            <i class="devicon-kubernetes-plain colored"></i>
+            <i class="devicon-docker-plain colored"></i>
+            <i class="devicon-linux-plain"></i>
+            <i class="devicon-git-plain colored"></i>
+            <i class="devicon-redis-plain colored"></i>
+            <i class="devicon-mongodb-plain colored"></i>
+            <i class="devicon-mysql-plain colored"></i>
+            <i class="devicon-elasticsearch-plain colored"></i>
+            <i class="devicon-pytorch-original colored"></i>
+            <i class="devicon-firebase-plain colored"></i>
+          </div>
+          <div class="logo-run">
+            <i class="devicon-rust-original"></i>
+            <i class="devicon-python-plain colored"></i>
+            <i class="devicon-csharp-plain colored"></i>
+            <i class="devicon-dot-net-plain colored"></i>
+            <i class="devicon-swift-plain colored"></i>
+            <i class="devicon-java-plain colored"></i>
+            <i class="devicon-javascript-plain colored"></i>
+            <i class="devicon-react-original colored"></i>
+            <i class="devicon-azure-plain colored"></i>
+            <i class="devicon-amazonwebservices-plain-wordmark"></i>
+            <i class="devicon-kubernetes-plain colored"></i>
+            <i class="devicon-docker-plain colored"></i>
+            <i class="devicon-linux-plain"></i>
+            <i class="devicon-git-plain colored"></i>
+            <i class="devicon-redis-plain colored"></i>
+            <i class="devicon-mongodb-plain colored"></i>
+            <i class="devicon-mysql-plain colored"></i>
+            <i class="devicon-elasticsearch-plain colored"></i>
+            <i class="devicon-pytorch-original colored"></i>
+            <i class="devicon-firebase-plain colored"></i>
           </div>
         </div>
       </div>
@@ -971,17 +530,17 @@
   </section>
 
   <!-- ==================== PROJECTS ==================== -->
-  <section class="section section-alt" id="projects">
+  <section class="section" id="projects">
     <div class="section-inner">
-      <div class="section-header">
-        <div class="section-label"><i class="fas fa-code-branch"></i> Projects</div>
-        <h2 class="section-title">What I've Built</h2>
-        <p class="section-desc">Featured work from personal projects, internships, and coursework.</p>
+      <div class="section-head">
+        <div class="section-tag"><i class="fas fa-code-branch"></i> Projects</div>
+        <h2 class="section-title">What I've <span class="gradient">Built</span></h2>
+        <p class="section-sub">Featured work from personal projects, internships, and coursework.</p>
       </div>
 
       <!-- Featured: AutoSeek -->
-      <div class="project-featured">
-        <div>
+      <div class="project-featured glass">
+        <div class="pf-body">
           <div class="pf-badge"><i class="fas fa-star"></i> Featured Project</div>
           <div class="pf-title">AutoSeek</div>
           <div class="pf-subtitle">P2P Car Rental Platform &middot; iOS &middot; Solo Developer</div>
@@ -992,113 +551,161 @@
             <li>Geo-alias matching, Apple Maps discovery, Stripe pre-auth (full/installment/deposit)</li>
             <li>Host platform: 5-step listing wizard, dashboard, real-time earnings analytics</li>
             <li>Auth with SHA-256, email verification, GDPR-compliant deletion with 30-day grace</li>
-            <li>Real-time messaging & push notifications (FCM) with deep link routing</li>
+            <li>Real-time messaging &amp; push notifications (FCM) with deep link routing</li>
             <li>15 singleton services, multi-layer caching (NSCache + disk), async/await networking</li>
           </ul>
-          <div class="pf-stats-row">
+          <div class="pf-stats">
             <div class="pf-stat-block">
-              <div class="pf-stat-num"><span class="counter" data-target="36">0</span></div>
-              <div class="pf-stat-text">Swift Files</div>
+              <div class="pf-stat-value"><span class="counter" data-target="36">0</span></div>
+              <div class="pf-stat-label">Swift Files</div>
             </div>
             <div class="pf-stat-block">
-              <div class="pf-stat-num"><span class="counter" data-target="16">0</span>K+</div>
-              <div class="pf-stat-text">Lines of Code</div>
+              <div class="pf-stat-value"><span class="counter" data-target="16">0</span>K+</div>
+              <div class="pf-stat-label">Lines of Code</div>
             </div>
             <div class="pf-stat-block">
-              <div class="pf-stat-num"><span class="counter" data-target="15">0</span></div>
-              <div class="pf-stat-text">Services</div>
+              <div class="pf-stat-value"><span class="counter" data-target="15">0</span></div>
+              <div class="pf-stat-label">Services</div>
             </div>
           </div>
         </div>
+
         <div class="pf-visual">
-          <div style="font-size: 15px; font-weight: 700; margin-bottom: 4px;">Tech Stack</div>
-          <div class="pf-tech-row">
-            <div class="pf-tech-item"><i class="fab fa-swift" style="color: #f05138;"></i> SwiftUI</div>
-            <div class="pf-tech-item"><i class="fas fa-bolt" style="color: var(--orange);"></i> Swift Concurrency</div>
-            <div class="pf-tech-item"><i class="fas fa-map" style="color: var(--green);"></i> MapKit</div>
-            <div class="pf-tech-item"><i class="fab fa-stripe-s" style="color: #635bff;"></i> Stripe SDK</div>
-            <div class="pf-tech-item"><i class="fas fa-fire" style="color: #ffca28;"></i> Firebase</div>
-            <div class="pf-tech-item"><i class="fas fa-database" style="color: var(--cyan);"></i> Supabase</div>
-            <div class="pf-tech-item"><i class="fas fa-lock" style="color: var(--pink);"></i> CryptoKit</div>
-            <div class="pf-tech-item"><i class="fas fa-globe" style="color: var(--accent);"></i> WKWebView</div>
+          <!-- Device mockup drawn in CSS; the screen is a generated animation,
+               not a screenshot of the real app. -->
+          <div class="phone" aria-hidden="true">
+            <div class="phone-screen">
+              <canvas data-mode="phone" data-color="accent"></canvas>
+              <div class="phone-notch"></div>
+              <div class="phone-ui">
+                <div class="phone-chip"><i class="fas fa-location-dot"></i> Geo-alias matching</div>
+                <div class="phone-chip"><i class="fab fa-stripe-s"></i> Stripe pre-auth</div>
+                <div class="phone-chip"><i class="fas fa-bolt"></i> async/await networking</div>
+              </div>
+              <div class="phone-home"></div>
+            </div>
+          </div>
+
+          <div class="pf-stack">
+            <div class="pf-stack-label">Tech Stack</div>
+            <div class="pf-tech-grid">
+              <div class="pf-tech-item"><i class="fab fa-swift" style="color: #f05138;"></i> SwiftUI</div>
+              <div class="pf-tech-item"><i class="fas fa-bolt" style="color: var(--orange);"></i> Swift Concurrency</div>
+              <div class="pf-tech-item"><i class="fas fa-map" style="color: var(--green);"></i> MapKit</div>
+              <div class="pf-tech-item"><i class="fab fa-stripe-s" style="color: #635bff;"></i> Stripe SDK</div>
+              <div class="pf-tech-item"><i class="fas fa-fire" style="color: #ffca28;"></i> Firebase</div>
+              <div class="pf-tech-item"><i class="fas fa-database" style="color: var(--cyan);"></i> Supabase</div>
+              <div class="pf-tech-item"><i class="fas fa-lock" style="color: var(--pink);"></i> CryptoKit</div>
+              <div class="pf-tech-item"><i class="fas fa-globe" style="color: var(--accent);"></i> WKWebView</div>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Other Projects Grid -->
       <div class="projects-grid">
-        <div class="project-card">
-          <div class="pc-icon-row">
-            <div class="pc-icon" style="background: var(--pink-bg); color: var(--pink);"><i class="fas fa-brain"></i></div>
-            <a href="https://github.com/GMNBNBNB" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i></a>
+        <div class="project-card glass tilt" data-tilt="6">
+          <div class="pc-cover">
+            <canvas data-mode="waves" data-color="pink"></canvas>
+            <div class="pc-cover-icon" style="color: var(--pink);"><i class="fas fa-brain"></i></div>
+            <div class="pc-year">2024</div>
           </div>
-          <div class="pc-title">Speech Emotion Recognition</div>
-          <p class="pc-desc">End-to-end ML pipeline classifying 7 emotion categories from speech audio. Engineered acoustic features with Parselmouth and openSMILE. Optimized SVM with RBF kernel via hyperparameter tuning.</p>
-          <div class="pc-tags">
-            <span class="tag tag-pink">Scikit-learn</span>
-            <span class="tag tag-pink">SVM</span>
-            <span class="tag tag-pink">openSMILE</span>
-            <span class="tag tag-pink">NLP</span>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="pc-icon-row">
-            <div class="pc-icon" style="background: var(--green-bg); color: var(--green);"><i class="fas fa-utensils"></i></div>
-            <a href="https://github.com/GMNBNBNB" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i></a>
-          </div>
-          <div class="pc-title">Food Search Web</div>
-          <p class="pc-desc">Intelligent food search app with AI chatbot for personalized dish recommendations. Entity extraction and fuzzy matching with Elasticsearch, grounded via RAG for real-time accuracy.</p>
-          <div class="pc-tags">
-            <span class="tag tag-green">Elasticsearch</span>
-            <span class="tag tag-green">OpenAI</span>
-            <span class="tag tag-green">Flask</span>
-            <span class="tag tag-green">RAG</span>
+          <div class="pc-body">
+            <div class="pc-title">Speech Emotion Recognition</div>
+            <p class="pc-desc">End-to-end ML pipeline classifying 7 emotion categories from speech audio. Engineered acoustic features with Parselmouth and openSMILE. Optimized SVM with RBF kernel via hyperparameter tuning.</p>
+            <div class="pc-tags">
+              <span class="tag tag-pink">Scikit-learn</span>
+              <span class="tag tag-pink">SVM</span>
+              <span class="tag tag-pink">openSMILE</span>
+              <span class="tag tag-pink">NLP</span>
+            </div>
+            <a href="https://github.com/GMNBNBNB" target="_blank" rel="noopener" class="pc-link">
+              View on GitHub <i class="fas fa-arrow-right"></i>
+            </a>
           </div>
         </div>
 
-        <div class="project-card">
-          <div class="pc-icon-row">
-            <div class="pc-icon" style="background: var(--orange-bg); color: var(--orange);"><i class="fas fa-cloud"></i></div>
-            <a href="https://github.com/GMNBNBNB" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i></a>
+        <div class="project-card glass tilt" data-tilt="6">
+          <div class="pc-cover">
+            <canvas data-mode="mesh" data-color="green"></canvas>
+            <div class="pc-cover-icon" style="color: var(--green);"><i class="fas fa-utensils"></i></div>
+            <div class="pc-year">2025</div>
           </div>
-          <div class="pc-title">Cloud Restaurant Management API</div>
-          <p class="pc-desc">20+ RESTful APIs using Python Flask integrated with AWS RDS, EC2, and Elastic Beanstalk. Angular frontend for real-time data retrieval with Google Cloud SQL backend.</p>
-          <div class="pc-tags">
-            <span class="tag tag-orange">Flask</span>
-            <span class="tag tag-orange">AWS</span>
-            <span class="tag tag-orange">Angular</span>
-            <span class="tag tag-orange">GCP</span>
-          </div>
-        </div>
-
-        <div class="project-card">
-          <div class="pc-icon-row">
-            <div class="pc-icon" style="background: var(--accent-bg); color: var(--accent);"><i class="fas fa-rocket"></i></div>
-            <a href="https://github.com/GMNBNBNB" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i></a>
-          </div>
-          <div class="pc-title">Startup MVP (Build Lab)</div>
-          <p class="pc-desc">Full-stack MVP with real-time WebSocket data ingestion for device monitoring. CI/CD pipeline with GitHub Actions, automated E2E testing, reducing production failures by 90%.</p>
-          <div class="pc-tags">
-            <span class="tag tag-accent">React</span>
-            <span class="tag tag-accent">WebSocket</span>
-            <span class="tag tag-accent">Cypress</span>
-            <span class="tag tag-accent">Docker</span>
+          <div class="pc-body">
+            <div class="pc-title">Food Search Web</div>
+            <p class="pc-desc">Intelligent food search app with AI chatbot for personalized dish recommendations. Entity extraction and fuzzy matching with Elasticsearch, grounded via RAG for real-time accuracy.</p>
+            <div class="pc-tags">
+              <span class="tag tag-green">Elasticsearch</span>
+              <span class="tag tag-green">OpenAI</span>
+              <span class="tag tag-green">Flask</span>
+              <span class="tag tag-green">RAG</span>
+            </div>
+            <a href="https://github.com/GMNBNBNB" target="_blank" rel="noopener" class="pc-link">
+              View on GitHub <i class="fas fa-arrow-right"></i>
+            </a>
           </div>
         </div>
 
-        <div class="project-card">
-          <div class="pc-icon-row">
-            <div class="pc-icon" style="background: var(--cyan-bg); color: var(--cyan);"><i class="fab fa-aws"></i></div>
-            <a href="https://github.com/GMNBNBNB" target="_blank" class="pc-link"><i class="fas fa-external-link-alt"></i></a>
+        <div class="project-card glass tilt" data-tilt="6">
+          <div class="pc-cover">
+            <canvas data-mode="cloud" data-color="orange"></canvas>
+            <div class="pc-cover-icon" style="color: var(--orange);"><i class="fas fa-cloud"></i></div>
+            <div class="pc-year">2024</div>
           </div>
-          <div class="pc-title">AWS Distributed Caching System</div>
-          <p class="pc-desc">Engineered distributed caching layer with Redis and Cache-Aside Pattern for Lambda & Glue. Reduced external API calls by 90% with significant decrease in operational costs.</p>
-          <div class="pc-tags">
-            <span class="tag tag-cyan">Redis</span>
-            <span class="tag tag-cyan">Lambda</span>
-            <span class="tag tag-cyan">Cache-Aside</span>
-            <span class="tag tag-cyan">Glue</span>
+          <div class="pc-body">
+            <div class="pc-title">Cloud Restaurant Management API</div>
+            <p class="pc-desc">20+ RESTful APIs using Python Flask integrated with AWS RDS, EC2, and Elastic Beanstalk. Angular frontend for real-time data retrieval with Google Cloud SQL backend.</p>
+            <div class="pc-tags">
+              <span class="tag tag-orange">Flask</span>
+              <span class="tag tag-orange">AWS</span>
+              <span class="tag tag-orange">Angular</span>
+              <span class="tag tag-orange">GCP</span>
+            </div>
+            <a href="https://github.com/GMNBNBNB" target="_blank" rel="noopener" class="pc-link">
+              View on GitHub <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card glass tilt" data-tilt="6">
+          <div class="pc-cover">
+            <canvas data-mode="pulse" data-color="accent"></canvas>
+            <div class="pc-cover-icon" style="color: var(--accent);"><i class="fas fa-rocket"></i></div>
+            <div class="pc-year">2025</div>
+          </div>
+          <div class="pc-body">
+            <div class="pc-title">Startup MVP (Build Lab)</div>
+            <p class="pc-desc">Full-stack MVP with real-time WebSocket data ingestion for device monitoring. CI/CD pipeline with GitHub Actions, automated E2E testing, reducing production failures by 90%.</p>
+            <div class="pc-tags">
+              <span class="tag tag-accent">React</span>
+              <span class="tag tag-accent">WebSocket</span>
+              <span class="tag tag-accent">Cypress</span>
+              <span class="tag tag-accent">Docker</span>
+            </div>
+            <a href="https://github.com/GMNBNBNB" target="_blank" rel="noopener" class="pc-link">
+              View on GitHub <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card glass tilt" data-tilt="6">
+          <div class="pc-cover">
+            <canvas data-mode="cache" data-color="cyan"></canvas>
+            <div class="pc-cover-icon" style="color: var(--cyan);"><i class="fab fa-aws"></i></div>
+            <div class="pc-year">2025</div>
+          </div>
+          <div class="pc-body">
+            <div class="pc-title">AWS Distributed Caching System</div>
+            <p class="pc-desc">Engineered distributed caching layer with Redis and Cache-Aside Pattern for Lambda &amp; Glue. Reduced external API calls by 90% with significant decrease in operational costs.</p>
+            <div class="pc-tags">
+              <span class="tag tag-cyan">Redis</span>
+              <span class="tag tag-cyan">Lambda</span>
+              <span class="tag tag-cyan">Cache-Aside</span>
+              <span class="tag tag-cyan">Glue</span>
+            </div>
+            <a href="https://github.com/GMNBNBNB" target="_blank" rel="noopener" class="pc-link">
+              View on GitHub <i class="fas fa-arrow-right"></i>
+            </a>
           </div>
         </div>
       </div>
@@ -1108,85 +715,97 @@
   <!-- ==================== BEYOND CODE ==================== -->
   <section class="section" id="drives">
     <div class="section-inner">
-      <div class="section-header">
-        <div class="section-label"><i class="fas fa-heart"></i> Beyond Code</div>
-        <h2 class="section-title">What Drives Me</h2>
-        <p class="section-desc">Engineering isn't just my job - it's how I think about the world.</p>
+      <div class="section-head">
+        <div class="section-tag"><i class="fas fa-heart"></i> Beyond Code</div>
+        <h2 class="section-title">What <span class="gradient">Drives Me</span></h2>
+        <p class="section-sub">Engineering isn't just my job - it's how I think about the world.</p>
       </div>
-      <div class="drives-grid">
-        <div class="drive-card">
-          <span class="drive-emoji">&#127919;</span>
+
+      <div class="drive-grid">
+        <div class="drive-card glass tilt" data-tilt="7">
+          <span class="drive-index">01</span>
+          <div class="drive-icon" style="--dc: var(--accent);"><i class="fas fa-rocket"></i></div>
           <div class="drive-title">Ship It Mindset</div>
           <div class="drive-desc">I love taking a product from zero to one. AutoSeek went from idea to 16K lines of production Swift in months - built solo, end-to-end, while juggling grad school.</div>
         </div>
-        <div class="drive-card">
-          <span class="drive-emoji">&#9889;</span>
+        <div class="drive-card glass tilt" data-tilt="7">
+          <span class="drive-index">02</span>
+          <div class="drive-icon" style="--dc: var(--cyan);"><i class="fas fa-gauge-high"></i></div>
           <div class="drive-title">Performance Obsessed</div>
-          <div class="drive-desc">Whether it's cutting 90% of API calls with Redis caching at AWS or eliminating DOM bottlenecks with viewport rendering, I find deep satisfaction in making things fast.</div>
+          <div class="drive-desc">Whether it's cutting 90% of API calls with Redis caching at AWS, killing flaky CI tests caused by port-binding races at Microsoft, or eliminating DOM bottlenecks with viewport rendering, I find deep satisfaction in making things fast and predictable.</div>
         </div>
-        <div class="drive-card">
-          <span class="drive-emoji">&#127758;</span>
+        <div class="drive-card glass tilt" data-tilt="7">
+          <span class="drive-index">03</span>
+          <div class="drive-icon" style="--dc: var(--pink);"><i class="fas fa-layer-group"></i></div>
           <div class="drive-title">Full-Stack Curiosity</div>
-          <div class="drive-desc">From SwiftUI animations to Lambda caching layers, from WebSocket data pipelines to Stripe payment flows - I'm driven by the desire to understand every layer of the stack.</div>
+          <div class="drive-desc">From Rust and Python SDK test harnesses to Lambda caching layers, from SwiftUI animations to WebSocket data pipelines and Stripe payment flows - I'm driven by the desire to understand every layer of the stack.</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ==================== CONTACT ==================== -->
-  <section class="section section-alt" id="contact">
+  <section class="section" id="contact">
     <div class="section-inner">
-      <div class="section-header">
-        <div class="section-label"><i class="fas fa-envelope"></i> Contact</div>
-        <h2 class="section-title">Get In Touch</h2>
-        <p class="section-desc">Interested in working together? Let's connect.</p>
+      <div class="section-head">
+        <div class="section-tag"><i class="fas fa-envelope"></i> Contact</div>
+        <h2 class="section-title">Get In <span class="gradient">Touch</span></h2>
+        <p class="section-sub">Interested in working together? Let's connect.</p>
       </div>
+
       <div class="contact-grid">
-        <div class="contact-card">
-          <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 20px;">Contact Info</h3>
+        <div class="contact-card glass">
+          <h3>Contact Info</h3>
+          <p>The fastest way to reach me is email - I usually reply within a day.</p>
+
           <a href="mailto:mg4774@columbia.edu" class="contact-item">
-            <div class="contact-item-icon" style="background: var(--accent-bg); color: var(--accent);"><i class="fas fa-envelope"></i></div>
+            <div class="contact-icon" style="background: var(--accent-bg); color: var(--accent);"><i class="fas fa-envelope"></i></div>
             <div>
-              <div class="contact-item-label">Email</div>
-              <div class="contact-item-value">mg4774@columbia.edu</div>
+              <div class="contact-label">Email</div>
+              <div class="contact-value">mg4774@columbia.edu</div>
             </div>
           </a>
           <a href="tel:+16145691267" class="contact-item">
-            <div class="contact-item-icon" style="background: var(--green-bg); color: var(--green);"><i class="fas fa-phone"></i></div>
+            <div class="contact-icon" style="background: var(--green-bg); color: var(--green);"><i class="fas fa-phone"></i></div>
             <div>
-              <div class="contact-item-label">Phone</div>
-              <div class="contact-item-value">(614) 569-1267</div>
+              <div class="contact-label">Phone</div>
+              <div class="contact-value">(614) 569-1267</div>
             </div>
           </a>
-          <a href="https://github.com/GMNBNBNB" target="_blank" class="contact-item">
-            <div class="contact-item-icon" style="background: var(--bg-elevated); color: var(--text-primary);"><i class="fab fa-github"></i></div>
+          <a href="https://github.com/GMNBNBNB" target="_blank" rel="noopener" class="contact-item">
+            <div class="contact-icon" style="background: var(--bg-elevated); color: var(--text-primary);"><i class="fab fa-github"></i></div>
             <div>
-              <div class="contact-item-label">GitHub</div>
-              <div class="contact-item-value">GMNBNBNB</div>
+              <div class="contact-label">GitHub</div>
+              <div class="contact-value">GMNBNBNB</div>
             </div>
           </a>
-          <a href="https://www.linkedin.com/in/meng-gao-58772b299/" target="_blank" class="contact-item">
-            <div class="contact-item-icon" style="background: var(--cyan-bg); color: var(--cyan);"><i class="fab fa-linkedin"></i></div>
+          <a href="https://www.linkedin.com/in/meng-gao-58772b299/" target="_blank" rel="noopener" class="contact-item">
+            <div class="contact-icon" style="background: var(--cyan-bg); color: var(--cyan);"><i class="fab fa-linkedin"></i></div>
             <div>
-              <div class="contact-item-label">LinkedIn</div>
-              <div class="contact-item-value">Meng Gao</div>
+              <div class="contact-label">LinkedIn</div>
+              <div class="contact-value">Meng Gao</div>
             </div>
           </a>
         </div>
-        <div class="contact-card">
-          <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 20px;">Send a Message</h3>
-          <form id="contactForm" class="contact-form">
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input type="text" id="name" class="form-input" placeholder="Your name" required />
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" class="form-input" placeholder="your@email.com" required />
+
+        <div class="contact-card glass">
+          <h3>Send a Message</h3>
+          <p>This opens your mail app with everything filled in.</p>
+
+          <form id="contactForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Your name" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="your@email.com" required />
+              </div>
             </div>
             <div class="form-group">
               <label for="message">Message</label>
-              <textarea id="message" class="form-input" placeholder="Tell me about your project..." required></textarea>
+              <textarea id="message" placeholder="Tell me about your project..." required></textarea>
             </div>
             <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
               <i class="fas fa-paper-plane"></i> Send Message
@@ -1200,187 +819,21 @@
   <!-- ==================== FOOTER ==================== -->
   <footer class="footer">
     <div class="footer-inner">
-      <div class="footer-copy">&copy; 2025 Meng Gao</div>
       <div class="footer-links">
-        <a href="https://github.com/GMNBNBNB" target="_blank" class="footer-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/meng-gao-58772b299/" target="_blank" class="footer-link" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/GMNBNBNB" target="_blank" rel="noopener" class="footer-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/meng-gao-58772b299/" target="_blank" rel="noopener" class="footer-link" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
         <a href="mailto:mg4774@columbia.edu" class="footer-link" aria-label="Email"><i class="fas fa-envelope"></i></a>
       </div>
+      <div class="footer-text">&copy; 2026 Meng Gao</div>
     </div>
   </footer>
 
-  <!-- Toast -->
   <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
 
-  <!-- Scroll to top -->
   <button class="scroll-top" id="scrollTop" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
 
-  <script>
-    // ==================== THEME ====================
-    const root = document.documentElement;
-    const themeBtn = document.getElementById('themeToggle');
-    const themeIcon = themeBtn.querySelector('i');
-
-    function setTheme(theme) {
-      root.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-      themeIcon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-    }
-
-    const saved = localStorage.getItem('theme') ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    setTheme(saved);
-
-    themeBtn.addEventListener('click', () => {
-      setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-    });
-
-    // ==================== TYPING EFFECT ====================
-    const typingEl = document.getElementById('heroTyping');
-    const phrases = [
-      'Software Engineer with full-stack, cloud, and iOS expertise.',
-      'Columbia CS grad & former AWS SDE Intern.',
-      'Building scalable systems and delightful user experiences.',
-      'Shipped a 16K-line SwiftUI app from zero to one.',
-    ];
-    let phraseIdx = 0, charIdx = 0, isDeleting = false;
-
-    function typeEffect() {
-      const current = phrases[phraseIdx];
-
-      if (!isDeleting) {
-        typingEl.textContent = current.substring(0, charIdx + 1);
-        charIdx++;
-        if (charIdx === current.length) {
-          typingEl.classList.add('done');
-          setTimeout(() => {
-            typingEl.classList.remove('done');
-            isDeleting = true;
-            typeEffect();
-          }, 2200);
-          return;
-        }
-        setTimeout(typeEffect, 40 + Math.random() * 30);
-      } else {
-        typingEl.textContent = current.substring(0, charIdx - 1);
-        charIdx--;
-        if (charIdx === 0) {
-          isDeleting = false;
-          phraseIdx = (phraseIdx + 1) % phrases.length;
-          setTimeout(typeEffect, 400);
-          return;
-        }
-        setTimeout(typeEffect, 20);
-      }
-    }
-
-    setTimeout(typeEffect, 800);
-
-    // ==================== NAV SCROLL ====================
-    const nav = document.getElementById('nav');
-    const sections = document.querySelectorAll('.section, .hero');
-    const navLinksAll = document.querySelectorAll('.nav-links a[href^="#"]');
-
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 20);
-
-      let current = '';
-      sections.forEach(s => {
-        if (window.scrollY >= s.offsetTop - 200) {
-          current = s.getAttribute('id') || '';
-        }
-      });
-      navLinksAll.forEach(a => {
-        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-      });
-
-      document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 600);
-    });
-
-    document.getElementById('scrollTop').addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // ==================== MOBILE MENU ====================
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileNav = document.getElementById('mobileNav');
-    const mobileIcon = mobileMenuBtn.querySelector('i');
-
-    mobileMenuBtn.addEventListener('click', () => {
-      const open = mobileNav.classList.toggle('open');
-      mobileIcon.className = open ? 'fas fa-times' : 'fas fa-bars';
-    });
-
-    mobileNav.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        mobileNav.classList.remove('open');
-        mobileIcon.className = 'fas fa-bars';
-      });
-    });
-
-    // ==================== SCROLL ANIMATIONS ====================
-    const animObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 60);
-          animObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.bento-card, .timeline-item, .edu-card, .skill-category, .project-featured, .project-card, .contact-card, .drive-card').forEach(el => {
-      animObserver.observe(el);
-    });
-
-    // ==================== ANIMATED COUNTERS ====================
-    const counterObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const target = parseInt(el.getAttribute('data-target'));
-          const duration = 1500;
-          const start = performance.now();
-
-          function tick(now) {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            // ease-out quad
-            const eased = 1 - (1 - progress) * (1 - progress);
-            el.textContent = Math.round(target * eased);
-            if (progress < 1) requestAnimationFrame(tick);
-          }
-          requestAnimationFrame(tick);
-          counterObserver.unobserve(el);
-        }
-      });
-    }, { threshold: 0.5 });
-
-    document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
-
-    // ==================== CONTACT FORM ====================
-    const form = document.getElementById('contactForm');
-    const toast = document.getElementById('toast');
-    const toastMsg = document.getElementById('toastMsg');
-
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const message = document.getElementById('message').value;
-
-      const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
-      const body = encodeURIComponent(`From: ${name} (${email})\n\n${message}`);
-      window.open(`mailto:mg4774@columbia.edu?subject=${subject}&body=${body}`);
-
-      showToast('Opening your email client...');
-      form.reset();
-    });
-
-    function showToast(msg) {
-      toastMsg.textContent = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-  </script>
+  <script src="assets/app.js" defer></script>
+  <script src="assets/fx.js" defer></script>
+  <script src="assets/fx-cards.js" defer></script>
 </body>
 </html>

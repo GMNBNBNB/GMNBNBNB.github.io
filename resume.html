@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meng Gao | Resume</title>
+  <meta name="description" content="Resume of Meng Gao - Software Engineer at Microsoft. Columbia MS CS, former AWS SDE Intern. Rust, Python, C#, Azure, SDK integration testing, and distributed systems." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #f5f5f7;
+      --paper: #ffffff;
+      --ink: #1d1d1f;
+      --ink-soft: #55555c;
+      --ink-faint: #86868b;
+      --accent: #6366f1;
+      --rule: rgba(0,0,0,0.10);
+    }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      padding: 40px 20px 80px;
+    }
+
+    /* ---- toolbar (screen only) ---- */
+    .toolbar {
+      max-width: 8.5in; margin: 0 auto 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .toolbar a, .toolbar button {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: inherit; font-size: 14px; font-weight: 500;
+      padding: 9px 16px; border-radius: 10px;
+      border: 1px solid var(--rule); background: var(--paper); color: var(--ink-soft);
+      text-decoration: none; cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, color .15s ease;
+    }
+    .toolbar a:hover, .toolbar button:hover {
+      color: var(--accent); transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+    }
+    .toolbar .primary {
+      background: var(--accent); border-color: var(--accent); color: #fff;
+    }
+    .toolbar .primary:hover { color: #fff; box-shadow: 0 6px 18px rgba(99,102,241,0.35); }
+
+    /* ---- page ---- */
+    .page {
+      max-width: 8.5in; margin: 0 auto;
+      background: var(--paper);
+      padding: 0.62in 0.7in 0.7in;
+      border-radius: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 12px 40px rgba(0,0,0,0.07);
+    }
+
+    /* ---- header ---- */
+    header { text-align: center; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+    h1 {
+      font-size: 30px; font-weight: 800; letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .tagline { font-size: 13px; color: var(--accent); font-weight: 600; margin-top: 3px; }
+    .contact {
+      margin-top: 8px; font-size: 12.5px; color: var(--ink-soft);
+      display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 0;
+    }
+    .contact a { color: inherit; text-decoration: none; }
+    .contact a:hover { color: var(--accent); }
+    .contact span + span::before { content: '|'; color: var(--ink-faint); margin: 0 10px; }
+
+    /* ---- sections ---- */
+    section { margin-top: 20px; }
+    h2 {
+      font-size: 12.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent); padding-bottom: 4px; border-bottom: 1px solid var(--rule);
+      margin-bottom: 11px;
+    }
+
+    .entry { margin-bottom: 15px; }
+    .entry:last-child { margin-bottom: 0; }
+    .entry-head {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+    }
+    .entry-title { font-size: 14.5px; font-weight: 700; }
+    .entry-title .sep { color: var(--ink-faint); font-weight: 400; margin: 0 5px; }
+    .entry-title .role { font-weight: 600; color: var(--ink-soft); }
+    .entry-meta {
+      font-size: 12px; color: var(--ink-faint); white-space: nowrap; font-weight: 500;
+    }
+
+    ul { list-style: none; margin-top: 5px; }
+    li {
+      position: relative; padding-left: 15px; margin-bottom: 3px;
+      font-size: 13px; color: var(--ink-soft);
+    }
+    li::before {
+      content: '\2022'; position: absolute; left: 2px; top: 0;
+      color: var(--accent); font-weight: 700;
+    }
+
+    /* ---- skills ---- */
+    .skills { display: grid; gap: 5px; }
+    .skill-row { display: grid; grid-template-columns: 168px 1fr; gap: 12px; font-size: 13px; }
+    .skill-label { font-weight: 600; color: var(--ink); }
+    .skill-list { color: var(--ink-soft); }
+
+    /* ---- education compact ---- */
+    .edu .entry { margin-bottom: 9px; }
+
+    footer.note {
+      margin-top: 22px; padding-top: 10px; border-top: 1px solid var(--rule);
+      font-size: 11.5px; color: var(--ink-faint); text-align: center;
+    }
+    footer.note a { color: var(--accent); text-decoration: none; }
+
+    @media (max-width: 640px) {
+      body { padding: 24px 14px 60px; }
+      .page { padding: 28px 22px; }
+      h1 { font-size: 24px; }
+      .entry-head { flex-direction: column; gap: 1px; }
+      .entry-meta { white-space: normal; }
+      .skill-row { grid-template-columns: 1fr; gap: 1px; }
+      .contact { flex-direction: column; }
+      .contact span + span::before { content: none; }
+    }
+
+    /* ---- print: one clean document, no chrome ---- */
+    @page { size: Letter; margin: 0.5in; }
+
+    @media print {
+      /* keep accent colors and any background-drawn marks instead of letting the
+         browser strip them, which is what silently ate the bullet dots */
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      body { background: #fff; padding: 0; font-size: 10pt; line-height: 1.32; }
+      .toolbar, footer.note { display: none !important; }
+      .page {
+        max-width: none; padding: 0; border-radius: 0; box-shadow: none;
+      }
+      header { padding-bottom: 9px; }
+      h1 { font-size: 19pt; }
+      .tagline { font-size: 8.5pt; margin-top: 1px; }
+      .contact { font-size: 8.5pt; margin-top: 5px; }
+      h2 { font-size: 9pt; margin-bottom: 6px; padding-bottom: 3px; }
+      .entry-title { font-size: 10pt; }
+      .entry-meta { font-size: 8.5pt; }
+      li, .skill-row { font-size: 9pt; }
+      li { margin-bottom: 1px; padding-left: 12px; }
+      ul { margin-top: 3px; }
+      section { margin-top: 10px; }
+      .entry { margin-bottom: 7px; }
+      .edu .entry { margin-bottom: 4px; }
+      .skills { gap: 3px; }
+      /* keep a job and its bullets together across the page break */
+      .entry, li { break-inside: avoid; page-break-inside: avoid; }
+      h2 { break-after: avoid; page-break-after: avoid; }
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <a href="index.html"><i class="fas fa-arrow-left"></i> Back to site</a>
+    <button class="primary" onclick="window.print()">
+      <i class="fas fa-print"></i> Print / Save as PDF
+    </button>
+  </div>
+
+  <main class="page">
+
+    <header>
+      <h1>Meng Gao</h1>
+      <div class="tagline">Software Engineer</div>
+      <div class="contact">
+        <span><a href="tel:+16145691267">(614) 569-1267</a></span>
+        <span><a href="mailto:mg4774@columbia.edu">mg4774@columbia.edu</a></span>
+        <span><a href="https://linkedin.com/in/meng-gao-58772b299" target="_blank" rel="noopener">linkedin.com/in/meng-gao-58772b299</a></span>
+        <span><a href="https://github.com/GMNBNBNB" target="_blank" rel="noopener">github.com/GMNBNBNB</a></span>
+      </div>
+    </header>
+
+    <section>
+      <h2>Professional Experience</h2>
+
+      <div class="entry">
+        <div class="entry-head">
+          <div class="entry-title">Microsoft<span class="sep">|</span><span class="role">Software Engineer</span></div>
+          <div class="entry-meta">Apr 2026 &ndash; Present &middot; United States</div>
+        </div>
+        <ul>
+          <li>Authored and executed a three-phase integration-test plan for a Python SDK on Linux, delivering a reusable launcher and test framework, cloud CI enablement, and coverage for all core SDK operations.</li>
+          <li>Built a language-agnostic .NET launcher and JSON process contract that let Python tests reuse existing agent lifecycle management, per-test isolation, platform configuration, and verification logic.</li>
+          <li>Unified Python and Rust SDK validation through component-scoped pull-request pipelines and cloud ClientTests, reducing unrelated validation work while adding repeatable artifact packaging, setup, execution, and teardown.</li>
+          <li>Delivered six Linux build and release milestones spanning Docker image publishing, official cloud validation, daily AKS deployment, local-build unification, image-tag reliability, and release documentation.</li>
+          <li>Resolved flaky integration tests by isolating parallel test resources and switching mock services to operating-system-assigned ports, preventing recurring port-binding conflicts in CI.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <div class="entry-title">Amazon Web Services<span class="sep">|</span><span class="role">Software Development Engineer Intern</span></div>
+          <div class="entry-meta">Jun 2025 &ndash; Sep 2025 &middot; Arlington, VA</div>
+        </div>
+        <ul>
+          <li>Built URL persistence and advanced filtering for a data-discovery product, increasing link sharing by 40% and positive user feedback by 20%.</li>
+          <li>Introduced AWS AppConfig and feature flags for environment configuration and operational notifications, enabling controlled rollouts, rapid rollback, and updates without full redeployment.</li>
+          <li>Designed a Redis cache-aside layer for serverless data-retrieval workloads on AWS Lambda and Glue, reducing external API calls by more than 90% and lowering repeated processing overhead.</li>
+          <li>Added 40+ integration tests that detected edge cases before deployment and eliminated approximately three hours of manual validation per release cycle.</li>
+        </ul>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
+          <div class="entry-title">Columbia Build Lab<span class="sep">|</span><span class="role">Full Stack Developer Intern</span></div>
+          <div class="entry-meta">Feb 2025 &ndash; May 2025 &middot; New York, NY</div>
+        </div>
+        <ul>
+          <li>Built and iterated on a React and Flask MVP for an early-stage startup, enabling core product demonstrations and structured customer-feedback cycles.</li>
+          <li>Designed a high-concurrency WebSocket ingestion layer for stable, low-latency device-monitoring data.</li>
+          <li>Established GitHub Actions CI/CD with unit tests, Cypress end-to-end tests, and automated deployment, reducing production failures caused by code changes by 90%.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Selected Project</h2>
+      <div class="entry">
+        <div class="entry-head">
+          <div class="entry-title">Speech Emotion Recognition Pipeline<span class="sep">|</span><span class="role">Machine Learning Project</span></div>
+          <div class="entry-meta">Sep 2024 &ndash; Dec 2024</div>
+        </div>
+        <ul>
+          <li>Built an end-to-end pipeline to classify seven speech-emotion categories using scikit-learn, Parselmouth, and openSMILE.</li>
+          <li>Engineered pitch, intensity, and IS09 acoustic features and evaluated SVM, Random Forest, and MLP classifiers.</li>
+          <li>Optimized an RBF-kernel SVM through hyperparameter tuning, achieving superior cross-validation classification accuracy and selecting it as the best-performing model.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="edu">
+      <h2>Education</h2>
+      <div class="entry">
+        <div class="entry-head">
+          <div class="entry-title">Columbia University<span class="sep">|</span><span class="role">M.S. in Computer Science (GPA: 3.76/4.00)</span></div>
+          <div class="entry-meta">Sep 2024 &ndash; Dec 2025</div>
+        </div>
+      </div>
+      <div class="entry">
+        <div class="entry-head">
+          <div class="entry-title">The Ohio State University<span class="sep">|</span><span class="role">B.S. in Computer Science and Engineering (GPA: 3.77/4.00)</span></div>
+          <div class="entry-meta">Aug 2021 &ndash; Aug 2024</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Technical Skills</h2>
+      <div class="skills">
+        <div class="skill-row">
+          <div class="skill-label">Languages</div>
+          <div class="skill-list">Rust, Python, C#, C/C++, Java, SQL, JavaScript</div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Cloud &amp; Infrastructure</div>
+          <div class="skill-list">Microsoft Azure, AWS, Azure DevOps, Kubernetes, AKS, Docker, Linux, CI/CD, Git</div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">SDK, Testing &amp; Systems</div>
+          <div class="skill-list">Integration Testing, End-to-End Testing, Test Automation, gRPC, TLS, Protobuf, Distributed Systems</div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Frameworks</div>
+          <div class="skill-list">React, Flask, PyTorch, scikit-learn</div>
+        </div>
+        <div class="skill-row">
+          <div class="skill-label">Databases &amp; Storage</div>
+          <div class="skill-list">Redis, Elasticsearch, MySQL, MongoDB</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="note">
+    Prefer a file? Hit <strong>Print</strong> and choose &ldquo;Save as PDF.&rdquo;
+    &nbsp;&middot;&nbsp; <a href="index.html">gmnbnbnb.github.io</a>
+  </footer>
+
+</body>
+</html>
