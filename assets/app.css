@@ -584,7 +584,13 @@ body { counter-reset: sec; }
 .bento-grid {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;
 }
-.bento-main { grid-column: span 2; grid-row: span 2; padding: 36px; }
+/* Two rows tall next to four stat cards, but only one paragraph deep.
+   Centring the block turns 215px of dead space at the bottom into
+   even margin, which is the difference between airy and unfinished. */
+.bento-main {
+  grid-column: span 2; grid-row: span 2; padding: 36px;
+  display: flex; flex-direction: column; justify-content: center;
+}
 .bento-card { padding: 26px; }
 .bento-card, .bento-main { position: relative; }
 
@@ -728,7 +734,13 @@ body { counter-reset: sec; }
 
 .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 .skill-category { padding: 26px 24px; }
-.skill-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+/* "SDK, Testing & Systems" wraps to two lines at every column width the
+   grid produces; without a floor here its pills start 25px below the
+   other three cards and the row reads as misaligned. */
+.skill-head {
+  display: flex; align-items: center; gap: 12px;
+  min-height: 46px; margin-bottom: 18px;
+}
 .skill-icon {
   display: grid; place-items: center;
   width: 40px; height: 40px; border-radius: 12px; font-size: 16px;
@@ -1394,3 +1406,456 @@ body.cmdk-open { overflow: hidden; }
 ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 ::view-transition-old(root) { z-index: 1; }
 ::view-transition-new(root) { z-index: 2; }
+
+
+/* ============================================================
+   COMMAND PALETTE - page results & jump highlight
+   ============================================================ */
+/* Prose pulled out of the resume, so it reads a shade quieter than
+   the palette's own commands sitting above it. */
+.cmdk-item.is-page .ci-label { font-size: .86rem; color: var(--text-secondary); }
+.cmdk-item.is-page .ci-ico { font-size: .6rem; opacity: .85; }
+.cmdk-item.is-page[aria-selected="true"] .ci-label { color: var(--text-primary); }
+
+/* Accent picker: the swatch is the whole tile, not an icon sitting on
+   one - you are choosing the colour, so show the colour. */
+.cmdk-item.is-swatch .ci-ico {
+  background: var(--ci-c); color: transparent; border-radius: 50%;
+  width: 22px; height: 22px; margin: 2px;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--ci-c) 22%, transparent),
+              0 0 16px color-mix(in srgb, var(--ci-c) 55%, transparent);
+}
+.cmdk-item.is-swatch .ci-label { font-weight: 600; }
+
+/* One-shot ring on whatever the palette just scrolled you to. Without it
+   a jump into the middle of a long section lands nowhere in particular.
+   It fades itself out - nothing here loops. */
+@keyframes cmdkFlash {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent),
+                     0 0 34px color-mix(in srgb, var(--accent) 34%, transparent); }
+  70%  { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 34%, transparent),
+                     0 0 22px color-mix(in srgb, var(--accent) 16%, transparent); }
+  100% { box-shadow: 0 0 0 0 transparent, 0 0 0 transparent; }
+}
+.cmdk-flash { animation: cmdkFlash 1.6s var(--ease) both; border-radius: var(--radius); }
+@media (prefers-reduced-motion: reduce) { .cmdk-flash { animation-duration: .01ms; } }
+
+
+/* ============================================================
+   ACTIVITY GRID
+   ============================================================ */
+.gh-grid {
+  padding: 20px 22px 18px; margin-bottom: 34px;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity .5s var(--ease), transform .5s var(--ease);
+}
+.gh-grid.in { opacity: 1; transform: none; }
+.gh-grid[hidden] { display: none; }
+
+/* Repository timeline. One bar per repo, from created_at to pushed_at,
+   across a shared axis running from the oldest repo to today. */
+.ag-tl { position: relative; margin: 16px 0 4px; padding-top: 16px; --ag-name: 140px; }
+
+/* One rule per January. Inset past the label column so the lines land
+   on the bars and not on the names. */
+.ag-lines {
+  position: absolute; inset: 0 0 0 calc(var(--ag-name) + 10px);
+  pointer-events: none;
+}
+.ag-lines i {
+  position: absolute; top: 12px; bottom: 0; width: 1px;
+  background: linear-gradient(var(--border), transparent);
+}
+.ag-lines i::after {
+  content: attr(data-y); position: absolute; top: -13px; left: 5px;
+  font-family: var(--mono); font-size: .58rem; letter-spacing: .06em;
+  color: var(--text-tertiary);
+}
+
+.ag-rows {
+  display: grid; grid-template-columns: var(--ag-name) 1fr;
+  align-items: center; row-gap: 5px; column-gap: 10px;
+}
+.ag-name {
+  display: flex; align-items: center; gap: 6px; min-width: 0;
+  font-family: var(--mono); font-size: .68rem; color: var(--text-secondary);
+}
+.ag-name b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ag-name s {
+  flex: none; text-decoration: none; font-size: .58rem; padding: 1px 5px;
+  border-radius: 999px; color: var(--orange);
+  background: color-mix(in srgb, var(--orange) 14%, transparent);
+}
+.ag-name s::before { content: "\2605"; margin-right: 3px; }
+
+.ag-lane { position: relative; height: 14px; }
+/* Hairline track. Without it a two-week repo is a chip floating in
+   space with nothing to measure itself against. */
+.ag-lane::before {
+  content: ""; position: absolute; inset: 6px 0; border-radius: 2px;
+  background: color-mix(in srgb, var(--text-primary) 5%, transparent);
+}
+.ag-bar {
+  position: absolute; top: 0; bottom: 0; min-width: 10px; border-radius: 3px;
+  background: linear-gradient(90deg,
+              color-mix(in srgb, var(--bc) 60%, transparent), var(--bc));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--bc) 32%, transparent),
+              0 0 14px color-mix(in srgb, var(--bc) 24%, transparent);
+  /* Grows out of its own start date, once, when the panel first appears. */
+  transform: scaleX(0); transform-origin: left center;
+}
+.gh-grid.in .ag-bar {
+  transform: none;
+  transition: transform .55s var(--ease) calc(var(--i) * 45ms);
+}
+.ag-bar:hover { filter: brightness(1.25); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ag-bar { transform: none; }
+  .gh-grid.in .ag-bar { transition: none; }
+}
+
+.ag-foot {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+  margin-top: 14px; font-family: var(--mono); font-size: .66rem; color: var(--text-tertiary);
+}
+
+@media (max-width: 620px) {
+  .ag-tl     { --ag-name: 92px; }
+  .ag-name   { font-size: .6rem; }
+  .ag-name s { display: none; }
+}
+
+
+/* ============================================================
+   TERMINAL
+
+   A window, not a decoration: fixed, draggable, dismissable. It never
+   scrolls, tints, or blurs the page behind it - open or shut, the
+   document underneath is exactly where you left it.
+   ============================================================ */
+.term {
+  position: fixed; z-index: 260; left: 50%; top: 50%;
+  width: min(880px, calc(100vw - 28px));
+  height: min(580px, calc(100vh - 110px));
+  display: flex; flex-direction: column;
+  background: color-mix(in srgb, #05050b 93%, transparent);
+  border: 1px solid var(--border-hi);
+  border-radius: 14px;
+  box-shadow: 0 34px 100px rgba(0,0,0,.62),
+              0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent),
+              0 0 70px color-mix(in srgb, var(--accent) 12%, transparent);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  overflow: hidden;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.975);
+  transition: opacity .18s var(--ease), transform .18s var(--ease);
+}
+.term.in { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.term[hidden] { display: none; }
+.term.dragging { transition: none; user-select: none; }
+.term.max { width: min(1280px, calc(100vw - 32px)); height: calc(100vh - 64px); }
+/* The window keeps its dark chrome in light mode; a terminal that turns
+   white is a text editor. */
+[data-theme="light"] .term {
+  background: color-mix(in srgb, #0b0b13 93%, transparent);
+  border-color: rgba(255,255,255,.16);
+  box-shadow: 0 34px 100px rgba(0,0,0,.34),
+              0 0 0 1px color-mix(in srgb, var(--accent) 26%, transparent);
+}
+
+.term-bar {
+  flex: none; display: flex; align-items: center; gap: 12px;
+  padding: 0 12px; height: 38px; cursor: grab;
+  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+  border-bottom: 1px solid rgba(255,255,255,.09);
+}
+.term.dragging .term-bar { cursor: grabbing; }
+.term-dots { display: flex; gap: 7px; }
+.term-dots .td {
+  width: 12px; height: 12px; border-radius: 50%; border: none; padding: 0;
+  cursor: pointer; opacity: .9; transition: opacity .15s, transform .15s var(--ease);
+}
+.term-dots .td:hover { opacity: 1; transform: scale(1.18); }
+.td.red   { background: #ff5f57; }
+.td.amber { background: #febc2e; cursor: default; }
+.td.green { background: #28c840; }
+
+.term-title {
+  flex: 1; text-align: center; font-family: var(--mono);
+  font-size: .7rem; letter-spacing: .04em; color: rgba(244,244,248,.5);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.term-badge {
+  flex: none; font-family: var(--mono); font-size: .58rem; letter-spacing: .08em;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 20px;
+  color: var(--accent-light);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.term-badge i { font-size: .55rem; margin-right: 3px; }
+
+.term-body {
+  flex: 1; overflow: auto;
+  padding: 16px 18px 4px;
+  font-family: var(--mono); font-size: .78rem; line-height: 1.65;
+  color: rgba(232,232,244,.88);
+  scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.18) transparent;
+}
+.term-body::-webkit-scrollbar { width: 9px; height: 9px; }
+.term-body::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.16); border-radius: 6px;
+  border: 2px solid transparent; background-clip: content-box;
+}
+
+/* Lines land in sequence rather than all at once. The delay is capped in
+   JS, so a forty-line dump still finishes inside a third of a second.
+   `backwards`, not `both`: the resting state is the plain visible line,
+   and the keyframe only covers the wait before each line's turn. */
+.t-line { white-space: pre; animation: tLine .2s var(--ease) backwards; }
+@keyframes tLine { from { opacity: 0; transform: translateX(-5px); } }
+/* Cancel outright rather than shortening - a 260ms delay in front of a
+   0ms animation is still 260ms of blank pane. */
+@media (prefers-reduced-motion: reduce) { .t-line { animation: none; } }
+
+/* Fixed hexes, not theme tokens: this is a dark pane in both themes, and
+   the light palette's darkened greens and cyans disappear against it. */
+.t-b    { color: #ffffff; font-weight: 600; }
+.t-k    { color: #a78bfa; }
+.t-v    { color: rgba(232,232,244,.72); }
+.t-dim  { color: rgba(232,232,244,.40); }
+.t-ok   { color: #34d399; }
+.t-warn { color: #fbbf24; }
+.t-err  { color: #ff6b6d; }
+.t-idx  { color: #f472b6; }
+.t-num  { color: #22d3ee; }
+.t-str  { color: #a3e635; }
+.t-file { color: #22d3ee; }
+.t-sep  { color: rgba(232,232,244,.28); margin: 0 6px; }
+.t-logo { color: var(--accent); }
+.t-bar  { letter-spacing: -1px; }
+.t-tag {
+  color: #c4b5fd; background: rgba(124,92,255,.18);
+  border-radius: 4px; padding: 0 5px; margin-right: 4px; font-size: .92em;
+}
+.t-swatch {
+  display: inline-block; width: 11px; height: 11px; border-radius: 3px;
+  vertical-align: -1px; margin-right: 2px;
+}
+.t-host { color: #34d399; font-weight: 600; }
+.t-path { color: #22d3ee; }
+.t-cmd  { color: #ffffff; }
+.t-echo { opacity: .82; }
+
+.term-foot {
+  flex: none; display: flex; align-items: center; gap: 2px;
+  padding: 9px 18px 13px;
+  font-family: var(--mono); font-size: .78rem;
+  border-top: 1px solid rgba(255,255,255,.07);
+  background: rgba(255,255,255,.02);
+}
+.term-foot input {
+  flex: 1; background: none; border: none; outline: none;
+  font-family: inherit; font-size: inherit; color: #fff;
+  caret-color: #34d399; margin-left: 8px;
+}
+
+@media (max-width: 620px) {
+  .term { width: calc(100vw - 12px); height: calc(100vh - 76px); border-radius: 12px; }
+  .term-body { font-size: .7rem; padding: 12px 12px 4px; }
+  .term-foot { font-size: .7rem; padding: 8px 12px 11px; }
+  .term-badge { display: none; }
+}
+
+
+/* ============================================================
+   TELEMETRY HUD
+   ============================================================ */
+.hud {
+  position: fixed; z-index: 240; left: 18px; bottom: 18px;
+  width: 196px; padding: 11px 12px 12px;
+  background: color-mix(in srgb, var(--bg-soft) 88%, transparent);
+  border: 1px solid var(--border-hi); border-radius: 12px;
+  box-shadow: 0 18px 50px rgba(0,0,0,.45);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  font-family: var(--mono); font-size: .66rem;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity .18s var(--ease), transform .18s var(--ease);
+}
+.hud.in { opacity: 1; transform: none; }
+.hud[hidden] { display: none; }
+
+.hud-head {
+  display: flex; align-items: center; gap: 6px;
+  font-size: .58rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--text-tertiary); margin-bottom: 9px;
+}
+.hud-head button {
+  margin-left: auto; background: none; border: none; cursor: pointer;
+  color: var(--text-tertiary); font-size: .72rem; padding: 2px; line-height: 1;
+}
+.hud-head button:hover { color: var(--text-primary); }
+/* The only looping animation in the panel, and it is 6px across. */
+.hud-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+  box-shadow: 0 0 8px var(--green); animation: hudPulse 2.4s ease-in-out infinite;
+}
+@keyframes hudPulse { 50% { opacity: .35; } }
+@media (prefers-reduced-motion: reduce) { .hud-dot { animation: none; } }
+
+.hud-spark {
+  display: block; width: 100%; height: 34px; margin-bottom: 9px;
+  border-radius: 5px; background: var(--bg-elevated);
+}
+
+.hud-grid { display: grid; grid-template-columns: auto 1fr; gap: 3px 10px; }
+.hud-grid span { color: var(--text-tertiary); }
+.hud-grid b { color: var(--text-primary); font-weight: 500; text-align: right; }
+
+/* A 196px readout has nowhere to sit next to a phone-width layout, and
+   the terminal already owns that corner. */
+@media (max-width: 620px) { .hud { display: none; } }
+
+
+/* ============================================================
+   SECTION RAIL
+
+   Seven ticks on the right edge. It answers the two questions a long
+   scrolling page keeps raising - how far in am I, and how much is
+   left - without a number, a bar, or anything that moves on its own.
+   The active tick is driven by the same scroll-spy that lights the
+   header links, so it can never disagree with the nav.
+   ============================================================ */
+.rail {
+  position: fixed; z-index: 90; right: 22px; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; align-items: flex-end; gap: 14px;
+}
+
+.rail a {
+  display: block; padding: 3px 0; position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+/* The tick itself. Width is the whole state: 14px dormant, 30px live. */
+.rail a span {
+  display: block; width: 14px; height: 2px; border-radius: 2px;
+  background: var(--text-tertiary); opacity: .38;
+  transition: width .3s var(--ease), opacity .3s var(--ease),
+              background-color .3s var(--ease), box-shadow .3s var(--ease);
+}
+.rail a:hover span { width: 24px; opacity: .8; }
+.rail a.active span {
+  width: 30px; opacity: 1; background: var(--accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* Name on hover, to the left so it never leaves the viewport. */
+.rail a::after {
+  content: attr(data-label);
+  position: absolute; right: calc(100% + 12px); top: 50%;
+  transform: translateY(-50%) translateX(4px);
+  padding: 4px 9px; border-radius: 6px; white-space: nowrap;
+  font-family: var(--mono); font-size: .62rem; letter-spacing: .04em;
+  color: var(--text-primary);
+  background: color-mix(in srgb, var(--bg-soft) 92%, transparent);
+  border: 1px solid var(--border-hi);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  opacity: 0; pointer-events: none;
+  transition: opacity .18s var(--ease), transform .18s var(--ease);
+}
+.rail a:hover::after { opacity: 1; transform: translateY(-50%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .rail a span, .rail a::after { transition: none; }
+}
+/* Below this the rail would sit on top of the content it indexes, and
+   the mobile menu already covers the same ground. */
+@media (max-width: 1180px) { .rail { display: none; } }
+
+
+/* ============================================================
+   SHORTCUTS PANEL
+
+   Three columns of keys, all of them real. Reachable from "?" and
+   from the palette, which is the point: the terminal, the HUD and
+   the accent picker are all invisible until something says they
+   exist.
+   ============================================================ */
+.keys { position: fixed; inset: 0; z-index: 310; display: grid; place-items: center; }
+.keys[hidden] { display: none; }
+.keys::before {
+  content: ""; position: absolute; inset: 0;
+  background: color-mix(in srgb, var(--bg) 74%, transparent);
+  backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px);
+  opacity: 0; transition: opacity .2s var(--ease);
+}
+.keys.in::before { opacity: 1; }
+
+.keys-panel {
+  position: relative;
+  width: min(800px, calc(100vw - 32px));
+  max-height: calc(100vh - 64px); overflow: auto;
+  background: color-mix(in srgb, var(--bg-soft) 94%, transparent);
+  border: 1px solid var(--border-hi); border-radius: 16px;
+  box-shadow: 0 34px 90px rgba(0,0,0,.5),
+              0 0 0 1px color-mix(in srgb, var(--accent) 16%, transparent);
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  opacity: 0; transform: translateY(10px) scale(.985);
+  transition: opacity .2s var(--ease), transform .2s var(--ease);
+}
+.keys.in .keys-panel { opacity: 1; transform: none; }
+
+.keys-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px; border-bottom: 1px solid var(--border);
+  font-family: var(--mono); font-size: .68rem;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--text-tertiary);
+}
+.keys-head i { color: var(--accent); margin-right: 6px; }
+.keys-head button {
+  background: none; border: none; cursor: pointer; padding: 2px 4px; line-height: 1;
+  color: var(--text-tertiary); font-size: .85rem;
+}
+.keys-head button:hover { color: var(--text-primary); }
+
+.keys-body {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 26px; padding: 22px 18px;
+}
+.keys-col h4 {
+  margin: 0 0 12px; font-family: var(--mono); font-weight: 500;
+  font-size: .6rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--accent);
+}
+.keys-row {
+  display: flex; align-items: baseline; gap: 10px; margin-bottom: 9px;
+  font-size: .78rem; color: var(--text-secondary);
+}
+/* Fixed column so the descriptions line up down the panel even though
+   the key clusters are one, two or four characters wide. */
+.keys-k { flex: none; width: 74px; display: flex; gap: 4px; }
+.keys-d { min-width: 0; }
+
+.keys kbd {
+  font-family: var(--mono); font-size: .62rem; line-height: 1;
+  padding: 4px 6px; border-radius: 5px;
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-hi);
+  box-shadow: 0 1px 0 var(--border-hi);
+}
+
+.keys-foot {
+  padding: 12px 18px; border-top: 1px solid var(--border);
+  font-family: var(--mono); font-size: .64rem; color: var(--text-tertiary);
+}
+.keys-foot kbd { margin: 0 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .keys::before, .keys-panel { transition: none; }
+}
+@media (max-width: 720px) {
+  .keys-body { grid-template-columns: 1fr; gap: 20px; padding: 18px 16px; }
+}

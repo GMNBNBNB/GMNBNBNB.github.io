@@ -70,7 +70,9 @@
   var scrollTopBtn = $('#scrollTop');
   var progress = $('#scrollProgress');
   var sections = $$('section[id]');
-  var navAnchors = $$('.nav-links a');
+  // The edge rail marks the same sections as the header, so it rides
+  // along on the one scroll handler rather than adding a second.
+  var navAnchors = $$('.nav-links a, .rail a');
   var ticking = false;
 
   function onScroll() {
