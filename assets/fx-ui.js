@@ -142,6 +142,7 @@
     { g: 'Navigate', t: 'Experience',   i: 'fa-briefcase',      c: 'var(--cyan)',   a: nav('#experience') },
     { g: 'Navigate', t: 'Education',    i: 'fa-graduation-cap', c: 'var(--accent)', a: nav('#education') },
     { g: 'Navigate', t: 'Skills',       i: 'fa-tools',          c: 'var(--green)',  a: nav('#skills') },
+    { g: 'Navigate', t: 'Network',      i: 'fa-circle-nodes',   c: 'var(--amber)',  a: nav('#network') },
     { g: 'Navigate', t: 'Projects',     i: 'fa-code-branch',    c: 'var(--pink)',   a: nav('#projects') },
     { g: 'Navigate', t: 'Beyond Code',  i: 'fa-heart',          c: 'var(--pink)',   a: nav('#drives') },
     { g: 'Navigate', t: 'Contact',      i: 'fa-envelope',       c: 'var(--cyan)',   a: nav('#contact') },
@@ -286,6 +287,11 @@
     };
   }
 
+  /* The graph in fx-graph.js jumps to the same cards this does. Sharing
+     the function means a jump from a node looks exactly like a jump from
+     a palette hit, rather than merely similar to one. */
+  window.__focusEl = function (el) { if (el) goTo(el)(); };
+
   function buildIndex() {
     if (PAGE) return PAGE;
     PAGE = [];
@@ -333,6 +339,21 @@
       var h = c.querySelector('.drive-title') || c;
       add(h, 'Beyond Code', 'fa-heart', 'var(--pink)');
     });
+
+    /* The graph's hubs, so a technology you only half-remember can be
+       traced from here without knowing the section exists. Only the ones
+       that appear in more than one place - the rest are already in this
+       index as the skill pill or the tag they came from. */
+    if (window.__graph) {
+      window.__graph.hubs().forEach(function (h) {
+        PAGE.push({
+          t: 'Trace ' + h.name + ' across the graph',
+          g: 'Page', sec: h.deg + ' connections',
+          i: 'fa-circle-nodes', c: 'var(--amber)',
+          a: function () { window.__graph.focus(h.name); }
+        });
+      });
+    }
 
     return PAGE;
   }

@@ -43,6 +43,7 @@
         <a href="#experience">Experience</a>
         <a href="#education">Education</a>
         <a href="#skills">Skills</a>
+        <a href="#network">Network</a>
         <a href="#projects">Projects</a>
         <a href="#drives">Beyond Code</a>
         <a href="#contact">Contact</a>
@@ -73,6 +74,7 @@
     <a href="#experience">Experience</a>
     <a href="#education">Education</a>
     <a href="#skills">Skills</a>
+    <a href="#network">Network</a>
     <a href="#projects">Projects</a>
     <a href="#drives">Beyond Code</a>
     <a href="#contact">Contact</a>
@@ -86,6 +88,7 @@
     <a href="#experience" data-label="Experience"><span></span></a>
     <a href="#education"  data-label="Education"><span></span></a>
     <a href="#skills"     data-label="Skills"><span></span></a>
+    <a href="#network"    data-label="Network"><span></span></a>
     <a href="#projects"   data-label="Projects"><span></span></a>
     <a href="#drives"     data-label="Beyond Code"><span></span></a>
     <a href="#contact"    data-label="Contact"><span></span></a>
@@ -552,6 +555,31 @@
     </div>
   </section>
 
+  <!-- ==================== NETWORK ====================
+       A force-directed graph of everything else on this page, drawn by
+       fx-graph.js from the cards themselves. There is no node list in
+       this file on purpose: tag a job with a technology up in the
+       Experience section and the node, the edge and the side-panel
+       entry all appear here on their own. -->
+  <section class="section" id="network">
+    <div class="section-inner">
+      <div class="section-head">
+        <div class="section-tag"><i class="fas fa-circle-nodes"></i> Network</div>
+        <h2 class="section-title">How It All <span class="gradient">Connects</span></h2>
+        <p class="section-sub">Every role, degree, project and technology on this page, and the edges between them. Drag a node to pull it apart; click one to trace what it touches.</p>
+      </div>
+
+      <div class="net">
+        <div class="net-stage glass">
+          <canvas id="netCanvas" tabindex="0"
+                  aria-label="Force-directed graph of roles, degrees, projects and technologies"></canvas>
+          <div class="net-legend" id="netLegend"></div>
+        </div>
+        <aside class="net-side" id="netSide" aria-live="polite"></aside>
+      </div>
+    </div>
+  </section>
+
   <!-- ==================== PROJECTS ==================== -->
   <section class="section" id="projects">
     <div class="section-inner">
@@ -957,6 +985,7 @@
   <script src="assets/fx.js" defer></script>
   <script src="assets/fx-cards.js" defer></script>
   <script src="assets/fx-ui.js" defer></script>
+  <script src="assets/fx-graph.js" defer></script>
   <script src="assets/fx-term.js" defer></script>
 </body>
 </html>

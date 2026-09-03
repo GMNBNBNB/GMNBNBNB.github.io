@@ -467,6 +467,46 @@
     return out;
   }, '[--copy|--all]');
 
+  /* The career graph, queried from here. fx-graph.js owns the nodes and
+     the physics; this only asks it questions and prints the answers.
+     `graph <name>` also scrolls the section into view and selects the
+     node, so the terminal can drive the canvas. */
+  def('graph', 'the career graph - name a node to trace it', function (a) {
+    var G = window.__graph;
+    if (!G) return ['<span class="t-err">graph: not loaded on this page</span>'];
+
+    var q = a.join(' ').trim();
+
+    if (!q) {
+      var s = G.stats(), hubs = G.hubs();
+      var out = [
+        kv('nodes', '<span class="t-v">' + s.nodes + '</span>'),
+        kv('edges', '<span class="t-v">' + s.edges + '</span>'),
+        ''
+      ];
+      if (hubs.length) {
+        out.push('<span class="t-dim">technologies in more than one place</span>');
+        hubs.slice(0, 10).forEach(function (h) {
+          out.push(bullet('<span class="t-b">' + esc(h.name) + '</span> ' +
+                          '<span class="t-dim">' + h.deg + ' edges</span>'));
+        });
+        out.push('');
+      }
+      out.push('<span class="t-dim">try  </span><span class="t-v">graph redis</span>');
+      return out;
+    }
+
+    var adj = G.neighbours(q);
+    if (!adj) return ['<span class="t-err">graph: no node matching "' + esc(q) + '"</span>'];
+
+    var name = G.focus(q);
+    return ['<span class="t-ok">selected</span> <span class="t-sep">·</span> ' +
+            '<span class="t-b">' + esc(name) + '</span> ' +
+            '<span class="t-dim">' + adj.length + ' connection' +
+            (adj.length === 1 ? '' : 's') + '</span>', '']
+      .concat(adj.map(function (n) { return bullet('<span class="t-v">' + esc(n) + '</span>'); }));
+  }, '[node]');
+
   def('date', 'now, here and in New York', function () {
     var d = new Date();
     return [
