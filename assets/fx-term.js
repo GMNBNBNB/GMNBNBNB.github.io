@@ -413,6 +413,13 @@
     return ['<span class="t-ok">opening</span> <span class="t-file">resume.html</span>'];
   });
 
+  def('pdf', 'download the resume as a PDF', function () {
+    var a = document.createElement('a');
+    a.href = 'Meng_Gao_Resume.pdf'; a.download = '';
+    document.body.appendChild(a); a.click(); a.remove();
+    return ['<span class="t-ok">downloading</span> <span class="t-file">Meng_Gao_Resume.pdf</span>'];
+  });
+
   def('email', 'compose a message', function () {
     location.href = 'mailto:mg4774@columbia.edu';
     return ['<span class="t-ok">opening</span> <span class="t-v">mailto:mg4774@columbia.edu</span>'];

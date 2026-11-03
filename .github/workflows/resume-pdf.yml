@@ -1,0 +1,53 @@
+name: Build resume PDF
+
+# resume.html is the source of truth. Whenever it (or anything the PDF depends
+# on) changes on main, re-render Meng_Gao_Resume.pdf and commit it, so the
+# download link on the site can never drift from the web version.
+on:
+  push:
+    branches: [main]
+    paths:
+      - resume.html
+      - assets/fonts/**
+      - scripts/build-resume-pdf.mjs
+      - package.json
+      - .github/workflows/resume-pdf.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: resume-pdf
+  cancel-in-progress: true
+
+jobs:
+  pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - name: Install Playwright
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: Render resume.html to PDF (fails if it is not exactly one page)
+        run: npm run build:pdf
+
+      - name: Commit the PDF
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Meng_Gao_Resume.pdf
+          if git diff --cached --quiet; then
+            echo "PDF unchanged."
+            exit 0
+          fi
+          git commit -m "Rebuild Meng_Gao_Resume.pdf from resume.html"
+          git pull --rebase origin main
+          git push origin HEAD:main

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Meng Gao | Software Engineer</title>
-  <meta name="description" content="Meng Gao - Software Engineer at Microsoft. Columbia MS CS, former AWS SDE Intern. Rust, Python, C#, Azure, distributed systems, SDK integration testing, and full-stack development." />
+  <meta name="description" content="Meng Gao - Software Engineer at Microsoft (Azure Core), building Rust, Python, and C# client SDKs, a C ABI for C/C++ services, CI/CD, and security hardening. Columbia MS CS, former AWS SDE Intern." />
   <meta name="theme-color" content="#06060a" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -123,6 +123,9 @@
           <a href="resume.html" target="_blank" class="btn btn-ghost">
             <i class="fas fa-file-alt"></i> Resume
           </a>
+          <a href="Meng_Gao_Resume.pdf" download class="btn btn-ghost">
+            <i class="fas fa-file-arrow-down"></i> PDF
+          </a>
         </div>
       </div>
 
@@ -174,7 +177,7 @@
           </div>
           <h3>Systems &amp; Full-Stack Engineer</h3>
           <p>
-            Software Engineer at Microsoft, building SDK integration-test infrastructure and Linux build/release pipelines across Rust, Python, and C#. Before that I shipped cloud-native backends at AWS and a 16K-line SwiftUI app solo. Columbia MS CS. I like the layer where distributed systems meet the details users actually feel.
+            Software Engineer at Microsoft (Azure Core), building client SDKs in Rust, Python, and C#, a C ABI for C/C++ services, and the CI that tests them. Before that I shipped cloud-native backends at AWS and a 16K-line SwiftUI app solo. Columbia MS CS. I like the layer where distributed systems meet the details users actually feel.
           </p>
         </div>
 
@@ -242,7 +245,7 @@
             <div class="tl-head">
               <div>
                 <div class="tl-company">Microsoft</div>
-                <div class="tl-role">Software Engineer</div>
+                <div class="tl-role">Software Engineer, Azure Core</div>
               </div>
               <div class="tl-meta">
                 Apr 2026 - Present<br />
@@ -250,18 +253,22 @@
               </div>
             </div>
             <ul class="tl-list">
-              <li>Authored and executed a <strong>three-phase integration-test plan</strong> for a Python SDK on Linux, delivering a reusable launcher and test framework, cloud CI enablement, and coverage for all core SDK operations</li>
-              <li>Built a language-agnostic <strong>.NET launcher</strong> and JSON process contract letting Python tests reuse existing agent lifecycle management, per-test isolation, platform configuration, and verification logic</li>
-              <li>Unified <strong>Python and Rust SDK validation</strong> through component-scoped pull-request pipelines and cloud ClientTests, cutting unrelated validation work while adding repeatable artifact packaging, setup, execution, and teardown</li>
-              <li>Delivered <strong>six Linux build and release milestones</strong> spanning Docker image publishing, official cloud validation, daily <strong>AKS</strong> deployment, local-build unification, image-tag reliability, and release documentation</li>
-              <li>Resolved flaky integration tests by isolating parallel test resources and switching mock services to OS-assigned ports, eliminating recurring port-binding conflicts in CI</li>
+              <li>Drove the <strong>Rust client SDK</strong> to parity with the C# and Python SDKs (TLS with certificate validation, atomic release commits, concurrent streaming downloads, lease-based disk cleanup), growing its tests from <strong>21 to ~400</strong></li>
+              <li>Extended the SDK to C/C++ services via a <strong>C ABI</strong> with restart recovery to the last accepted release and a build-sign-publish <strong>NuGet</strong> pipeline; made the E2E harness SDK-pluggable so one suite validates all four SDKs</li>
+              <li>Remediated <strong>6 security-review findings</strong> across the Rust agent and C#/Python/Rust SDKs: TLS certificate validation (SAN matching, root pinning), path-traversal guards, loopback-only defaults, and SHA-256-verified staging</li>
+              <li>Cut end-to-end CI time from <strong>~4 hours to ~1 hour</strong> by isolating shared test state so suites run 5-way parallel, and built change-scoped PR pipelines that validate SDK-only changes in <strong>~44 min vs. ~105 min</strong> for a full build</li>
+              <li>Led <strong>Linux readiness</strong> for the agent and Python SDK, building a language-agnostic .NET launcher (JSON over stdio) so Python and Rust tests reuse ~600 lines of C# agent-lifecycle logic; enabled Linux tests in official CI (57/57 passing)</li>
+              <li>Automated agent delivery with a pipeline that packages signed binaries into Windows/Linux <strong>Docker</strong> images, publishes to dev and approval-gated prod registries, and deploys daily to an <strong>AKS</strong> test cluster via Helm</li>
+              <li>Root-caused concurrency bugs across the agent and SDKs, including a stale-signal race that tore down freshly reconnected <strong>gRPC</strong> sessions and a connection-dedup bug behind a <strong>14.5%</strong> flaky-test rate</li>
             </ul>
             <div class="tag-row">
               <span class="tag tag-cyan">Rust</span>
               <span class="tag tag-cyan">Python</span>
-              <span class="tag tag-cyan">.NET</span>
-              <span class="tag tag-cyan">AKS</span>
+              <span class="tag tag-cyan">C#</span>
+              <span class="tag tag-cyan">gRPC</span>
               <span class="tag tag-cyan">Docker</span>
+              <span class="tag tag-cyan">AKS</span>
+              <span class="tag tag-cyan">CI/CD</span>
               <span class="tag tag-cyan">Azure DevOps</span>
             </div>
           </div>
@@ -274,7 +281,7 @@
             <div class="tl-head">
               <div>
                 <div class="tl-company">Amazon Web Services</div>
-                <div class="tl-role">Software Developer Engineer Intern</div>
+                <div class="tl-role">Software Development Engineer Intern</div>
               </div>
               <div class="tl-meta">
                 Jun 2025 - Sep 2025<br />

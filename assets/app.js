@@ -41,7 +41,7 @@
   if (typingEl) {
     var phrases = [
       'Software Engineer at Microsoft.',
-      'Building SDK test infrastructure in Rust, Python, and C#.',
+      'Building client SDKs and CI in Rust, Python, and C#.',
       'Columbia CS grad & former AWS SDE Intern.',
       'Shipped a 16K-line SwiftUI app from zero to one.'
     ];

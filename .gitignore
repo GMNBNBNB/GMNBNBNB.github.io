@@ -1,0 +1,4 @@
+node_modules/
+# Only the PDF build uses npm, and CI installs from scratch; a lockfile made on
+# a machine with a private registry mirror would leak that mirror's URLs.
+package-lock.json

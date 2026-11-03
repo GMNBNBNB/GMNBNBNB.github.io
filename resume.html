@@ -3,297 +3,249 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meng Gao | Resume</title>
-  <meta name="description" content="Resume of Meng Gao - Software Engineer at Microsoft. Columbia MS CS, former AWS SDE Intern. Rust, Python, C#, Azure, SDK integration testing, and distributed systems." />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  <title>Meng Gao - Resume</title>
+  <meta name="author" content="Meng Gao" />
+  <meta name="description" content="Resume of Meng Gao - Software Engineer at Microsoft (Azure Core). Rust, Python, and C# client SDKs, CI/CD, and security hardening. Columbia MS CS, former AWS SDE Intern." />
+  <link rel="alternate" type="application/pdf" href="Meng_Gao_Resume.pdf" title="Meng Gao - Resume (PDF)" />
+  <link rel="preload" href="assets/fonts/resume-serif-regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/resume-serif-bold.woff2" as="font" type="font/woff2" crossorigin />
+  <!--
+    This page is the single source of truth for the resume.
+    Meng_Gao_Resume.pdf is rendered from it by scripts/build-resume-pdf.mjs
+    (and by .github/workflows/resume-pdf.yml on every push that touches it),
+    so edit the content here and never hand-edit the PDF.
 
-    :root {
-      --bg: #f5f5f7;
-      --paper: #ffffff;
-      --ink: #1d1d1f;
-      --ink-soft: #55555c;
-      --ink-faint: #86868b;
-      --accent: #6366f1;
-      --rule: rgba(0,0,0,0.10);
+    Layout follows the widely used "Jake's Resume" LaTeX template: one column,
+    Computer Modern (CMU Serif, subset as "Resume Serif" under the OFL), small-caps
+    section rules, and every size set in points so the screen matches the PDF.
+  -->
+  <style>
+    @font-face {
+      font-family: 'Resume Serif';
+      src: url('assets/fonts/resume-serif-regular.woff2') format('woff2');
+      font-weight: 400; font-style: normal; font-display: block;
+    }
+    @font-face {
+      font-family: 'Resume Serif';
+      src: url('assets/fonts/resume-serif-italic.woff2') format('woff2');
+      font-weight: 400; font-style: italic; font-display: block;
+    }
+    @font-face {
+      font-family: 'Resume Serif';
+      src: url('assets/fonts/resume-serif-bold.woff2') format('woff2');
+      font-weight: 700; font-style: normal; font-display: block;
     }
 
+    *, *::before, *::after { box-sizing: border-box; }
     html { -webkit-text-size-adjust: 100%; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      line-height: 1.55;
+      margin: 0;
+      background: #e8e8ec;
+      color: #000;
+      font-family: 'Resume Serif', 'CMU Serif', 'Latin Modern Roman', Georgia, 'Times New Roman', serif;
+      font-size: 11pt;
+      line-height: 1.2;
+      /* Ligatures stay off so ATS parsers read "fi"/"ff" as plain letters. */
+      font-variant-ligatures: none;
+      font-kerning: normal;
       -webkit-font-smoothing: antialiased;
-      padding: 40px 20px 80px;
     }
 
-    /* ---- toolbar (screen only) ---- */
+    /* ---------- screen chrome (never printed) ---------- */
     .toolbar {
-      max-width: 8.5in; margin: 0 auto 20px;
-      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      max-width: 8.8in; margin: 0 auto; padding: 22px 0 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      font: 500 14px/1 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     }
-    .toolbar a, .toolbar button {
+    .toolbar .group { display: flex; gap: 10px; }
+    .btn {
       display: inline-flex; align-items: center; gap: 8px;
-      font-family: inherit; font-size: 14px; font-weight: 500;
-      padding: 9px 16px; border-radius: 10px;
-      border: 1px solid var(--rule); background: var(--paper); color: var(--ink-soft);
-      text-decoration: none; cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease, color .15s ease;
+      padding: 10px 16px; border-radius: 10px; cursor: pointer;
+      font: inherit; color: #33333a; text-decoration: none;
+      background: #fff; border: 1px solid rgba(0,0,0,.12);
+      transition: transform .15s ease, box-shadow .15s ease;
     }
-    .toolbar a:hover, .toolbar button:hover {
-      color: var(--accent); transform: translateY(-1px);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.07);
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,.08); }
+    .btn.primary { background: #111; border-color: #111; color: #fff; }
+    .btn svg { width: 15px; height: 15px; }
+    .note {
+      max-width: 8.8in; margin: 0 auto; padding: 0 0 48px; text-align: center;
+      font: 13px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; color: #66666e;
     }
-    .toolbar .primary {
-      background: var(--accent); border-color: var(--accent); color: #fff;
-    }
-    .toolbar .primary:hover { color: #fff; box-shadow: 0 6px 18px rgba(99,102,241,0.35); }
+    .note a { color: inherit; }
 
-    /* ---- page ---- */
+    /* ---------- the page ---------- */
+    /* Screen text renders a few percent wider than print (glyph advances are
+       rounded to whole pixels at 1x), so the on-screen sheet gets 0.3in more
+       measure to keep the same line breaks as the PDF. Print uses Letter. */
     .page {
-      max-width: 8.5in; margin: 0 auto;
-      background: var(--paper);
-      padding: 0.62in 0.7in 0.7in;
-      border-radius: 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 12px 40px rgba(0,0,0,0.07);
+      width: 8.8in; min-height: 11in; margin: 0 auto 18px; padding: 0.5in;
+      background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.06), 0 14px 44px rgba(0,0,0,.10);
     }
 
-    /* ---- header ---- */
-    header { text-align: center; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+    header { text-align: center; }
     h1 {
-      font-size: 30px; font-weight: 800; letter-spacing: 0.06em;
-      text-transform: uppercase;
+      margin: 0; font-size: 24.88pt; font-weight: 700; line-height: 1.05;
+      font-variant-caps: small-caps; letter-spacing: .01em;
     }
-    .tagline { font-size: 13px; color: var(--accent); font-weight: 600; margin-top: 3px; }
     .contact {
-      margin-top: 8px; font-size: 12.5px; color: var(--ink-soft);
-      display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 0;
+      margin-top: 3pt; font-size: 9pt;
+      display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline;
     }
-    .contact a { color: inherit; text-decoration: none; }
-    .contact a:hover { color: var(--accent); }
-    .contact span + span::before { content: '|'; color: var(--ink-faint); margin: 0 10px; }
+    .contact a { color: inherit; white-space: nowrap; text-decoration: underline; text-decoration-thickness: .5pt; text-underline-offset: 1.6pt; }
+    .contact .sep { margin: 0 3pt; }
 
-    /* ---- sections ---- */
-    section { margin-top: 20px; }
+    section { margin-top: 9pt; }
     h2 {
-      font-size: 12.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--accent); padding-bottom: 4px; border-bottom: 1px solid var(--rule);
-      margin-bottom: 11px;
+      margin: 0 0 4pt; padding-bottom: 1.5pt; border-bottom: .6pt solid #000;
+      font-size: 12pt; font-weight: 400; line-height: 1.2;
+      font-variant-caps: small-caps; letter-spacing: .01em;
     }
 
-    .entry { margin-bottom: 15px; }
+    .entry { padding: 0 .12in 0 .15in; margin-bottom: 6pt; }
     .entry:last-child { margin-bottom: 0; }
-    .entry-head {
-      display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
-    }
-    .entry-title { font-size: 14.5px; font-weight: 700; }
-    .entry-title .sep { color: var(--ink-faint); font-weight: 400; margin: 0 5px; }
-    .entry-title .role { font-weight: 600; color: var(--ink-soft); }
-    .entry-meta {
-      font-size: 12px; color: var(--ink-faint); white-space: nowrap; font-weight: 500;
-    }
+    .row { display: flex; justify-content: space-between; align-items: baseline; gap: 14pt; }
+    .row > :last-child { white-space: nowrap; }
+    h3 { margin: 0; font-size: 11pt; font-weight: 700; }
+    .sub { font-size: 10pt; font-style: italic; }
+    .proj { font-size: 10pt; }
+    .proj .stack { font-style: italic; }
+    .proj + span { font-size: 10pt; }
 
-    ul { list-style: none; margin-top: 5px; }
-    li {
-      position: relative; padding-left: 15px; margin-bottom: 3px;
-      font-size: 13px; color: var(--ink-soft);
-    }
-    li::before {
-      content: '\2022'; position: absolute; left: 2px; top: 0;
-      color: var(--accent); font-weight: 700;
-    }
+    ul { margin: 1.5pt 0 0; padding-left: .2in; }
+    li { margin: 0 0 1.6pt; padding-left: 1pt; font-size: 10pt; line-height: 1.2; }
+    li::marker { font-size: 9pt; }
 
-    /* ---- skills ---- */
-    .skills { display: grid; gap: 5px; }
-    .skill-row { display: grid; grid-template-columns: 168px 1fr; gap: 12px; font-size: 13px; }
-    .skill-label { font-weight: 600; color: var(--ink); }
-    .skill-list { color: var(--ink-soft); }
+    .skills { padding: 0 .12in 0 .15in; font-size: 10pt; line-height: 1.25; }
+    .skills p { margin: 0 0 1.6pt; }
 
-    /* ---- education compact ---- */
-    .edu .entry { margin-bottom: 9px; }
-
-    footer.note {
-      margin-top: 22px; padding-top: 10px; border-top: 1px solid var(--rule);
-      font-size: 11.5px; color: var(--ink-faint); text-align: center;
-    }
-    footer.note a { color: var(--accent); text-decoration: none; }
-
-    @media (max-width: 640px) {
-      body { padding: 24px 14px 60px; }
-      .page { padding: 28px 22px; }
-      h1 { font-size: 24px; }
-      .entry-head { flex-direction: column; gap: 1px; }
-      .entry-meta { white-space: normal; }
-      .skill-row { grid-template-columns: 1fr; gap: 1px; }
-      .contact { flex-direction: column; }
-      .contact span + span::before { content: none; }
+    @media (max-width: 900px) {
+      .toolbar { padding: 14px 12px; flex-wrap: wrap; }
+      .page { width: auto; min-height: 0; margin: 0 10px 14px; padding: 26px 18px; }
+      .row { flex-wrap: wrap; gap: 0 10pt; }
+      .row > :last-child { white-space: normal; }
+      .entry, .skills { padding: 0; }
+      .contact .sep { margin: 0 2pt; }
     }
 
-    /* ---- print: one clean document, no chrome ---- */
-    @page { size: Letter; margin: 0.5in; }
-
+    /* ---------- print / PDF: Letter, 0.5in margins, no chrome ---------- */
+    @page { size: Letter; margin: .5in; }
     @media print {
-      /* keep accent colors and any background-drawn marks instead of letting the
-         browser strip them, which is what silently ate the bullet dots */
-      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-      body { background: #fff; padding: 0; font-size: 10pt; line-height: 1.32; }
-      .toolbar, footer.note { display: none !important; }
-      .page {
-        max-width: none; padding: 0; border-radius: 0; box-shadow: none;
-      }
-      header { padding-bottom: 9px; }
-      h1 { font-size: 19pt; }
-      .tagline { font-size: 8.5pt; margin-top: 1px; }
-      .contact { font-size: 8.5pt; margin-top: 5px; }
-      h2 { font-size: 9pt; margin-bottom: 6px; padding-bottom: 3px; }
-      .entry-title { font-size: 10pt; }
-      .entry-meta { font-size: 8.5pt; }
-      li, .skill-row { font-size: 9pt; }
-      li { margin-bottom: 1px; padding-left: 12px; }
-      ul { margin-top: 3px; }
-      section { margin-top: 10px; }
-      .entry { margin-bottom: 7px; }
-      .edu .entry { margin-bottom: 4px; }
-      .skills { gap: 3px; }
-      /* keep a job and its bullets together across the page break */
-      .entry, li { break-inside: avoid; page-break-inside: avoid; }
-      h2 { break-after: avoid; page-break-after: avoid; }
-      a { color: inherit; text-decoration: none; }
+      body { background: #fff; }
+      .toolbar, .note { display: none !important; }
+      .page { width: auto; min-height: 0; margin: 0; padding: 0; box-shadow: none; }
+      .entry, li { break-inside: avoid; }
+      h2 { break-after: avoid; }
     }
   </style>
 </head>
 <body>
 
-  <div class="toolbar">
-    <a href="index.html"><i class="fas fa-arrow-left"></i> Back to site</a>
-    <button class="primary" onclick="window.print()">
-      <i class="fas fa-print"></i> Print / Save as PDF
-    </button>
-  </div>
+  <nav class="toolbar" aria-label="Resume actions">
+    <a class="btn" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Back to site
+    </a>
+    <div class="group">
+      <button class="btn" type="button" onclick="window.print()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+        Print
+      </button>
+      <a class="btn primary" href="Meng_Gao_Resume.pdf" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        Download PDF
+      </a>
+    </div>
+  </nav>
 
   <main class="page">
 
     <header>
       <h1>Meng Gao</h1>
-      <div class="tagline">Software Engineer</div>
       <div class="contact">
-        <span><a href="tel:+16145691267">(614) 569-1267</a></span>
-        <span><a href="mailto:mg4774@columbia.edu">mg4774@columbia.edu</a></span>
-        <span><a href="https://linkedin.com/in/meng-gao-58772b299" target="_blank" rel="noopener">linkedin.com/in/meng-gao-58772b299</a></span>
-        <span><a href="https://github.com/GMNBNBNB" target="_blank" rel="noopener">github.com/GMNBNBNB</a></span>
+        <a href="tel:+16145691267">(614) 569-1267</a><span class="sep">|</span><a href="mailto:mg4774@columbia.edu">mg4774@columbia.edu</a><span class="sep">|</span><a href="https://linkedin.com/in/meng-gao-58772b299">linkedin.com/in/meng-gao-58772b299</a><span class="sep">|</span><a href="https://github.com/GMNBNBNB">github.com/GMNBNBNB</a><span class="sep">|</span><a href="https://gmnbnbnb.github.io">gmnbnbnb.github.io</a>
       </div>
     </header>
 
     <section>
-      <h2>Professional Experience</h2>
+      <h2>Education</h2>
+      <div class="entry">
+        <div class="row"><h3>Columbia University</h3><span>New York, NY</span></div>
+        <div class="row sub"><span>Master of Science in Computer Science; GPA: 3.76/4.00</span><span>Sep 2024 &ndash; Dec 2025</span></div>
+      </div>
+      <div class="entry">
+        <div class="row"><h3>The Ohio State University</h3><span>Columbus, OH</span></div>
+        <div class="row sub"><span>Bachelor of Science in Computer Science and Engineering; GPA: 3.77/4.00</span><span>Aug 2021 &ndash; Aug 2024</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Experience</h2>
 
       <div class="entry">
-        <div class="entry-head">
-          <div class="entry-title">Microsoft<span class="sep">|</span><span class="role">Software Engineer</span></div>
-          <div class="entry-meta">Apr 2026 &ndash; Present &middot; United States</div>
-        </div>
+        <div class="row"><h3>Microsoft</h3><span>United States</span></div>
+        <div class="row sub"><span>Software Engineer, Azure Core</span><span>Apr 2026 &ndash; Present</span></div>
         <ul>
-          <li>Authored and executed a three-phase integration-test plan for a Python SDK on Linux, delivering a reusable launcher and test framework, cloud CI enablement, and coverage for all core SDK operations.</li>
-          <li>Built a language-agnostic .NET launcher and JSON process contract that let Python tests reuse existing agent lifecycle management, per-test isolation, platform configuration, and verification logic.</li>
-          <li>Unified Python and Rust SDK validation through component-scoped pull-request pipelines and cloud ClientTests, reducing unrelated validation work while adding repeatable artifact packaging, setup, execution, and teardown.</li>
-          <li>Delivered six Linux build and release milestones spanning Docker image publishing, official cloud validation, daily AKS deployment, local-build unification, image-tag reliability, and release documentation.</li>
-          <li>Resolved flaky integration tests by isolating parallel test resources and switching mock services to operating-system-assigned ports, preventing recurring port-binding conflicts in CI.</li>
+          <li>Drove the Rust client SDK to parity with the C# and Python SDKs (TLS with certificate validation, atomic release commits, concurrent streaming downloads, lease-based disk cleanup), growing its tests from 21 to ~400.</li>
+          <li>Extended the SDK to C/C++ services via a C ABI with restart recovery to the last accepted release and a build-sign-publish NuGet pipeline; made the E2E harness SDK-pluggable so one suite validates all four SDKs.</li>
+          <li>Remediated 6 security-review findings across the Rust agent and C#/Python/Rust SDKs: TLS certificate validation (SAN matching, root pinning), path-traversal guards, loopback-only defaults, and SHA-256-verified staging.</li>
+          <li>Cut end-to-end CI time from ~4 hours to ~1 hour by isolating shared test state so suites run 5-way parallel, and built change-scoped PR pipelines that validate SDK-only changes in ~44 min vs. ~105 min for a full build.</li>
+          <li>Led Linux readiness for the agent and Python SDK, building a language-agnostic .NET launcher (JSON over stdio) so Python and Rust tests reuse ~600 lines of C# agent-lifecycle logic; enabled Linux tests in official CI (57/57 passing).</li>
+          <li>Automated agent delivery with a pipeline that packages signed binaries into Windows/Linux Docker images, publishes to dev and approval-gated prod registries, and deploys daily to an AKS test cluster via Helm, replacing manual pushes.</li>
+          <li>Root-caused concurrency bugs across the agent and SDKs, including a stale-signal race that tore down freshly reconnected gRPC sessions and a connection-dedup bug behind a 14.5% flaky-test rate.</li>
         </ul>
       </div>
 
       <div class="entry">
-        <div class="entry-head">
-          <div class="entry-title">Amazon Web Services<span class="sep">|</span><span class="role">Software Development Engineer Intern</span></div>
-          <div class="entry-meta">Jun 2025 &ndash; Sep 2025 &middot; Arlington, VA</div>
-        </div>
+        <div class="row"><h3>Amazon Web Services</h3><span>Arlington, VA</span></div>
+        <div class="row sub"><span>Software Development Engineer Intern</span><span>Jun 2025 &ndash; Sep 2025</span></div>
         <ul>
-          <li>Built URL persistence and advanced filtering for a data-discovery product, increasing link sharing by 40% and positive user feedback by 20%.</li>
-          <li>Introduced AWS AppConfig and feature flags for environment configuration and operational notifications, enabling controlled rollouts, rapid rollback, and updates without full redeployment.</li>
-          <li>Designed a Redis cache-aside layer for serverless data-retrieval workloads on AWS Lambda and Glue, reducing external API calls by more than 90% and lowering repeated processing overhead.</li>
-          <li>Added 40+ integration tests that detected edge cases before deployment and eliminated approximately three hours of manual validation per release cycle.</li>
+          <li>Designed a Redis cache-aside layer for AWS Lambda and Glue workloads, cutting external API calls by over 90%.</li>
+          <li>Built URL-state persistence and advanced filters, lifting link sharing by 40% and positive user feedback by 20%.</li>
+          <li>Moved hard-coded configs to AWS AppConfig feature flags, enabling controlled rollouts and instant rollback.</li>
+          <li>Wrote 40+ integration tests that caught edge cases pre-deployment, saving ~3 hours of manual QA per release.</li>
         </ul>
       </div>
 
       <div class="entry">
-        <div class="entry-head">
-          <div class="entry-title">Columbia Build Lab<span class="sep">|</span><span class="role">Full Stack Developer Intern</span></div>
-          <div class="entry-meta">Feb 2025 &ndash; May 2025 &middot; New York, NY</div>
-        </div>
+        <div class="row"><h3>Columbia Build Lab</h3><span>New York, NY</span></div>
+        <div class="row sub"><span>Full Stack Developer Intern</span><span>Feb 2025 &ndash; May 2025</span></div>
         <ul>
-          <li>Built and iterated on a React and Flask MVP for an early-stage startup, enabling core product demonstrations and structured customer-feedback cycles.</li>
-          <li>Designed a high-concurrency WebSocket ingestion layer for stable, low-latency device-monitoring data.</li>
-          <li>Established GitHub Actions CI/CD with unit tests, Cypress end-to-end tests, and automated deployment, reducing production failures caused by code changes by 90%.</li>
+          <li>Built a React and Flask MVP for an early-stage startup, enabling investor demos and customer-feedback cycles.</li>
+          <li>Designed a high-concurrency WebSocket ingestion layer for low-latency device-monitoring data.</li>
+          <li>Set up GitHub Actions CI/CD with unit and Cypress E2E tests, cutting change-induced production failures by 90%.</li>
         </ul>
       </div>
     </section>
 
     <section>
-      <h2>Selected Project</h2>
+      <h2>Projects</h2>
       <div class="entry">
-        <div class="entry-head">
-          <div class="entry-title">Speech Emotion Recognition Pipeline<span class="sep">|</span><span class="role">Machine Learning Project</span></div>
-          <div class="entry-meta">Sep 2024 &ndash; Dec 2024</div>
-        </div>
+        <div class="row"><span class="proj"><b>Speech Emotion Recognition Pipeline</b> | <span class="stack">Python, scikit-learn, Parselmouth, openSMILE</span></span><span>Sep 2024 &ndash; Dec 2024</span></div>
         <ul>
-          <li>Built an end-to-end pipeline to classify seven speech-emotion categories using scikit-learn, Parselmouth, and openSMILE.</li>
-          <li>Engineered pitch, intensity, and IS09 acoustic features and evaluated SVM, Random Forest, and MLP classifiers.</li>
-          <li>Optimized an RBF-kernel SVM through hyperparameter tuning, achieving superior cross-validation classification accuracy and selecting it as the best-performing model.</li>
+          <li>Built an end-to-end pipeline classifying 7 speech emotions from pitch, intensity, and IS09 acoustic features.</li>
+          <li>Benchmarked SVM, Random Forest, and MLP; a tuned RBF-kernel SVM achieved the best cross-validation accuracy.</li>
         </ul>
-      </div>
-    </section>
-
-    <section class="edu">
-      <h2>Education</h2>
-      <div class="entry">
-        <div class="entry-head">
-          <div class="entry-title">Columbia University<span class="sep">|</span><span class="role">M.S. in Computer Science (GPA: 3.76/4.00)</span></div>
-          <div class="entry-meta">Sep 2024 &ndash; Dec 2025</div>
-        </div>
-      </div>
-      <div class="entry">
-        <div class="entry-head">
-          <div class="entry-title">The Ohio State University<span class="sep">|</span><span class="role">B.S. in Computer Science and Engineering (GPA: 3.77/4.00)</span></div>
-          <div class="entry-meta">Aug 2021 &ndash; Aug 2024</div>
-        </div>
       </div>
     </section>
 
     <section>
       <h2>Technical Skills</h2>
       <div class="skills">
-        <div class="skill-row">
-          <div class="skill-label">Languages</div>
-          <div class="skill-list">Rust, Python, C#, C/C++, Java, SQL, JavaScript</div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-label">Cloud &amp; Infrastructure</div>
-          <div class="skill-list">Microsoft Azure, AWS, Azure DevOps, Kubernetes, AKS, Docker, Linux, CI/CD, Git</div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-label">SDK, Testing &amp; Systems</div>
-          <div class="skill-list">Integration Testing, End-to-End Testing, Test Automation, gRPC, TLS, Protobuf, Distributed Systems</div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-label">Frameworks</div>
-          <div class="skill-list">React, Flask, PyTorch, scikit-learn</div>
-        </div>
-        <div class="skill-row">
-          <div class="skill-label">Databases &amp; Storage</div>
-          <div class="skill-list">Redis, Elasticsearch, MySQL, MongoDB</div>
-        </div>
+        <p><b>Languages</b>: Rust, Python, C#, C/C++, Java, SQL, JavaScript, Bash, PowerShell</p>
+        <p><b>Cloud &amp; DevOps</b>: Azure (AKS, ACR, Key Vault, Pipelines), AWS (Lambda, Glue), Docker, Kubernetes, Helm, Linux</p>
+        <p><b>Systems &amp; Testing</b>: gRPC, Protobuf, TLS/X.509, C ABI/FFI, Tokio, pytest, NUnit, Cypress, Distributed Systems</p>
+        <p><b>Frameworks &amp; Data</b>: .NET, React, Flask, PyTorch, scikit-learn, Redis, Elasticsearch, MySQL, MongoDB</p>
       </div>
     </section>
 
   </main>
 
-  <footer class="note">
-    Prefer a file? Hit <strong>Print</strong> and choose &ldquo;Save as PDF.&rdquo;
-    &nbsp;&middot;&nbsp; <a href="index.html">gmnbnbnb.github.io</a>
-  </footer>
+  <p class="note">
+    Need a file for an application? <a href="Meng_Gao_Resume.pdf" download>Download the PDF</a> &middot;
+    <a href="index.html">gmnbnbnb.github.io</a>
+  </p>
 
 </body>
 </html>

@@ -162,6 +162,12 @@
       k: '?', a: function () { openKeys(); } },
     { g: 'Actions', t: 'Open resume', i: 'fa-file-alt', c: 'var(--accent)',
       k: 'R', a: function () { window.open('resume.html', '_blank', 'noopener'); } },
+    { g: 'Actions', t: 'Download resume (PDF)', i: 'fa-file-arrow-down', c: 'var(--accent)',
+      a: function () {
+        var a = document.createElement('a');
+        a.href = 'Meng_Gao_Resume.pdf'; a.download = '';
+        document.body.appendChild(a); a.click(); a.remove();
+      } },
     { g: 'Actions', t: 'Copy page as Markdown', i: 'fa-file-lines', c: 'var(--amber)',
       a: function () { copyMarkdown(); } },
     { g: 'Actions', t: 'Copy email address', i: 'fa-copy', c: 'var(--green)',
