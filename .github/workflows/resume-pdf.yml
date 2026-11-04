@@ -23,7 +23,10 @@ concurrency:
 
 jobs:
   pdf:
-    runs-on: ubuntu-latest
+    # Windows + Edge is the stack the one-page layout is tuned on. Headless
+    # Chromium on Linux hints this font to wider glyph advances, which wraps
+    # several near-full lines and pushes the resume onto a second page.
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v5
 
@@ -31,15 +34,16 @@ jobs:
         with:
           node-version: 24
 
-      - name: Install Playwright
-        run: |
-          npm install --no-audit --no-fund
-          npx playwright install --with-deps chromium
+      - name: Install Playwright (drives the runner's preinstalled Edge)
+        run: npm install --no-audit --no-fund
 
       - name: Render resume.html to PDF (fails if it is not exactly one page)
         run: npm run build:pdf
+        env:
+          RESUME_PDF_CHANNEL: msedge
 
       - name: Commit the PDF
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

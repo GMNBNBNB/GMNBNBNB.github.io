@@ -13,6 +13,9 @@
     npm run build:pdf
   Set RESUME_PDF_CHANNEL=msedge (or chrome) to reuse an installed browser
   instead of running `npx playwright install chromium` first.
+
+  The layout is tuned on Windows with Edge, which is also what CI uses. Linux
+  Chromium hints the font wider, so the same page can overflow to two there.
 */
 import { chromium } from 'playwright';
 import { readFile, stat } from 'node:fs/promises';
