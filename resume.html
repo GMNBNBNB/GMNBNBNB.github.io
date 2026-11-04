@@ -187,13 +187,14 @@
         <div class="row"><h3>Microsoft</h3><span>United States</span></div>
         <div class="row sub"><span>Software Engineer, Azure Core</span><span>Apr 2026 &ndash; Present</span></div>
         <ul>
-          <li>Drove the Rust client SDK to parity with the C# and Python SDKs (TLS with certificate validation, atomic release commits, concurrent streaming downloads, lease-based disk cleanup), growing its tests from 21 to ~400.</li>
-          <li>Extended the SDK to C/C++ services via a C ABI with restart recovery to the last accepted release and a build-sign-publish NuGet pipeline; made the E2E harness SDK-pluggable so one suite validates all four SDKs.</li>
-          <li>Remediated 6 security-review findings across the Rust agent and C#/Python/Rust SDKs: TLS certificate validation (SAN matching, root pinning), path-traversal guards, loopback-only defaults, and SHA-256-verified staging.</li>
-          <li>Cut end-to-end CI time from ~4 hours to ~1 hour by isolating shared test state so suites run 5-way parallel, and built change-scoped PR pipelines that validate SDK-only changes in ~44 min vs. ~105 min for a full build.</li>
-          <li>Led Linux readiness for the agent and Python SDK, building a language-agnostic .NET launcher (JSON over stdio) so Python and Rust tests reuse ~600 lines of C# agent-lifecycle logic; enabled Linux tests in official CI (57/57 passing).</li>
-          <li>Automated agent delivery with a pipeline that packages signed binaries into Windows/Linux Docker images, publishes to dev and approval-gated prod registries, and deploys daily to an AKS test cluster via Helm, replacing manual pushes.</li>
-          <li>Root-caused concurrency bugs across the agent and SDKs, including a stale-signal race that tore down freshly reconnected gRPC sessions and a connection-dedup bug behind a 14.5% flaky-test rate.</li>
+          <li>Brought the Rust client SDK to feature parity with the C# and Python SDKs by implementing TLS, atomic release commits, concurrent downloads, and lease-based disk cleanup; expanded its test suite from 21 to nearly 400 tests.</li>
+          <li>Extended the SDK to C/C++ services through a C ABI, added restart recovery to the last accepted release, and automated NuGet package building, signing, and publishing.</li>
+          <li>Cut median PR build time from 253 to 105 minutes by isolating shared test state so E2E suites run in parallel.</li>
+          <li>Built a change-scoped PR pipeline for the Rust SDK and its C ABI, validating those changes in 44 minutes (median) instead of 105 minutes for the full pipeline.</li>
+          <li>Led Linux enablement for the Rust agent and Python SDK and added Linux test runs to official CI; built a language-agnostic .NET agent launcher and an SDK-pluggable E2E harness so one suite validates all four SDKs.</li>
+          <li>Remediated 6 penetration-test findings across the agent and C#/Python/Rust SDKs by enforcing TLS certificate validation, blocking path traversal, limiting default network exposure, and verifying artifact hashes.</li>
+          <li>Replaced manual agent image pushes with a pipeline that packages signed binaries into Windows/Linux Docker images, gates production publishing on approval, and deploys daily to an AKS test cluster via Helm.</li>
+          <li>Root-caused and fixed concurrency bugs in the agent and SDKs, including a stale-signal race that tore down reconnected gRPC sessions and a connection-dedup check that killed live sessions, failing 14.5% of test runs.</li>
         </ul>
       </div>
 
@@ -204,7 +205,7 @@
           <li>Designed a Redis cache-aside layer for AWS Lambda and Glue workloads, cutting external API calls by over 90%.</li>
           <li>Built URL-state persistence and advanced filters, lifting link sharing by 40% and positive user feedback by 20%.</li>
           <li>Moved hard-coded configs to AWS AppConfig feature flags, enabling controlled rollouts and instant rollback.</li>
-          <li>Wrote 40+ integration tests that caught edge cases pre-deployment, saving ~3 hours of manual QA per release.</li>
+          <li>Wrote 40+ integration tests that caught edge cases pre-deployment, saving about 3 hours of manual QA per release.</li>
         </ul>
       </div>
 

@@ -253,13 +253,14 @@
               </div>
             </div>
             <ul class="tl-list">
-              <li>Drove the <strong>Rust client SDK</strong> to parity with the C# and Python SDKs (TLS with certificate validation, atomic release commits, concurrent streaming downloads, lease-based disk cleanup), growing its tests from <strong>21 to ~400</strong></li>
-              <li>Extended the SDK to C/C++ services via a <strong>C ABI</strong> with restart recovery to the last accepted release and a build-sign-publish <strong>NuGet</strong> pipeline; made the E2E harness SDK-pluggable so one suite validates all four SDKs</li>
-              <li>Remediated <strong>6 security-review findings</strong> across the Rust agent and C#/Python/Rust SDKs: TLS certificate validation (SAN matching, root pinning), path-traversal guards, loopback-only defaults, and SHA-256-verified staging</li>
-              <li>Cut end-to-end CI time from <strong>~4 hours to ~1 hour</strong> by isolating shared test state so suites run 5-way parallel, and built change-scoped PR pipelines that validate SDK-only changes in <strong>~44 min vs. ~105 min</strong> for a full build</li>
-              <li>Led <strong>Linux readiness</strong> for the agent and Python SDK, building a language-agnostic .NET launcher (JSON over stdio) so Python and Rust tests reuse ~600 lines of C# agent-lifecycle logic; enabled Linux tests in official CI (57/57 passing)</li>
-              <li>Automated agent delivery with a pipeline that packages signed binaries into Windows/Linux <strong>Docker</strong> images, publishes to dev and approval-gated prod registries, and deploys daily to an <strong>AKS</strong> test cluster via Helm</li>
-              <li>Root-caused concurrency bugs across the agent and SDKs, including a stale-signal race that tore down freshly reconnected <strong>gRPC</strong> sessions and a connection-dedup bug behind a <strong>14.5%</strong> flaky-test rate</li>
+              <li>Brought the <strong>Rust client SDK</strong> to feature parity with the C# and Python SDKs by implementing TLS, atomic release commits, concurrent downloads, and lease-based disk cleanup; expanded its test suite from <strong>21 to nearly 400 tests</strong></li>
+              <li>Extended the SDK to C/C++ services through a <strong>C ABI</strong>, added restart recovery to the last accepted release, and automated <strong>NuGet</strong> package building, signing, and publishing</li>
+              <li>Cut median PR build time from <strong>253 to 105 minutes</strong> by isolating shared test state so E2E suites run in parallel</li>
+              <li>Built a change-scoped PR pipeline for the Rust SDK and its C ABI, validating those changes in <strong>44 minutes</strong> (median) instead of <strong>105 minutes</strong> for the full pipeline</li>
+              <li>Led <strong>Linux enablement</strong> for the Rust agent and Python SDK and added Linux test runs to official CI; built a language-agnostic .NET agent launcher and an SDK-pluggable E2E harness so one suite validates all four SDKs</li>
+              <li>Remediated <strong>6 penetration-test findings</strong> across the agent and C#/Python/Rust SDKs by enforcing TLS certificate validation, blocking path traversal, limiting default network exposure, and verifying artifact hashes</li>
+              <li>Replaced manual agent image pushes with a pipeline that packages signed binaries into Windows/Linux <strong>Docker</strong> images, gates production publishing on approval, and deploys daily to an <strong>AKS</strong> test cluster via Helm</li>
+              <li>Root-caused and fixed concurrency bugs in the agent and SDKs, including a stale-signal race that tore down reconnected <strong>gRPC</strong> sessions and a connection-dedup check that killed live sessions, failing <strong>14.5%</strong> of test runs</li>
             </ul>
             <div class="tag-row">
               <span class="tag tag-cyan">Rust</span>
