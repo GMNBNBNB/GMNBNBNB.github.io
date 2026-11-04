@@ -111,11 +111,16 @@
     .sub { font-size: 10pt; font-style: italic; }
     .proj { font-size: 10pt; }
     .proj .stack { font-style: italic; }
-    .proj + span { font-size: 10pt; }
 
-    ul { margin: 1.5pt 0 0; padding-left: .2in; }
+    ul { margin: 1.5pt 0 0; padding-left: .2in; list-style: none; }
     li { margin: 0 0 1.6pt; padding-left: 1pt; font-size: 10pt; line-height: 1.2; }
-    li::marker { font-size: 9pt; }
+    /* The template's $\vcenter{\hbox{\tiny$\bullet$}}$: a 6pt bullet lifted to
+       the math axis and hung about 0.5em before the text. Zero net width, so
+       it never changes where lines wrap. */
+    li::before {
+      content: "\2022"; display: inline-block; width: 8.5pt; margin-left: -8.5pt;
+      font-size: 6pt; line-height: 0; vertical-align: 1pt;
+    }
 
     .skills { padding: 0 .12in 0 .15in; font-size: 10pt; line-height: 1.25; }
     .skills p { margin: 0 0 1.6pt; }
